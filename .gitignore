@@ -1,0 +1,49 @@
+temp/
+tmp/
+
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+.streamlit/
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+.DS_Store
+Thumbs.db
+
+*.log
+.env
+
+# User credentials — NEVER commit these.
+credentials.py
+credentials.json
+auth.json
+
+# Per-user runtime state lives outside the repo at ~/.photoagents/
+# but if anyone symlinks it in, ignore it here too.
+.photoagents/
+
+tasks/
+sche_tasks/
+
+*.zip
+
+# CDP bridge auto-generated config (token rotates per install).
+resources/tmwd_cdp_bridge/config.js
+
+# Visual Studio
+.vs/
+restore_commit.txt
+
+# Universal: never track __pycache__ anywhere
+**/__pycache__/

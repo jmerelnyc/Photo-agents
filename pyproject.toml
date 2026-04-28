@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "photoagents"
+version = "0.1.0"
+description = "Autonomous, self-evolving Photo Agents — a perceive / reason / act framework for photo-aware agents."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Photo Agents", email = "team@photo-agents.com" },
+]
+keywords = ["agent", "llm", "automation", "photo-agents", "self-evolving"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "requests>=2.31",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+  "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+web      = ["pywebview>=5.0", "streamlit>=1.36"]
+desktop  = ["PyQt6>=6.6", "pywin32; platform_system=='Windows'"]
+telegram = ["python-telegram-bot>=21.0"]
+tracing  = ["langfuse>=2.0"]
+vision   = ["rapidocr-onnxruntime>=1.3", "ultralytics>=8.0", "numpy>=1.26"]
+all      = [
+  "pywebview>=5.0", "streamlit>=1.36",
+  "PyQt6>=6.6",
+  "python-telegram-bot>=21.0",
+  "langfuse>=2.0",
+  "rapidocr-onnxruntime>=1.3", "ultralytics>=8.0", "numpy>=1.26",
+]
+
+[project.urls]
+Homepage      = "https://photo-agents.com"
+Documentation = "https://photo-agents.com/docs"
+Source        = "https://photo-agents.com"
+Issues        = "https://photo-agents.com/support"
+
+[project.scripts]
+photoagents     = "photoagents.cli.runtime:main"
+
+[project.gui-scripts]
+photoagents-hub      = "photoagents.cli.hub:main"
+photoagents-launcher = "photoagents.cli.launcher:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["photoagents*"]
+exclude = ["tests*", "GenericAgent*"]
+
+[tool.setuptools.package-data]
+photoagents = [
+  "resources/*",
+  "resources/**/*",
+  "skills/*.md",
+  "skills/**/*.md",
+  "clients/*.png",
+  "clients/*.gif",
+  "clients/skins/**/*",
+]
