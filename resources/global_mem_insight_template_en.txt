@@ -1,0 +1,21 @@
+# [Global Memory Insight]
+Browser ops: tmwebdriver_sop (file upload / image search / PDF blob / physical coords / HttpOnly cookies / autofill bypass / cross-origin iframe / CDP / cross-tab)
+Keyboard & mouse: ljqCtrl_sop (no pyautogui; activate the target window first). Screenshots / vision: ocr_utils + vision_sop. Avoid full-screen capture; prefer per-window grabs.
+Scheduling: scheduled_task_sop. Autonomous mode: autonomous_operation_sop. Watchdog / reflect: photoagents --reflect.
+Mobile: adb_ui.py.
+
+Read L2 or list ../skills/ to enumerate L3 helpers when needed.
+L0 (META-SOP): memory_management_sop
+L2: currently empty
+L3: memory_cleanup_sop | skill_search | ui_detect.py | ocr_utils.py | subagent | web_setup_sop | plan_sop | procmem_scanner | keychain | ljqCtrl_sop + .py | tmwebdriver_sop | autonomous_operation_sop | scheduled_task_sop | vision_sop | adb_ui.py
+L4: ~/.photoagents/sessions/
+
+[RULES]
+1. Search first: use es for filename search (no PowerShell recursion, no manual dir traversal). Always prefer Google for web search (no DuckDuckGo etc). Check cwd first; never guess paths.
+2. Cross-verify: never trust summaries — verify numbers on detail pages.
+3. Encoding safety: use file_read instead of `cat`/`type`. Read before modify. Import skill modules directly (the package is on PATH; do not invent prefixes).
+4. Close the loop: confirm after every physical simulation; request intervention after 3 failures; complete the full Git workflow.
+5. Processes: never blanket-kill python (you would kill yourself). Use exact PIDs. Never use os.kill to test liveness.
+6. Windows: prefer win32gui title enumeration to detect GUI state.
+7. Web JS: use the native setter + event chain to fill inputs, check `disabled` before clicking, mind quote escaping. If a scan is empty or partial, wait and rescan; never conclude from a single scan.
+8. SOPs: read SOPs from disk, not from memory. Use the documented utils when they exist. For complex long-running work or when the user mentions planning, read plan_sop.
