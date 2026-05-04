@@ -13,18 +13,8 @@ The package in this repo is the runtime that ships that idea. It runs locally so
 
 - Website: https://photo-agents.com
 - X / Twitter: https://x.com/photoagents
-- Docs: https://photo-agents.com/docs
-- Account and API keys: https://photo-agents.com/account/keys
 
-## Bio
-
-A small team obsessed with photographic memory for machines. We come from computational neuroscience research and applied LLM systems work. The thesis is simple. Bigger context windows are not memory. Real agents need perception that binds layered memory that retrieves and skills that compound across sessions.
-
-If that resonates follow [@photoagents](https://x.com/photoagents) on X for build notes demos and the occasional rant about why text-only agents will never see your UI.
-
-## Hashtags
-
-`#PhotoAgents` `#AIagents` `#LLM` `#AgentMemory` `#PhotographicMemory` `#VisionAgents` `#ComputerUse` `#SelfEvolvingAgents` `#OpenSource` `#Python`
+Follow [@photoagents](https://x.com/photoagents) on X for build notes demos and the occasional rant about why text-only agents will never see your UI.
 
 ## What it is
 
