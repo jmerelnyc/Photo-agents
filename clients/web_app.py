@@ -99,19 +99,20 @@ button[kind="header"] {
 
 /* ===== Top header bar ===== */
 [data-testid="stHeader"] {
-    background: rgba(182, 182, 182, 0.85) !important;
+    background: rgba(182, 182, 182, 0.78) !important;
     backdrop-filter: saturate(180%) blur(10px) !important;
     -webkit-backdrop-filter: saturate(180%) blur(10px) !important;
     border-bottom: 1px solid var(--pa-line-strong) !important;
-    height: 80px !important;
-    min-height: 80px !important;
+    height: 56px !important;
+    min-height: 56px !important;
 }
 
-/* ===== Sidebar (left nav) ===== */
+/* ===== Sidebar (left nav) — cream rail, matches dashboard ===== */
 [data-testid="stSidebar"], section[data-testid="stSidebar"] {
-    background-color: var(--pa-paper) !important;
-    border-right: 1px solid var(--pa-line-strong) !important;
+    background-color: var(--pa-canvas) !important;
+    border-right: 1px solid var(--pa-line) !important;
     padding-top: 0.5rem !important;
+    box-shadow: 1px 0 0 var(--pa-line-strong) !important;
 }
 [data-testid="stSidebar"] > div:first-child { padding-top: 1rem !important; }
 [data-testid="stSidebar"] .stMarkdown,
@@ -131,10 +132,20 @@ hr {
 [data-testid="stSidebar"] .stCaption,
 [data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
     color: var(--pa-muted) !important;
-    font-size: 11px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.22em !important;
+    font-size: 12px !important;
+    letter-spacing: -0.005em !important;
     font-weight: 400 !important;
+    line-height: 1.55 !important;
+    word-break: break-word !important;
+}
+/* Sidebar section eyebrow (the small uppercase label above the picker) */
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
+    color: var(--pa-muted) !important;
+    font-size: 10.5px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.18em !important;
+    font-weight: 500 !important;
 }
 
 /* Sidebar selectbox (LLM picker) */
@@ -191,14 +202,32 @@ hr {
     border-color: var(--pa-ink) !important;
 }
 
-/* ===== Main content ===== */
-[data-testid="stAppViewContainer"] > .main,
-.main .block-container {
+/* ===== Main content — chat well sits on the paper background ===== */
+[data-testid="stMain"], [data-testid="stAppViewContainer"] > .main {
     background-color: var(--pa-paper) !important;
-    padding-top: 2rem !important;
-    padding-bottom: 4rem !important;
-    max-width: 920px !important;
 }
+[data-testid="stMainBlockContainer"], .main .block-container {
+    background-color: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--pa-shadow-card) !important;
+    padding: 2.25rem 2.5rem 4rem 2.5rem !important;
+    max-width: 880px !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 1.5rem !important;
+    min-height: calc(100vh - 56px - 7.5rem) !important;
+}
+/* Chat bubbles drop their own surface treatment now that the well IS the surface */
+[data-testid="stChatMessage"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.25rem 0 1rem 0 !important;
+    border-bottom: 1px solid var(--pa-line) !important;
+    border-radius: 0 !important;
+    margin-bottom: 0.85rem !important;
+}
+[data-testid="stChatMessage"]:last-of-type { border-bottom: none !important; }
 
 /* ===== Headings ===== */
 h1, .stTitle, [data-testid="stHeading"] h1 {
@@ -236,15 +265,7 @@ p, .stMarkdown p, [data-testid="stMarkdownContainer"] p {
     font-family: var(--anthropic-font) !important;
 }
 
-/* ===== Chat messages ===== */
-[data-testid="stChatMessage"] {
-    background: var(--pa-canvas) !important;
-    border: 1px solid var(--pa-line) !important;
-    border-radius: 18px !important;
-    padding: 1rem 1.25rem !important;
-    margin-bottom: 0.85rem !important;
-    box-shadow: var(--pa-shadow-card) !important;
-}
+/* ===== Chat messages (typography) ===== */
 [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] {
     color: var(--pa-ink) !important;
 }
@@ -298,7 +319,21 @@ code, pre, .stCodeBlock, .stCode {
     padding: 0.85rem 1rem !important;
 }
 
-/* ===== Chat input ===== */
+/* ===== Chat input docked footer ===== */
+[data-testid="stBottom"],
+[data-testid="stBottom"] > div,
+[data-testid="stBottomBlockContainer"] {
+    background: var(--pa-paper) !important;
+    border-top: none !important;
+    box-shadow: none !important;
+}
+[data-testid="stBottomBlockContainer"] {
+    max-width: 880px !important;
+    margin: 0 auto !important;
+    padding-bottom: 1.25rem !important;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+}
 [data-testid="stChatInput"] {
     background: transparent !important;
     border: none !important;
@@ -611,10 +646,12 @@ def build_header_agent_badge_script() -> str:
                 align-items: center;
                 justify-content: center;
                 white-space: nowrap;
-                font-size: 2.75rem;
-                font-weight: 600;
-                line-height: 1.2;
-                color: #000000;
+                font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+                font-size: 1.35rem;
+                font-weight: 200;
+                letter-spacing: -0.035em;
+                line-height: 1;
+                color: #0e1210;
                 padding: 0;
                 border-radius: 0;
                 background: transparent;
@@ -656,16 +693,8 @@ def build_header_agent_badge_script() -> str:
             headerRoot.appendChild(badge);
         }
 
-        const titleEl = hostDoc.querySelector('h1');
-        if (titleEl) {
-            const titleStyle = hostWin.getComputedStyle(titleEl);
-            badge.style.fontSize = titleStyle.fontSize;
-            badge.style.fontWeight = titleStyle.fontWeight;
-            badge.style.lineHeight = titleStyle.lineHeight;
-            badge.style.fontFamily = titleStyle.fontFamily;
-            badge.style.letterSpacing = titleStyle.letterSpacing;
-            badge.style.color = '#000000';
-        }
+        // Typography is owned by the stylesheet above — do not sync from h1
+        // (the chat title h1 is much larger and would blow the badge up).
     };
 
     if (hostWin.__photoAgentsHeaderBadgeTimer) {

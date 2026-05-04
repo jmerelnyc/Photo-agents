@@ -43,16 +43,40 @@ st.markdown(
         -webkit-font-smoothing: antialiased !important;
     }
     [data-testid="stSidebar"] {
-        background-color: var(--pa-paper) !important;
-        border-right: 1px solid var(--pa-line-strong) !important;
+        background-color: var(--pa-canvas) !important;
+        border-right: 1px solid var(--pa-line) !important;
+        box-shadow: 1px 0 0 var(--pa-line-strong) !important;
     }
     [data-testid="stHeader"] {
-        background: rgba(182, 182, 182, 0.85) !important;
+        background: rgba(182, 182, 182, 0.78) !important;
         backdrop-filter: saturate(180%) blur(10px) !important;
         border-bottom: 1px solid var(--pa-line-strong) !important;
+        height: 56px !important;
+        min-height: 56px !important;
     }
     [data-testid="stToolbar"], #MainMenu, button[kind="header"] { visibility: hidden !important; display: none !important; }
-    .main .block-container { max-width: 920px !important; padding-top: 2rem !important; padding-bottom: 4rem !important; }
+    [data-testid="stMain"] { background-color: var(--pa-paper) !important; }
+    [data-testid="stMainBlockContainer"], .main .block-container {
+        max-width: 880px !important;
+        padding: 2.25rem 2.5rem 4rem 2.5rem !important;
+        background-color: var(--pa-canvas) !important;
+        border: 1px solid var(--pa-line) !important;
+        border-radius: 20px !important;
+        box-shadow: var(--pa-shadow-card) !important;
+        margin-top: 1.25rem !important;
+        margin-bottom: 1.5rem !important;
+        min-height: calc(100vh - 56px - 7.5rem) !important;
+    }
+    [data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"] {
+        background: var(--pa-paper) !important;
+        border-top: none !important;
+        box-shadow: none !important;
+    }
+    [data-testid="stBottomBlockContainer"] {
+        max-width: 880px !important;
+        margin: 0 auto !important;
+        padding: 0 2.5rem 1.25rem 2.5rem !important;
+    }
     h1, .stTitle, [data-testid="stHeading"] h1 {
         color: var(--pa-ink) !important;
         font-family: 'Manrope', sans-serif !important;
@@ -65,18 +89,29 @@ st.markdown(
     p, .stMarkdown p { color: var(--pa-ink) !important; font-weight: 300 !important; line-height: 1.65 !important; }
     .stCaption, [data-testid="stCaptionContainer"] {
         color: var(--pa-muted) !important;
-        font-size: 11px !important;
+        font-size: 12px !important;
+        letter-spacing: -0.005em !important;
+        line-height: 1.55 !important;
+        word-break: break-word !important;
+    }
+    [data-testid="stSidebar"] .stSelectbox label,
+    [data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
+        color: var(--pa-muted) !important;
+        font-size: 10.5px !important;
         text-transform: uppercase !important;
-        letter-spacing: 0.22em !important;
+        letter-spacing: 0.18em !important;
+        font-weight: 500 !important;
     }
     [data-testid="stChatMessage"] {
-        background: var(--pa-canvas) !important;
-        border: 1px solid var(--pa-line) !important;
-        border-radius: 18px !important;
-        padding: 1rem 1.25rem !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0.25rem 0 1rem 0 !important;
         margin-bottom: 0.85rem !important;
-        box-shadow: var(--pa-shadow-card) !important;
+        border-bottom: 1px solid var(--pa-line) !important;
     }
+    [data-testid="stChatMessage"]:last-of-type { border-bottom: none !important; }
     [data-testid*="stChatMessageAvatar"] {
         background: var(--pa-canvas) !important;
         border: 1px solid var(--pa-line) !important;
