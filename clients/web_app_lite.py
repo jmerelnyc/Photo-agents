@@ -126,14 +126,13 @@ st.markdown(
     [data-testid="stMain"] { background-color: var(--pa-paper) !important; }
     [data-testid="stMainBlockContainer"], .main .block-container {
         max-width: 880px !important;
-        padding: 2.25rem 2.5rem 7rem 2.5rem !important;
+        padding: 2.25rem 2.5rem 2.5rem 2.5rem !important;
         background-color: var(--pa-canvas) !important;
         border: 1px solid var(--pa-line) !important;
         border-radius: 20px !important;
         box-shadow: var(--pa-shadow-card) !important;
         margin-top: 1.25rem !important;
         margin-bottom: 1rem !important;
-        min-height: calc(100vh - 56px - 6.5rem) !important;
     }
     h1, .stTitle, [data-testid="stHeading"] h1 {
         color: var(--pa-ink) !important;
@@ -194,11 +193,6 @@ st.markdown(
         border-radius: 12px !important;
     }
     [data-testid="stBottom"] {
-        position: sticky !important;
-        bottom: 0 !important;
-        left: auto !important;
-        right: auto !important;
-        width: 100% !important;
         background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
         border-top: none !important;
         box-shadow: none !important;

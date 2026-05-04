@@ -354,11 +354,10 @@ hr {
     border: 1px solid var(--pa-line) !important;
     border-radius: 20px !important;
     box-shadow: var(--pa-shadow-card) !important;
-    padding: 2.25rem 2.5rem 7rem 2.5rem !important;
+    padding: 2.25rem 2.5rem 2.5rem 2.5rem !important;
     max-width: 880px !important;
     margin-top: 1.25rem !important;
     margin-bottom: 1rem !important;
-    min-height: calc(100vh - 56px - 6.5rem) !important;
 }
 /* Reserved earlier — keep only one rule for padding-bottom so input doesn't overlap content */
 /* Chat bubbles drop their own surface treatment now that the well IS the surface */
@@ -464,15 +463,10 @@ code, pre, .stCodeBlock, .stCode {
 }
 
 /* ===== Chat input docked footer ===========================================
-   Sticky-bottom inside the main column so it always sits directly under the
-   chat well and inherits the SAME width/centering, regardless of sidebar
-   state. Avoids fixed-positioning drift when the sidebar toggles. */
+   Default Streamlit positioning (fixed at viewport bottom spanning the main
+   column). We don't override left/right so it follows stMain naturally and
+   stays put when the sidebar toggles (Streamlit handles that internally). */
 [data-testid="stBottom"] {
-    position: sticky !important;
-    bottom: 0 !important;
-    left: auto !important;
-    right: auto !important;
-    width: 100% !important;
     background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
     border-top: none !important;
     box-shadow: none !important;
