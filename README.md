@@ -1,5 +1,7 @@
 # Photo Agents
 
+<img width="2688" height="1520" alt="imagegithub" src="https://github.com/user-attachments/assets/47103c10-6eb4-44aa-a948-cd0153319dd9" />
+
 Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework for photo-aware agents that operate your computer the way you do.
 
 > "100% autonomous, self-evolving agents."
