@@ -463,8 +463,9 @@ code, pre, .stCodeBlock, .stCode {
 [data-testid="stBottom"] {
     position: fixed !important;
     bottom: 0 !important;
-    left: var(--pa-sidebar-w) !important;
+    left: 0 !important;
     right: 0 !important;
+    padding-left: var(--pa-sidebar-w) !important;   /* clear the sidebar */
     background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
     border-top: none !important;
     box-shadow: none !important;
