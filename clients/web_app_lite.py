@@ -327,6 +327,38 @@ st.markdown(
     }
     [role="option"] { color: var(--pa-ink) !important; background: transparent !important; border-radius: 10px !important; padding: 0.45rem 0.7rem !important; }
     [role="option"]:hover, [role="option"][aria-selected="true"] { background: var(--pa-surface-2) !important; color: var(--pa-ink) !important; }
+    /* Modals / dialogs (Streamlit Clear cache, Rerun, st.dialog) */
+    [data-baseweb="modal"] [role="dialog"], div[role="dialog"][aria-modal="true"], [data-testid="stDialog"] {
+        background: var(--pa-canvas) !important; color: var(--pa-ink) !important;
+        border: 1px solid var(--pa-line) !important; border-radius: 16px !important;
+        box-shadow: 0 24px 48px rgba(14,18,16,0.18) !important;
+        font-family: 'Manrope','Segoe UI',sans-serif !important; padding: 1.5rem !important;
+    }
+    [data-baseweb="modal"] > div:first-child, [data-testid="stDialog"] + div {
+        background: rgba(14,18,16,0.32) !important; backdrop-filter: blur(2px) !important;
+    }
+    [data-baseweb="modal"] [role="dialog"] *:not(button):not(svg):not(path):not(input):not(textarea),
+    div[role="dialog"][aria-modal="true"] *:not(button):not(svg):not(path):not(input):not(textarea) {
+        color: var(--pa-ink) !important; -webkit-text-fill-color: var(--pa-ink) !important;
+        background-color: transparent !important;
+    }
+    [data-baseweb="modal"] [role="dialog"] code, div[role="dialog"][aria-modal="true"] code {
+        background: var(--pa-surface-2) !important; color: var(--pa-ink) !important;
+        border: 1px solid var(--pa-line) !important; border-radius: 4px !important;
+        padding: 0.1em 0.35em !important; font-family: 'JetBrains Mono',ui-monospace,monospace !important;
+    }
+    [data-baseweb="modal"] [role="dialog"] button[kind="primary"], div[role="dialog"][aria-modal="true"] button[kind="primary"] {
+        background: var(--pa-ink) !important; color: var(--pa-canvas) !important;
+        -webkit-text-fill-color: var(--pa-canvas) !important;
+        border: 1px solid var(--pa-ink) !important; border-radius: 10px !important;
+    }
+    [data-baseweb="modal"] [role="dialog"] button[kind="primary"] *, div[role="dialog"][aria-modal="true"] button[kind="primary"] * {
+        color: var(--pa-canvas) !important; -webkit-text-fill-color: var(--pa-canvas) !important;
+    }
+    [data-baseweb="modal"] [role="dialog"] button:not([kind="primary"]), div[role="dialog"][aria-modal="true"] button:not([kind="primary"]) {
+        background: transparent !important; color: var(--pa-ink) !important;
+        border: 1px solid var(--pa-line) !important; border-radius: 10px !important;
+    }
     /* Toasts */
     [data-baseweb="toast"], [data-testid="stToast"], [data-baseweb="toast"] *, [data-testid="stToast"] * {
         color: var(--pa-canvas) !important; -webkit-text-fill-color: var(--pa-canvas) !important;

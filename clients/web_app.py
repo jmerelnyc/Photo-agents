@@ -662,6 +662,102 @@ button[kind="primary"] [data-testid="stMarkdownContainer"] * {
     color: var(--pa-canvas) !important;
 }
 
+/* ===== Modals / dialogs (Streamlit 1.5x "Clear cache", "Rerun", st.dialog) =====
+   These are baseweb modals injected at <body> root so they're outside #stMain
+   and bypass our chat-well theme. Force them onto the Photo Agents palette. */
+[data-baseweb="modal"] [role="dialog"],
+div[role="dialog"][aria-modal="true"],
+[data-testid="stDialog"],
+[data-testid="stModal"] [role="dialog"] {
+    background: var(--pa-canvas) !important;
+    color: var(--pa-ink) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 24px 48px rgba(14, 18, 16, 0.18) !important;
+    font-family: var(--anthropic-font) !important;
+    padding: 1.5rem !important;
+}
+/* Dim backdrop behind the dialog. */
+[data-baseweb="modal"] > div:first-child,
+[data-testid="stDialog"] + div,
+.stApp > div[class*="overlay" i] {
+    background: rgba(14, 18, 16, 0.32) !important;
+    backdrop-filter: blur(2px) !important;
+}
+/* Force ink text on every text node inside the modal (kills white-on-white). */
+[data-baseweb="modal"] [role="dialog"] *:not(button):not(svg):not(path):not(input):not(textarea),
+div[role="dialog"][aria-modal="true"] *:not(button):not(svg):not(path):not(input):not(textarea),
+[data-testid="stDialog"] *:not(button):not(svg):not(path):not(input):not(textarea) {
+    color: var(--pa-ink) !important;
+    -webkit-text-fill-color: var(--pa-ink) !important;
+    background-color: transparent !important;
+    font-family: var(--anthropic-font) !important;
+}
+/* Dialog headings. */
+[data-baseweb="modal"] [role="dialog"] h1,
+[data-baseweb="modal"] [role="dialog"] h2,
+[data-baseweb="modal"] [role="dialog"] h3,
+div[role="dialog"][aria-modal="true"] h1,
+div[role="dialog"][aria-modal="true"] h2,
+div[role="dialog"][aria-modal="true"] h3 {
+    color: var(--pa-ink) !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 0.5rem !important;
+}
+/* Inline code inside dialog body (e.g. @st.cache_data). */
+[data-baseweb="modal"] [role="dialog"] code,
+div[role="dialog"][aria-modal="true"] code,
+[data-testid="stDialog"] code {
+    background: var(--pa-surface-2) !important;
+    color: var(--pa-ink) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 4px !important;
+    padding: 0.1em 0.35em !important;
+    font-family: var(--anthropic-mono) !important;
+    font-size: 0.88em !important;
+}
+/* Buttons inside the dialog: primary = ink pill, secondary = ghost ink-on-cream. */
+[data-baseweb="modal"] [role="dialog"] button[kind="primary"],
+div[role="dialog"][aria-modal="true"] button[kind="primary"],
+[data-testid="stDialog"] button[kind="primary"] {
+    background: var(--pa-ink) !important;
+    color: var(--pa-canvas) !important;
+    -webkit-text-fill-color: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-ink) !important;
+    border-radius: 10px !important;
+}
+[data-baseweb="modal"] [role="dialog"] button[kind="primary"] *,
+div[role="dialog"][aria-modal="true"] button[kind="primary"] * {
+    color: var(--pa-canvas) !important;
+    -webkit-text-fill-color: var(--pa-canvas) !important;
+}
+[data-baseweb="modal"] [role="dialog"] button:not([kind="primary"]),
+div[role="dialog"][aria-modal="true"] button:not([kind="primary"]),
+[data-testid="stDialog"] button:not([kind="primary"]) {
+    background: transparent !important;
+    color: var(--pa-ink) !important;
+    -webkit-text-fill-color: var(--pa-ink) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 10px !important;
+}
+[data-baseweb="modal"] [role="dialog"] button:not([kind="primary"]):hover,
+div[role="dialog"][aria-modal="true"] button:not([kind="primary"]):hover {
+    background: var(--pa-surface-2) !important;
+    border-color: var(--pa-ink) !important;
+}
+/* Close (X) button in the modal corner. */
+[data-baseweb="modal"] [role="dialog"] [aria-label="Close" i],
+div[role="dialog"][aria-modal="true"] [aria-label="Close" i] {
+    color: var(--pa-muted) !important;
+    background: transparent !important;
+    border: none !important;
+}
+[data-baseweb="modal"] [role="dialog"] [aria-label="Close" i]:hover,
+div[role="dialog"][aria-modal="true"] [aria-label="Close" i]:hover {
+    color: var(--pa-ink) !important;
+}
+
 /* ===== Toasts ===== */
 [data-baseweb="toast"], [data-testid="stToast"],
 [data-baseweb="toast"] *, [data-testid="stToast"] * {
