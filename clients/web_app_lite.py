@@ -120,9 +120,8 @@ st.markdown(
     }
     [data-testid="stSidebarCollapseButton"], [data-testid="stSidebarCollapseButton"] *,
     [data-testid="stSidebarCollapseButton"] button {
-        display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
+        display: none !important; visibility: hidden !important; pointer-events: none !important;
     }
-    [data-testid="stSidebarCollapseButton"] button { color: var(--pa-muted) !important; background: transparent !important; }
     [data-testid="stMain"] { background-color: var(--pa-paper) !important; }
     [data-testid="stMainBlockContainer"], .main .block-container {
         max-width: 880px !important;
@@ -508,7 +507,15 @@ _js_ime_fix = ("" if os.name == 'nt' else
     "e.key==='Enter'&&!e.shiftKey&&(e.isComposing||c||e.keyCode===229)&&"
     "(e.stopImmediatePropagation(),e.preventDefault())},!0))})}"
     "f();new MutationObserver(f).observe(d.body,{childList:1,subtree:1})}()")
-_embed_html(f'<script>{_js_scroll_fix};{_js_ime_fix}</script>', height=0)
+_js_lock_sidebar = (
+    "(function(){const d=window.parent?window.parent.document:document;"
+    "const block=e=>{if((e.ctrlKey||e.metaKey)&&(e.key==='b'||e.key==='B')){"
+    "e.stopPropagation();e.preventDefault();}};"
+    "d.addEventListener('keydown',block,true);document.addEventListener('keydown',block,true);"
+    "const f=()=>{const s=d.querySelector('[data-testid=stSidebar]');"
+    "if(s&&s.getAttribute('aria-expanded')==='false')s.setAttribute('aria-expanded','true');};"
+    "new MutationObserver(f).observe(d.body,{attributes:1,subtree:1,attributeFilter:['aria-expanded']});f();})();")
+_embed_html(f'<script>{_js_scroll_fix};{_js_ime_fix};{_js_lock_sidebar}</script>', height=0)
 
 if prompt := st.chat_input("any task?"):
     ts = time.strftime("%Y-%m-%d %H:%M:%S")

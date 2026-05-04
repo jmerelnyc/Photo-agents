@@ -119,21 +119,15 @@ header[data-testid="stHeader"] [data-testid="stToolbar"],
     display: none !important;
     visibility: hidden !important;
 }
-/* In-sidebar collapse button (chevron in the sidebar corner) */
+/* In-sidebar collapse button — hidden so the sidebar can't be collapsed. */
 [data-testid="stSidebarCollapseButton"],
 [data-testid="stSidebarCollapseButton"] *,
 [data-testid="stSidebarCollapseButton"] button {
-    display: inline-flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-[data-testid="stSidebarCollapseButton"] button {
-    color: var(--pa-muted) !important;
-    background: transparent !important;
-}
-[data-testid="stSidebarCollapseButton"] button:hover {
-    color: var(--pa-ink) !important;
-    background: var(--pa-surface-2) !important;
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
 }
 
 /* ===== Top header bar ===== */
@@ -1102,6 +1096,33 @@ st.markdown(ANTHROPIC_CSS, unsafe_allow_html=True)
 st.markdown(build_dynamic_font_css(110.0), unsafe_allow_html=True)
 _embed_html(ANTHROPIC_SELECTBOX_SCRIPT, height=0, width=0)
 _embed_html(build_header_agent_badge_script(), height=0, width=0)
+
+_LOCK_SIDEBAR_SCRIPT = """
+<script>
+(function () {
+    const doc = window.parent ? window.parent.document : document;
+    // Swallow Streamlit's Ctrl+B / Cmd+B sidebar-toggle shortcut everywhere.
+    const block = (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B')) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    };
+    doc.addEventListener('keydown', block, true);
+    document.addEventListener('keydown', block, true);
+    // If the sidebar ever ends up collapsed (race on first paint), force it open.
+    const forceOpen = () => {
+        const sb = doc.querySelector('[data-testid="stSidebar"]');
+        if (sb && sb.getAttribute('aria-expanded') === 'false') {
+            sb.setAttribute('aria-expanded', 'true');
+        }
+    };
+    new MutationObserver(forceOpen).observe(doc.body, {attributes: true, subtree: true, attributeFilter: ['aria-expanded']});
+    forceOpen();
+})();
+</script>
+"""
+_embed_html(_LOCK_SIDEBAR_SCRIPT, height=0, width=0)
 
 st.session_state.agent_name = 'Photo Agents'
 with st.chat_message("assistant"):
