@@ -51,12 +51,12 @@ class Companion:
         tw = tk.Toplevel(self.root)
         tw.overrideredirect(True)
         tw.wm_attributes('-topmost', True)
-        tw.config(bg='#FFFDE7')
+        tw.config(bg='#f6f5f1')
         px, py = self.root.winfo_x(), self.root.winfo_y()
         tw.geometry(f'+{px + 30}+{py - 50}')
-        f = tk.Frame(tw, bg='#FFFDE7', highlightbackground='#888', highlightthickness=1, padx=8, pady=4)
+        f = tk.Frame(tw, bg='#f6f5f1', highlightbackground='#0e1210', highlightthickness=1, padx=10, pady=6)
         f.pack()
-        tk.Label(f, text=msg, bg='#FFFDE7', fg='#333', font=('Segoe UI', 10), wraplength=220, justify='left').pack()
+        tk.Label(f, text=msg, bg='#f6f5f1', fg='#0e1210', font=('Manrope', 10), wraplength=240, justify='left').pack()
         tw.after(3000, tw.destroy)
 
     def _start_server(self):
