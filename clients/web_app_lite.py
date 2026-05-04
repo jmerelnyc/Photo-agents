@@ -131,7 +131,8 @@ st.markdown(
         border-radius: 20px !important;
         box-shadow: var(--pa-shadow-card) !important;
         margin-top: 1.25rem !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 7.5rem !important;
+        min-height: calc(100vh - 56px - 9rem) !important;
     }
     h1, .stTitle, [data-testid="stHeading"] h1 {
         color: var(--pa-ink) !important;
@@ -192,11 +193,16 @@ st.markdown(
         border-radius: 12px !important;
     }
     [data-testid="stBottom"] {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: var(--pa-sidebar-w) !important;
+        right: 0 !important;
         background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
         border-top: none !important;
         box-shadow: none !important;
         z-index: 50 !important;
         padding-top: 1.25rem !important;
+        padding-bottom: 0.75rem !important;
     }
     [data-testid="stBottom"] > div { background: transparent !important; box-shadow: none !important; }
     [data-testid="stBottomBlockContainer"] {

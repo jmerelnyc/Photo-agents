@@ -351,7 +351,8 @@ hr {
     padding: 2.25rem 2.5rem 2.5rem 2.5rem !important;
     max-width: 880px !important;
     margin-top: 1.25rem !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 7.5rem !important;   /* leave room for the fixed chat footer */
+    min-height: calc(100vh - 56px - 9rem) !important;
 }
 /* Reserved earlier — keep only one rule for padding-bottom so input doesn't overlap content */
 /* Chat bubbles drop their own surface treatment now that the well IS the surface */
@@ -457,15 +458,19 @@ code, pre, .stCodeBlock, .stCode {
 }
 
 /* ===== Chat input docked footer ===========================================
-   Default Streamlit positioning (fixed at viewport bottom spanning the main
-   column). We don't override left/right so it follows stMain naturally and
-   stays put when the sidebar toggles (Streamlit handles that internally). */
+   Pinned at the viewport bottom. Sidebar is always expanded (locked) so we
+   can hard-code the left offset to the sidebar width — no shift on toggle. */
 [data-testid="stBottom"] {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: var(--pa-sidebar-w) !important;
+    right: 0 !important;
     background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
     border-top: none !important;
     box-shadow: none !important;
     z-index: 50 !important;
     padding-top: 1.25rem !important;
+    padding-bottom: 0.75rem !important;
 }
 [data-testid="stBottom"] > div {
     background: transparent !important;
