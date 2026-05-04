@@ -198,18 +198,29 @@ st.markdown(
         white-space: pre !important;
         word-break: normal !important;
     }
-    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p,
-    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] li {
+    [data-testid="stMain"] [data-testid="stMarkdownContainer"] p,
+    [data-testid="stMain"] [data-testid="stMarkdownContainer"] li,
+    [data-testid="stMain"] [data-testid="stMarkdownContainer"] span,
+    [data-testid="stMain"] [data-testid="stMarkdownContainer"] a {
         overflow-wrap: anywhere !important;
         word-break: break-word !important;
+        max-width: 100% !important;
     }
-    [data-testid="stChatMessage"],
-    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"],
-    [data-testid="stChatMessage"] details,
-    [data-testid="stChatMessage"] summary {
+    [data-testid="stMain"] [data-testid="stChatMessage"],
+    [data-testid="stMain"] [data-testid="stMarkdownContainer"],
+    [data-testid="stMain"] [data-testid="stVerticalBlock"],
+    [data-testid="stMain"] [data-testid="stHorizontalBlock"],
+    [data-testid="stMain"] [data-testid="stExpander"],
+    [data-testid="stMain"] details,
+    [data-testid="stMain"] summary,
+    [data-testid="stMain"] section {
         max-width: 100% !important;
         min-width: 0 !important;
         overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+    }
+    [data-testid="stMainBlockContainer"], .main .block-container {
+        overflow-x: hidden !important;
     }
     [data-testid="stBottom"] {
         position: fixed !important;

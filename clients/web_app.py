@@ -460,20 +460,37 @@ code, pre, .stCodeBlock, .stCode {
     white-space: pre !important;        /* preserve formatting; let the box scroll */
     word-break: normal !important;
 }
-/* Long URLs / paths in plain markdown should wrap, not push the well wider. */
-[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p,
-[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] li {
+/* Long URLs / paths in any markdown body should wrap, not push the well wider.
+   Apply broadly — chat messages, streaming containers, any block under stMain. */
+[data-testid="stMain"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stMain"] [data-testid="stMarkdownContainer"] li,
+[data-testid="stMain"] [data-testid="stMarkdownContainer"] span,
+[data-testid="stMain"] [data-testid="stMarkdownContainer"] a {
     overflow-wrap: anywhere !important;
     word-break: break-word !important;
+    max-width: 100% !important;
 }
-/* Hard cap on every chat message so nothing can ever overflow the card. */
-[data-testid="stChatMessage"],
-[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"],
-[data-testid="stChatMessage"] details,
-[data-testid="stChatMessage"] summary {
+/* Hard cap on EVERY block inside the main column so nothing can ever overflow
+   the chat well — chat messages, st.container streaming wrappers, expanders,
+   status blocks, details/summary, the lot. */
+[data-testid="stMain"] [data-testid="stChatMessage"],
+[data-testid="stMain"] [data-testid="stMarkdownContainer"],
+[data-testid="stMain"] [data-testid="stVerticalBlock"],
+[data-testid="stMain"] [data-testid="stHorizontalBlock"],
+[data-testid="stMain"] [data-testid="stExpander"],
+[data-testid="stMain"] [data-testid="stStatusWidget"],
+[data-testid="stMain"] details,
+[data-testid="stMain"] summary,
+[data-testid="stMain"] section {
     max-width: 100% !important;
     min-width: 0 !important;
     overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+}
+/* The chat well container itself: clip horizontally so a stubborn child can't
+   bust the rounded card outline. */
+[data-testid="stMainBlockContainer"], .main .block-container {
+    overflow-x: hidden !important;
 }
 
 /* ===== Chat input docked footer ===========================================
