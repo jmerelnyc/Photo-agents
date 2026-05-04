@@ -106,51 +106,18 @@ button[kind="headerNoPadding"] span {
     -webkit-font-smoothing: antialiased !important;
 }
 
-/* Hide Streamlit chrome we don't want (deploy menu, decoration, status widget),
-   but DO NOT touch the toolbar itself — the sidebar expand button lives inside it. */
+/* Hide Streamlit chrome we don't want (deploy menu, decoration, status widget). */
 #MainMenu, [data-testid="stDecoration"], [data-testid="stStatusWidget"],
 [data-testid="stMainMenu"], [data-testid="stMainMenuButton"] {
     visibility: hidden !important;
     display: none !important;
 }
-/* Keep the toolbar visible so the sidebar expand button is reachable when
-   the sidebar is collapsed. Hide every direct child of the toolbar EXCEPT
-   the expand-sidebar button. */
-header[data-testid="stHeader"] [data-testid="stToolbar"] {
-    display: flex !important;
-    visibility: visible !important;
-    background: transparent !important;
-}
-header[data-testid="stHeader"] [data-testid="stToolbar"] > *:not(:has([data-testid="stExpandSidebarButton"])) {
-    display: none !important;
-}
+/* Hide the entire header toolbar (and the >> expand control inside it). */
+header[data-testid="stHeader"] [data-testid="stToolbar"],
 [data-testid="stExpandSidebarButton"],
-[data-testid="stExpandSidebarButton"] *,
-[data-testid="stExpandSidebarButton"] button,
-[data-testid="stSidebarCollapsedControl"],
-[data-testid="stSidebarCollapsedControl"] * {
-    display: inline-flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: auto !important;
-    height: auto !important;
-}
-[data-testid="stExpandSidebarButton"] button,
-[data-testid="stSidebarCollapsedControl"] button {
-    background: var(--pa-canvas) !important;
-    border: 1px solid var(--pa-line) !important;
-    color: var(--pa-ink) !important;
-    border-radius: 10px !important;
-    box-shadow: var(--pa-shadow-card) !important;
-    z-index: 100 !important;
-    width: 36px !important;
-    height: 36px !important;
-    padding: 6px !important;
-}
-[data-testid="stExpandSidebarButton"] button svg,
-[data-testid="stSidebarCollapsedControl"] button svg {
-    color: var(--pa-ink) !important;
-    fill: var(--pa-ink) !important;
+[data-testid="stSidebarCollapsedControl"] {
+    display: none !important;
+    visibility: hidden !important;
 }
 /* In-sidebar collapse button (chevron in the sidebar corner) */
 [data-testid="stSidebarCollapseButton"],
@@ -496,12 +463,16 @@ code, pre, .stCodeBlock, .stCode {
     padding: 0.85rem 1rem !important;
 }
 
-/* ===== Chat input docked footer (pinned to viewport bottom) ===== */
+/* ===== Chat input docked footer ===========================================
+   Sticky-bottom inside the main column so it always sits directly under the
+   chat well and inherits the SAME width/centering, regardless of sidebar
+   state. Avoids fixed-positioning drift when the sidebar toggles. */
 [data-testid="stBottom"] {
-    position: fixed !important;
+    position: sticky !important;
     bottom: 0 !important;
-    left: var(--pa-sidebar-w) !important;   /* must match expanded sidebar width */
-    right: 0 !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
     background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
     border-top: none !important;
     box-shadow: none !important;
@@ -533,12 +504,6 @@ code, pre, .stCodeBlock, .stCode {
     margin: 0 !important;
     padding: 0 !important;
     background: transparent !important;
-}
-/* When sidebar is collapsed, dock the chat input from viewport left (matches main width).
-   Do NOT use :has(stExpandSidebarButton) — that button stays in the DOM when open and breaks alignment. */
-[data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] [data-testid="stBottom"],
-body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] {
-    left: 0 !important;
 }
 [data-testid="stChatInput"] {
     background: transparent !important;

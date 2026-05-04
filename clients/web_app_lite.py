@@ -113,24 +113,11 @@ st.markdown(
     [data-testid="stMainMenu"], [data-testid="stMainMenuButton"] {
         visibility: hidden !important; display: none !important;
     }
-    header[data-testid="stHeader"] [data-testid="stToolbar"] {
-        display: flex !important; visibility: visible !important; background: transparent !important;
+    header[data-testid="stHeader"] [data-testid="stToolbar"],
+    [data-testid="stExpandSidebarButton"],
+    [data-testid="stSidebarCollapsedControl"] {
+        display: none !important; visibility: hidden !important;
     }
-    header[data-testid="stHeader"] [data-testid="stToolbar"] > *:not(:has([data-testid="stExpandSidebarButton"])) { display: none !important; }
-    [data-testid="stExpandSidebarButton"], [data-testid="stExpandSidebarButton"] *,
-    [data-testid="stExpandSidebarButton"] button {
-        display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
-        width: auto !important; height: auto !important;
-    }
-    [data-testid="stExpandSidebarButton"] button {
-        background: var(--pa-canvas) !important;
-        border: 1px solid var(--pa-line) !important;
-        color: var(--pa-ink) !important;
-        border-radius: 10px !important;
-        box-shadow: var(--pa-shadow-card) !important;
-        width: 36px !important; height: 36px !important; padding: 6px !important;
-    }
-    [data-testid="stExpandSidebarButton"] button svg { color: var(--pa-ink) !important; fill: var(--pa-ink) !important; }
     [data-testid="stSidebarCollapseButton"], [data-testid="stSidebarCollapseButton"] *,
     [data-testid="stSidebarCollapseButton"] button {
         display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
@@ -207,10 +194,11 @@ st.markdown(
         border-radius: 12px !important;
     }
     [data-testid="stBottom"] {
-        position: fixed !important;
+        position: sticky !important;
         bottom: 0 !important;
-        left: var(--pa-sidebar-w) !important;
-        right: 0 !important;
+        left: auto !important;
+        right: auto !important;
+        width: 100% !important;
         background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
         border-top: none !important;
         box-shadow: none !important;
@@ -230,10 +218,6 @@ st.markdown(
     [data-testid="stBottomBlockContainer"] > div,
     [data-testid="stBottom"] [data-testid="stVerticalBlock"] {
         width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; background: transparent !important;
-    }
-    [data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] [data-testid="stBottom"],
-    body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] {
-        left: 0 !important;
     }
     [data-testid="stChatInput"] > div {
         background: var(--pa-canvas) !important;
