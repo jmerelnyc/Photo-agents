@@ -17,7 +17,12 @@ from photoagents.cli.runtime import PhotoAgentsRuntime as GeneraticAgent
 from photoagents.clients import client_common  # activates /continue command (monkey-patches runtime)
 from photoagents.clients.resume_cmd import handle_frontend_command, reset_conversation, list_sessions, extract_ui_messages
 
-st.set_page_config(page_title="Photo Agents", layout="wide")
+_FAVICON_PATH = os.path.abspath(os.path.join(script_dir, '..', 'resources', 'favicon.png'))
+st.set_page_config(
+    page_title="Photo Agents",
+    page_icon=_FAVICON_PATH if os.path.exists(_FAVICON_PATH) else None,
+    layout="wide",
+)
 
 # --- Photo Agents theme matching the photo-agents.com dashboard ---
 st.markdown(
@@ -53,10 +58,33 @@ st.markdown(
         resize: none !important;
     }
     [data-testid="stSidebar"] [data-testid="stSidebarResizeHandle"],
-    [data-testid="stSidebar"] > div[class*="resize" i],
-    [data-testid="stSidebarUserContent"] ~ div[role="separator"] {
-        display: none !important; pointer-events: none !important;
+    [data-testid="stSidebar"] [data-testid*="ResizeHandle" i],
+    [data-testid="stSidebar"] [data-testid*="resize" i],
+    [data-testid="stSidebar"] [class*="resize" i],
+    [data-testid="stSidebar"] [class*="Resize" i],
+    [data-testid="stSidebar"] [class*="dragHandle" i],
+    [data-testid="stSidebar"] [class*="DragHandle" i],
+    [data-testid="stSidebar"] > div[role="separator"],
+    [data-testid="stSidebarUserContent"] ~ div[role="separator"],
+    [data-testid="stSidebar"] [aria-orientation="vertical"][role="separator"] {
+        display: none !important; width: 0 !important; pointer-events: none !important;
+        cursor: default !important; visibility: hidden !important;
     }
+    [data-testid="stSidebar"] { position: relative !important; overflow-x: hidden !important; }
+    [data-testid="stSidebar"]::after {
+        content: ""; position: absolute; top: 0; right: -1px;
+        width: 8px; height: 100%; z-index: 9999;
+        cursor: default !important; pointer-events: auto; background: transparent;
+    }
+    [data-testid="stSidebar"], [data-testid="stSidebar"] * { cursor: default; }
+    [data-testid="stSidebar"] button,
+    [data-testid="stSidebar"] [role="button"],
+    [data-testid="stSidebar"] a,
+    [data-testid="stSidebar"] [data-baseweb="select"],
+    [data-testid="stSidebar"] [role="combobox"],
+    [data-testid="stSidebar"] [role="option"] { cursor: pointer; }
+    [data-testid="stSidebar"] input[type="text"],
+    [data-testid="stSidebar"] textarea { cursor: text; }
     [data-testid="stHeader"] {
         background: rgba(182, 182, 182, 0.78) !important;
         backdrop-filter: saturate(180%) blur(10px) !important;
@@ -176,9 +204,16 @@ st.markdown(
     [data-testid="stBottom"] > div { background: transparent !important; box-shadow: none !important; }
     [data-testid="stBottomBlockContainer"] {
         max-width: 880px !important;
-        margin: 0 auto !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
         padding: 0 2.5rem 1.25rem 2.5rem !important;
         background: transparent !important;
+        box-sizing: border-box !important;
+    }
+    [data-testid="stBottomBlockContainer"] > div,
+    [data-testid="stBottom"] [data-testid="stVerticalBlock"] {
+        width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; background: transparent !important;
     }
     body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] { left: 0 !important; }
     [data-testid="stChatInput"] > div {
@@ -197,11 +232,15 @@ st.markdown(
         font-family: 'Manrope', sans-serif !important;
         font-weight: 300 !important;
         font-size: 0.95rem !important;
-        line-height: 1.5 !important;
-        padding: 0.35rem 0 !important;
+        line-height: 1.6 !important;
+        padding: 0.45rem 0 !important;
         min-height: 28px !important;
+        height: auto !important;
+        resize: none !important;
+        display: flex !important;
+        align-items: center !important;
     }
-    [data-testid="stChatInput"] textarea::placeholder { color: var(--pa-muted) !important; opacity: 1 !important; }
+    [data-testid="stChatInput"] textarea::placeholder { color: var(--pa-muted) !important; opacity: 1 !important; font-weight: 300 !important; line-height: 1.6 !important; }
     [data-testid="stChatInputSubmitButton"] {
         background: var(--pa-ink) !important;
         color: var(--pa-canvas) !important;
@@ -229,13 +268,60 @@ st.markdown(
         box-shadow: none !important;
     }
     .stButton > button:hover { background: var(--pa-surface-2) !important; border-color: var(--pa-ink) !important; }
+    .stButton > button[kind="primary"],
+    .stButton > button[kind="primary"] * {
+        color: var(--pa-canvas) !important;
+        -webkit-text-fill-color: var(--pa-canvas) !important;
+    }
     .stButton > button[kind="primary"] {
         background: var(--pa-ink) !important;
-        color: var(--pa-canvas) !important;
         border-color: var(--pa-ink) !important;
         box-shadow: var(--pa-shadow-card) !important;
     }
-    .stButton > button[kind="primary"]:hover { background: #2a2f2c !important; border-color: #2a2f2c !important; }
+    .stButton > button[kind="primary"]:hover,
+    .stButton > button[kind="primary"]:hover * { background: #2a2f2c !important; border-color: #2a2f2c !important; color: var(--pa-canvas) !important; }
+    /* Selectbox: ink text on cream pill, in sidebar AND popover portal */
+    [data-baseweb="select"], [data-baseweb="select"] * { color: var(--pa-ink) !important; -webkit-text-fill-color: var(--pa-ink) !important; }
+    [data-baseweb="select"] > div { background: var(--pa-canvas) !important; border: 1px solid var(--pa-line) !important; border-radius: 12px !important; min-height: 44px !important; box-shadow: none !important; }
+    [data-baseweb="select"] > div:hover, [data-baseweb="select"] > div:focus-within { border-color: var(--pa-ink) !important; }
+    [data-baseweb="select"] svg { color: var(--pa-ink) !important; fill: var(--pa-ink) !important; }
+    [data-baseweb="popover"], [data-baseweb="popover"] *, [role="listbox"], [role="listbox"] * {
+        color: var(--pa-ink) !important; -webkit-text-fill-color: var(--pa-ink) !important;
+    }
+    [data-baseweb="popover"] [role="listbox"], [role="listbox"] {
+        background: var(--pa-canvas) !important; border: 1px solid var(--pa-line) !important;
+        border-radius: 14px !important; box-shadow: var(--pa-shadow-card) !important; padding: 0.35rem !important;
+    }
+    [role="option"] { color: var(--pa-ink) !important; background: transparent !important; border-radius: 10px !important; padding: 0.45rem 0.7rem !important; }
+    [role="option"]:hover, [role="option"][aria-selected="true"] { background: var(--pa-surface-2) !important; color: var(--pa-ink) !important; }
+    /* Toasts */
+    [data-baseweb="toast"], [data-testid="stToast"], [data-baseweb="toast"] *, [data-testid="stToast"] * {
+        color: var(--pa-canvas) !important; -webkit-text-fill-color: var(--pa-canvas) !important;
+    }
+    [data-baseweb="toast"], [data-testid="stToast"] {
+        background: var(--pa-ink) !important; border-radius: 12px !important; border: none !important; box-shadow: var(--pa-shadow-card) !important;
+    }
+    /* Tooltips */
+    [data-baseweb="tooltip"], [data-testid="stTooltipContent"], div[role="tooltip"] {
+        background: var(--pa-ink) !important; color: var(--pa-canvas) !important; border-radius: 8px !important;
+        font-family: 'Manrope', sans-serif !important; font-size: 12px !important; padding: 0.5rem 0.7rem !important;
+        border: none !important; box-shadow: var(--pa-shadow-card) !important;
+    }
+    [data-baseweb="tooltip"] *, [data-testid="stTooltipContent"] *, div[role="tooltip"] * {
+        color: var(--pa-canvas) !important; background: transparent !important;
+    }
+    [data-baseweb="tooltip"] [class*="Arrow" i] { background: var(--pa-ink) !important; }
+    [data-testid="stTooltipIcon"] svg, [data-testid="stTooltipHoverTarget"] svg { color: var(--pa-muted) !important; fill: var(--pa-muted) !important; }
+    [data-testid="stTooltipIcon"]:hover svg, [data-testid="stTooltipHoverTarget"]:hover svg { color: var(--pa-ink) !important; fill: var(--pa-ink) !important; }
+    /* Alerts */
+    [data-testid="stAlert"], [data-baseweb="notification"] {
+        background: var(--pa-canvas) !important; border: 1px solid var(--pa-line) !important;
+        border-left: 3px solid var(--pa-ink) !important; border-radius: 12px !important;
+        color: var(--pa-ink) !important; box-shadow: var(--pa-shadow-card) !important; padding: 0.85rem 1rem !important;
+    }
+    [data-testid="stAlert"] *, [data-baseweb="notification"] * { color: var(--pa-ink) !important; background-color: transparent !important; }
+    button:disabled, [aria-disabled="true"] { opacity: 0.5 !important; cursor: not-allowed !important; }
+    [data-testid="stChatInput"] textarea:disabled { color: var(--pa-muted) !important; -webkit-text-fill-color: var(--pa-muted) !important; background: transparent !important; }
     [data-testid="stSidebar"] .stButton > button {
         width: 100% !important;
         font-size: 13px !important;

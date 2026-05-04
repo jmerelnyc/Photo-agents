@@ -18,7 +18,12 @@ import time, json, re, threading, queue
 from datetime import datetime
 from photoagents.cli.runtime import PhotoAgentsRuntime as GeneraticAgent
 
-st.set_page_config(page_title="Photo Agents", layout="wide")
+_FAVICON_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources', 'favicon.png'))
+st.set_page_config(
+    page_title="Photo Agents",
+    page_icon=_FAVICON_PATH if os.path.exists(_FAVICON_PATH) else None,
+    layout="wide",
+)
 
 # --- Photo Agents Theme (matches photo-agents.com) ---
 # Variable names kept as --anthropic-* for backwards-compat with the rest of
@@ -168,12 +173,61 @@ body:has([data-testid="stExpandSidebarButton"]) [data-testid="stBottom"] {
     flex-basis: 300px !important;
     resize: none !important;
 }
-/* Hide Streamlit's drag handle on the right edge of the sidebar */
+/* ---- Kill Streamlit's sidebar drag-resize handle (every known variant) ---- */
+/* The handle's testid/class changes across Streamlit versions, so we cast a
+   wide net AND blanket-block the right edge of the sidebar with an overlay. */
 [data-testid="stSidebar"] [data-testid="stSidebarResizeHandle"],
-[data-testid="stSidebar"] > div[class*="resize" i],
-[data-testid="stSidebarUserContent"] ~ div[role="separator"] {
+[data-testid="stSidebar"] [data-testid*="ResizeHandle" i],
+[data-testid="stSidebar"] [data-testid*="resize" i],
+[data-testid="stSidebar"] [class*="resize" i],
+[data-testid="stSidebar"] [class*="Resize" i],
+[data-testid="stSidebar"] [class*="dragHandle" i],
+[data-testid="stSidebar"] [class*="DragHandle" i],
+[data-testid="stSidebar"] > div[role="separator"],
+[data-testid="stSidebarUserContent"] ~ div[role="separator"],
+[data-testid="stSidebar"] [aria-orientation="vertical"][role="separator"] {
     display: none !important;
+    width: 0 !important;
     pointer-events: none !important;
+    cursor: default !important;
+    visibility: hidden !important;
+}
+/* Belt-and-suspenders: cover the right-edge resize zone with an invisible
+   overlay that swallows pointer events and forces the default cursor.
+   Sidebar is position:relative by Streamlit, so this anchors correctly. */
+[data-testid="stSidebar"] {
+    position: relative !important;
+    overflow-x: hidden !important;
+}
+[data-testid="stSidebar"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -1px;
+    width: 8px;
+    height: 100%;
+    z-index: 9999;
+    cursor: default !important;
+    pointer-events: auto;
+    background: transparent;
+}
+/* Make sure the cursor never turns into ew-resize anywhere in the sidebar */
+[data-testid="stSidebar"], [data-testid="stSidebar"] * {
+    cursor: default;
+}
+[data-testid="stSidebar"] button,
+[data-testid="stSidebar"] [role="button"],
+[data-testid="stSidebar"] a,
+[data-testid="stSidebar"] [data-baseweb="select"],
+[data-testid="stSidebar"] input,
+[data-testid="stSidebar"] textarea,
+[data-testid="stSidebar"] [role="combobox"],
+[data-testid="stSidebar"] [role="option"] {
+    cursor: pointer;
+}
+[data-testid="stSidebar"] input[type="text"],
+[data-testid="stSidebar"] textarea {
+    cursor: text;
 }
 [data-testid="stSidebar"] > div:first-child { padding-top: 1rem !important; }
 [data-testid="stSidebar"] .stMarkdown,
@@ -209,7 +263,11 @@ hr {
     font-weight: 500 !important;
 }
 
-/* Sidebar selectbox (LLM picker) */
+/* Sidebar selectbox (LLM picker) — ink text on cream pill */
+[data-testid="stSidebar"] [data-baseweb="select"],
+[data-testid="stSidebar"] [data-baseweb="select"] * {
+    color: var(--pa-ink) !important;
+}
 [data-testid="stSidebar"] [data-baseweb="select"] > div {
     background: var(--pa-canvas) !important;
     border: 1px solid var(--pa-line) !important;
@@ -222,10 +280,31 @@ hr {
     border-color: var(--pa-ink) !important;
 }
 [data-testid="stSidebar"] [data-baseweb="select"] span,
+[data-testid="stSidebar"] [data-baseweb="select"] div,
 [data-testid="stSidebar"] [data-baseweb="select"] input {
     color: var(--pa-ink) !important;
+    background-color: transparent !important;
     font-family: var(--anthropic-font) !important;
     font-weight: 400 !important;
+    -webkit-text-fill-color: var(--pa-ink) !important;
+}
+/* Selected value renderer (the visible text in the closed select) */
+[data-testid="stSidebar"] [data-baseweb="select"] [class*="ValueContainer" i],
+[data-testid="stSidebar"] [data-baseweb="select"] [class*="SingleValue" i],
+[data-testid="stSidebar"] [data-baseweb="select"] [aria-live],
+[data-testid="stSidebar"] [data-baseweb="select"] [data-id*="selected" i] {
+    color: var(--pa-ink) !important;
+    background: transparent !important;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] svg {
+    color: var(--pa-ink) !important;
+    fill: var(--pa-ink) !important;
+}
+/* Dropdown popover (rendered in a portal at the body root, not inside sidebar) */
+[data-baseweb="popover"], [data-baseweb="popover"] *,
+[role="listbox"], [role="listbox"] * {
+    color: var(--pa-ink) !important;
+    -webkit-text-fill-color: var(--pa-ink) !important;
 }
 [data-baseweb="popover"] [role="listbox"], [role="listbox"] {
     background: var(--pa-canvas) !important;
@@ -239,9 +318,11 @@ hr {
     background: transparent !important;
     border-radius: 10px !important;
     font-family: var(--anthropic-font) !important;
+    padding: 0.45rem 0.7rem !important;
 }
 [role="option"]:hover, [role="option"][aria-selected="true"] {
     background: var(--pa-surface-2) !important;
+    color: var(--pa-ink) !important;
 }
 
 /* Sidebar buttons */
@@ -413,10 +494,25 @@ code, pre, .stCodeBlock, .stCode {
     border-top: none !important;
     box-shadow: none !important;
 }
+/* Match the chat well's horizontal frame exactly so the input pill aligns
+   with the messages above (same max-width, same horizontal padding). */
 [data-testid="stBottomBlockContainer"] {
     max-width: 880px !important;
-    margin: 0 auto !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding: 0 2.5rem 1.25rem 2.5rem !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+}
+/* Streamlit nests the input inside an extra block — make sure none of the
+   intermediate wrappers add their own margin/padding that breaks alignment. */
+[data-testid="stBottomBlockContainer"] > div,
+[data-testid="stBottom"] [data-testid="stVerticalBlock"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: transparent !important;
 }
 /* When sidebar is collapsed, the bottom should span full width */
@@ -450,14 +546,20 @@ body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBotto
     font-family: var(--anthropic-font) !important;
     font-weight: 300 !important;
     font-size: 0.95rem !important;
-    line-height: 1.5 !important;
+    line-height: 1.6 !important;
     caret-color: var(--pa-ink) !important;
-    padding: 0.35rem 0 !important;
+    padding: 0.45rem 0 !important;
     min-height: 28px !important;
+    height: auto !important;
+    resize: none !important;
+    display: flex !important;
+    align-items: center !important;
 }
 [data-testid="stChatInput"] textarea::placeholder {
     color: var(--pa-muted) !important;
     opacity: 1 !important;
+    font-weight: 300 !important;
+    line-height: 1.6 !important;
 }
 [data-testid="stChatInput"] button[kind="primary"],
 [data-testid="stChatInputSubmitButton"] {
@@ -546,12 +648,90 @@ button[kind="primary"] [data-testid="stMarkdownContainer"] * {
 }
 
 /* ===== Toasts ===== */
+[data-baseweb="toast"], [data-testid="stToast"],
+[data-baseweb="toast"] *, [data-testid="stToast"] * {
+    color: var(--pa-canvas) !important;
+    -webkit-text-fill-color: var(--pa-canvas) !important;
+}
 [data-baseweb="toast"], [data-testid="stToast"] {
     background: var(--pa-ink) !important;
-    color: var(--pa-canvas) !important;
     border-radius: 12px !important;
     font-family: var(--anthropic-font) !important;
     border: none !important;
+    box-shadow: var(--pa-shadow-card) !important;
+}
+
+/* ===== Tooltips (the bubble that appears on `help=` icons) ===== */
+[data-baseweb="tooltip"],
+[data-testid="stTooltipContent"],
+div[role="tooltip"] {
+    background: var(--pa-ink) !important;
+    color: var(--pa-canvas) !important;
+    border-radius: 8px !important;
+    font-family: var(--anthropic-font) !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    padding: 0.5rem 0.7rem !important;
+    border: none !important;
+    box-shadow: var(--pa-shadow-card) !important;
+}
+[data-baseweb="tooltip"] *,
+[data-testid="stTooltipContent"] *,
+div[role="tooltip"] * {
+    color: var(--pa-canvas) !important;
+    background: transparent !important;
+}
+/* Tooltip arrow */
+[data-baseweb="tooltip"] [class*="Arrow" i] {
+    background: var(--pa-ink) !important;
+}
+/* The (?) help icon itself */
+[data-testid="stTooltipIcon"], [data-testid="stTooltipHoverTarget"] svg {
+    color: var(--pa-muted) !important;
+    fill: var(--pa-muted) !important;
+}
+[data-testid="stTooltipIcon"]:hover svg,
+[data-testid="stTooltipHoverTarget"]:hover svg {
+    color: var(--pa-ink) !important;
+    fill: var(--pa-ink) !important;
+}
+
+/* ===== Alerts (st.error, st.warning, st.info, st.success) ===== */
+[data-testid="stAlert"], [data-baseweb="notification"] {
+    background: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-left: 3px solid var(--pa-ink) !important;
+    border-radius: 12px !important;
+    color: var(--pa-ink) !important;
+    box-shadow: var(--pa-shadow-card) !important;
+    padding: 0.85rem 1rem !important;
+}
+[data-testid="stAlert"] *, [data-baseweb="notification"] * {
+    color: var(--pa-ink) !important;
+    background-color: transparent !important;
+}
+[data-testid="stAlertContentError"], [data-testid="stAlert"][data-baseweb="notification"][kind="negative"] {
+    border-left-color: #a8423f !important;
+}
+[data-testid="stAlertContentWarning"], [data-testid="stAlert"][kind="warning"] {
+    border-left-color: #8a6a2f !important;
+}
+[data-testid="stAlertContentSuccess"], [data-testid="stAlert"][kind="positive"] {
+    border-left-color: #3f7a44 !important;
+}
+[data-testid="stAlertContentInfo"], [data-testid="stAlert"][kind="info"] {
+    border-left-color: #3f6a7a !important;
+}
+
+/* ===== Disabled states ===== */
+button:disabled, [aria-disabled="true"] {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
+[data-testid="stChatInput"] textarea:disabled {
+    color: var(--pa-muted) !important;
+    -webkit-text-fill-color: var(--pa-muted) !important;
+    background: transparent !important;
 }
 
 /* ===== Misc ===== */
