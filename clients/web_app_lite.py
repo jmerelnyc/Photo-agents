@@ -46,6 +46,16 @@ st.markdown(
         background-color: var(--pa-canvas) !important;
         border-right: 1px solid var(--pa-line) !important;
         box-shadow: 1px 0 0 var(--pa-line-strong) !important;
+        width: 300px !important;
+        min-width: 300px !important;
+        max-width: 300px !important;
+        flex-basis: 300px !important;
+        resize: none !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stSidebarResizeHandle"],
+    [data-testid="stSidebar"] > div[class*="resize" i],
+    [data-testid="stSidebarUserContent"] ~ div[role="separator"] {
+        display: none !important; pointer-events: none !important;
     }
     [data-testid="stHeader"] {
         background: rgba(182, 182, 182, 0.78) !important;
@@ -54,7 +64,34 @@ st.markdown(
         height: 56px !important;
         min-height: 56px !important;
     }
-    [data-testid="stToolbar"], #MainMenu, button[kind="header"] { visibility: hidden !important; display: none !important; }
+    #MainMenu, [data-testid="stDecoration"], [data-testid="stStatusWidget"],
+    [data-testid="stMainMenu"], [data-testid="stMainMenuButton"] {
+        visibility: hidden !important; display: none !important;
+    }
+    header[data-testid="stHeader"] [data-testid="stToolbar"] {
+        display: flex !important; visibility: visible !important; background: transparent !important;
+    }
+    header[data-testid="stHeader"] [data-testid="stToolbar"] > *:not(:has([data-testid="stExpandSidebarButton"])) { display: none !important; }
+    [data-testid="stExpandSidebarButton"], [data-testid="stExpandSidebarButton"] *,
+    [data-testid="stExpandSidebarButton"] button {
+        display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
+        width: auto !important; height: auto !important;
+    }
+    [data-testid="stExpandSidebarButton"] button {
+        background: var(--pa-canvas) !important;
+        border: 1px solid var(--pa-line) !important;
+        color: var(--pa-ink) !important;
+        border-radius: 10px !important;
+        box-shadow: var(--pa-shadow-card) !important;
+        width: 36px !important; height: 36px !important; padding: 6px !important;
+    }
+    [data-testid="stExpandSidebarButton"] button svg { color: var(--pa-ink) !important; fill: var(--pa-ink) !important; }
+    [data-testid="stSidebarCollapseButton"], [data-testid="stSidebarCollapseButton"] *,
+    [data-testid="stSidebarCollapseButton"] button {
+        display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
+    }
+    [data-testid="stSidebarCollapseButton"] button { color: var(--pa-muted) !important; background: transparent !important; }
+    body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] { left: 0 !important; }
     [data-testid="stMain"] { background-color: var(--pa-paper) !important; }
     [data-testid="stMainBlockContainer"], .main .block-container {
         max-width: 880px !important;

@@ -77,24 +77,72 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     -moz-osx-font-smoothing: grayscale !important;
 }
 
-/* Hide Streamlit's default chrome */
-[data-testid="stToolbar"], #MainMenu, [data-testid="stDecoration"],
-header[data-testid="stHeader"] [data-testid="stToolbar"],
-button[kind="header"] {
+/* Hide Streamlit chrome we don't want (deploy menu, decoration, status widget),
+   but DO NOT touch the toolbar itself — the sidebar expand button lives inside it. */
+#MainMenu, [data-testid="stDecoration"], [data-testid="stStatusWidget"],
+[data-testid="stMainMenu"], [data-testid="stMainMenuButton"] {
     visibility: hidden !important;
     display: none !important;
 }
-[data-testid="stExpandSidebarButton"],
-[data-testid="stExpandSidebarButton"] * {
+/* Keep the toolbar visible so the sidebar expand button is reachable when
+   the sidebar is collapsed. Hide every direct child of the toolbar EXCEPT
+   the expand-sidebar button. */
+header[data-testid="stHeader"] [data-testid="stToolbar"] {
+    display: flex !important;
     visibility: visible !important;
-    display: inline-flex !important;
+    background: transparent !important;
 }
-[data-testid="stExpandSidebarButton"] {
+header[data-testid="stHeader"] [data-testid="stToolbar"] > *:not(:has([data-testid="stExpandSidebarButton"])) {
+    display: none !important;
+}
+[data-testid="stExpandSidebarButton"],
+[data-testid="stExpandSidebarButton"] *,
+[data-testid="stExpandSidebarButton"] button,
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="stSidebarCollapsedControl"] * {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    height: auto !important;
+}
+[data-testid="stExpandSidebarButton"] button,
+[data-testid="stSidebarCollapsedControl"] button {
     background: var(--pa-canvas) !important;
     border: 1px solid var(--pa-line) !important;
     color: var(--pa-ink) !important;
     border-radius: 10px !important;
-    box-shadow: none !important;
+    box-shadow: var(--pa-shadow-card) !important;
+    z-index: 100 !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 6px !important;
+}
+[data-testid="stExpandSidebarButton"] button svg,
+[data-testid="stSidebarCollapsedControl"] button svg {
+    color: var(--pa-ink) !important;
+    fill: var(--pa-ink) !important;
+}
+/* In-sidebar collapse button (chevron in the sidebar corner) */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapseButton"] *,
+[data-testid="stSidebarCollapseButton"] button {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+[data-testid="stSidebarCollapseButton"] button {
+    color: var(--pa-muted) !important;
+    background: transparent !important;
+}
+[data-testid="stSidebarCollapseButton"] button:hover {
+    color: var(--pa-ink) !important;
+    background: var(--pa-surface-2) !important;
+}
+/* When sidebar is collapsed, our fixed chat input spans the full width */
+body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"],
+body:has([data-testid="stExpandSidebarButton"]) [data-testid="stBottom"] {
+    left: 0 !important;
 }
 
 /* ===== Top header bar ===== */
@@ -113,6 +161,19 @@ button[kind="header"] {
     border-right: 1px solid var(--pa-line) !important;
     padding-top: 0.5rem !important;
     box-shadow: 1px 0 0 var(--pa-line-strong) !important;
+    /* Lock the sidebar width — collapse/expand only, no drag-resize */
+    width: 300px !important;
+    min-width: 300px !important;
+    max-width: 300px !important;
+    flex-basis: 300px !important;
+    resize: none !important;
+}
+/* Hide Streamlit's drag handle on the right edge of the sidebar */
+[data-testid="stSidebar"] [data-testid="stSidebarResizeHandle"],
+[data-testid="stSidebar"] > div[class*="resize" i],
+[data-testid="stSidebarUserContent"] ~ div[role="separator"] {
+    display: none !important;
+    pointer-events: none !important;
 }
 [data-testid="stSidebar"] > div:first-child { padding-top: 1rem !important; }
 [data-testid="stSidebar"] .stMarkdown,
@@ -432,19 +493,56 @@ body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBotto
 }
 
 /* ===== Generic primary buttons (e.g. Stop generation) ===== */
+.stButton > button[kind="primary"],
+.stButton > button[kind="primary"] * {
+    color: var(--pa-canvas) !important;   /* cream text on ink — high contrast */
+}
 .stButton > button[kind="primary"] {
     background: var(--pa-ink) !important;
-    color: var(--pa-canvas) !important;
     border: 1px solid var(--pa-ink) !important;
     border-radius: 12px !important;
     font-family: var(--anthropic-font) !important;
     font-weight: 500 !important;
     letter-spacing: -0.01em !important;
     box-shadow: var(--pa-shadow-card) !important;
+    padding: 0.55rem 1.1rem !important;
 }
-.stButton > button[kind="primary"]:hover {
+.stButton > button[kind="primary"]:hover,
+.stButton > button[kind="primary"]:hover * {
     background: #2a2f2c !important;
     border-color: #2a2f2c !important;
+    color: var(--pa-canvas) !important;
+}
+.stButton > button[kind="primary"]:focus,
+.stButton > button[kind="primary"]:focus-visible {
+    outline: 2px solid var(--pa-ink) !important;
+    outline-offset: 2px !important;
+    box-shadow: var(--pa-shadow-card) !important;
+}
+/* Generic (non-primary) main-area buttons sit on the cream well —
+   give them a clear ink-on-canvas treatment so they're never invisible. */
+[data-testid="stMainBlockContainer"] .stButton > button:not([kind="primary"]),
+.main .stButton > button:not([kind="primary"]) {
+    background: var(--pa-canvas) !important;
+    color: var(--pa-ink) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 10px !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+}
+[data-testid="stMainBlockContainer"] .stButton > button:not([kind="primary"]):hover,
+.main .stButton > button:not([kind="primary"]):hover {
+    background: var(--pa-surface-2) !important;
+    border-color: var(--pa-ink) !important;
+    color: var(--pa-ink) !important;
+}
+/* BaseWeb wraps button text in an inner div that can inherit theme colors —
+   force button label color so it never becomes dark-on-dark. */
+[data-testid="stChatInputSubmitButton"] *,
+button[kind="primary"] [data-testid="stMarkdownContainer"],
+button[kind="primary"] [data-testid="stMarkdownContainer"] * {
+    color: var(--pa-canvas) !important;
 }
 
 /* ===== Toasts ===== */
@@ -488,6 +586,13 @@ body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBotto
 /* Hide the gear toggle the original theme injected — sidebar handles it */
 #sidebar-gear-toggle { display: none !important; }
 body:has([data-testid="stSidebar"][aria-expanded="true"]) #sidebar-gear-toggle {
+    display: none !important;
+}
+
+/* The legacy JS injects a "Settings" <span> next to the collapse chevron;
+   it overlaps the sidebar caption row. Hide it — the sidebar layout is
+   self-explanatory now. */
+#custom-sidebar-settings-title {
     display: none !important;
 }
 </style>
