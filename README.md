@@ -111,3 +111,8 @@ photoagents/
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Status
+
+Status: beta. APIs may change before 1.0.
+
