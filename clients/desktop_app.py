@@ -269,26 +269,31 @@ TEXT_FILE_EXTS = {
 }
 MAX_INLINE_CHARS = 6000
 
+# Photo Agents palette (matches photo-agents.com).
+# Light cream canvas, ink primary, no chromatic accents — deliberate restraint.
 C = {
-    "bg":       QColor(14, 14, 18),
-    "panel":    QColor(20, 20, 24, 248),
-    "border":   QColor(45, 45, 50),
-    "accent":   "#7c3aed",
-    "text":     "#e4e4e7",
-    "muted":    "#71717a",
-    "user_g0":  QColor(79, 70, 229),
-    "user_g1":  QColor(124, 58, 237),
-    "asst_bg":  QColor(39, 39, 42, 210),
-    "asst_bdr": QColor(63, 63, 70),
-    "send_g0":  QColor(220, 38, 38),
-    "send_g1":  QColor(239, 68, 68),
-    "green":    "#22c55e",
+    "bg":       QColor(246, 245, 241),      # --pa-canvas
+    "panel":    QColor(255, 255, 255, 248), # --pa-surface (panels = white on cream)
+    "border":   QColor(230, 228, 221),      # --pa-line
+    "accent":   "#0e1210",                  # --pa-ink (used for buttons/highlights)
+    "text":     "#0e1210",                  # --pa-ink
+    "muted":    "#77756d",                  # --pa-muted
+    "user_g0":  QColor(14, 18, 16),         # ink — user bubble (high contrast)
+    "user_g1":  QColor(42, 47, 44),         # slightly lifted ink
+    "asst_bg":  QColor(255, 255, 255, 235), # white surface — assistant bubble
+    "asst_bdr": QColor(230, 228, 221),      # --pa-line
+    "send_g0":  QColor(14, 18, 16),         # ink send button
+    "send_g1":  QColor(42, 47, 44),
+    "green":    "#3f7a44",                  # subtle muted green for success states
 }
 
 SCROLLBAR_STYLE = """
 QScrollBar:vertical { width: 5px; background: transparent; border: none; }
 QScrollBar::handle:vertical {
-    background: rgba(255,255,255,0.12); border-radius: 2px; min-height: 20px;
+    background: rgba(14,18,16,0.18); border-radius: 2px; min-height: 20px;
+}
+QScrollBar::handle:vertical:hover {
+    background: rgba(14,18,16,0.32);
 }
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }
@@ -315,23 +320,23 @@ _SVG_BOT = '<svg viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="1.8"
 _SVG_SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>'
 
 _MD_CSS = """
-body { color: #e4e4e7; font-family: "Arial", sans-serif; font-size: 13px; line-height: 1.6; font-weight: 400; }
-h1 { color: #f4f4f5; font-size: 20px; font-weight: 700; border-bottom: 1px solid #3f3f46; padding-bottom: 4px; margin-top: 16px; }
-h2 { color: #f4f4f5; font-size: 17px; font-weight: 700; border-bottom: 1px solid #3f3f46; padding-bottom: 3px; margin-top: 14px; }
-h3 { color: #f4f4f5; font-size: 15px; font-weight: 600; margin-top: 12px; }
-h4,h5,h6 { color: #d4d4d8; font-size: 13px; font-weight: 600; margin-top: 10px; }
-code { background: rgba(63,63,70,0.6); color: #c4b5fd; padding: 1px 4px; border-radius: 3px;
-       font-family: Consolas, "Courier New", monospace; font-size: 12px; }
-pre  { background: rgba(24,24,30,0.95); border: 1px solid #3f3f46; border-radius: 6px;
+body { color: #0e1210; font-family: "Manrope", "Segoe UI", sans-serif; font-size: 13px; line-height: 1.6; font-weight: 300; letter-spacing: -0.01em; }
+h1 { color: #0e1210; font-size: 20px; font-weight: 600; border-bottom: 1px solid #e6e4dd; padding-bottom: 4px; margin-top: 16px; letter-spacing: -0.02em; }
+h2 { color: #0e1210; font-size: 17px; font-weight: 600; border-bottom: 1px solid #e6e4dd; padding-bottom: 3px; margin-top: 14px; letter-spacing: -0.02em; }
+h3 { color: #0e1210; font-size: 15px; font-weight: 500; margin-top: 12px; letter-spacing: -0.02em; }
+h4,h5,h6 { color: #0e1210; font-size: 13px; font-weight: 500; margin-top: 10px; }
+code { background: #efede6; color: #0e1210; padding: 1px 4px; border-radius: 3px;
+       font-family: "JetBrains Mono", Consolas, "Courier New", monospace; font-size: 12px; }
+pre  { background: #efede6; border: 1px solid #e6e4dd; border-radius: 6px;
        padding: 10px 12px; margin: 8px 0; }
-pre code { background: transparent; padding: 0; color: #d4d4d8; }
-a { color: #818cf8; text-decoration: none; }
-a:hover { text-decoration: underline; }
-blockquote { border-left: 3px solid #7c3aed; margin: 8px 0 8px 0; padding: 4px 0 4px 12px; color: #a1a1aa; }
+pre code { background: transparent; padding: 0; color: #0e1210; }
+a { color: #0e1210; text-decoration: underline; text-decoration-color: #77756d; }
+a:hover { text-decoration-color: #0e1210; }
+blockquote { border-left: 3px solid #0e1210; margin: 8px 0 8px 0; padding: 4px 0 4px 12px; color: #77756d; }
 table { border-collapse: collapse; margin: 8px 0; }
-th, td { border: 1px solid #3f3f46; padding: 5px 10px; }
-th { background: rgba(63,63,70,0.35); color: #d4d4d8; font-weight: 700; }
-hr { border: none; border-top: 1px solid #3f3f46; margin: 12px 0; }
+th, td { border: 1px solid #e6e4dd; padding: 5px 10px; }
+th { background: #efede6; color: #0e1210; font-weight: 600; }
+hr { border: none; border-top: 1px solid #e6e4dd; margin: 12px 0; }
 ul, ol { padding-left: 22px; margin: 4px 0; }
 li { margin: 2px 0; }
 p { margin: 6px 0; }
@@ -389,7 +394,7 @@ def _md_to_html(text: str) -> str:
 
 _icon_cache: dict[str, QIcon] = {}
 
-def _svg_icon(key: str, svg_template: str, color: str = "#a1a1aa",
+def _svg_icon(key: str, svg_template: str, color: str = "#77756d",
               size: int = 16) -> QIcon:
     cache_key = f"{key}_{color}_{size}"
     if cache_key not in _icon_cache:
@@ -499,8 +504,8 @@ class _Badge(QLabel):
     def __init__(self, text: str, parent=None):
         super().__init__(text, parent)
         self.setStyleSheet(
-            "QLabel { background: rgba(63,63,70,0.9); color: #a1a1aa;"
-            " border: 1px solid #3f3f46; border-radius: 9px;"
+            "QLabel { background: #efede6; color: #77756d;"
+            " border: 1px solid #e6e4dd; border-radius: 9px;"
             " padding: 1px 8px; font-size: 11px; }"
         )
 
@@ -509,8 +514,8 @@ class _StreamingBadge(QLabel):
     def __init__(self, parent=None):
         super().__init__("Working...", parent)
         self.setStyleSheet(
-            "QLabel { background: rgba(124,58,237,0.18); color: #c4b5fd;"
-            " border: 1px solid rgba(124,58,237,0.35); border-radius: 9px;"
+            "QLabel { background: #0e1210; color: #f6f5f1;"
+            " border: 1px solid #0e1210; border-radius: 9px;"
             " padding: 1px 8px; font-size: 11px; }"
         )
         self.hide()
@@ -523,7 +528,7 @@ class _MsgRow(QWidget):
         QPushButton {
             background: transparent; border: none; border-radius: 4px; padding: 3px;
         }
-        QPushButton:hover { background: rgba(63,63,70,0.6); }
+        QPushButton:hover { background: rgba(14,18,16,0.08); }
     """
 
     def __init__(self, text: str, role: str, parent=None, on_resend=None):
@@ -536,7 +541,7 @@ class _MsgRow(QWidget):
 
         is_user = role == "user"
         self.setStyleSheet(
-            "background: rgba(255,255,255,0.03);" if is_user else "background: transparent;"
+            "background: rgba(14,18,16,0.03);" if is_user else "background: transparent;"
         )
 
         outer = QHBoxLayout(self)
@@ -548,7 +553,7 @@ class _MsgRow(QWidget):
         avatar.setFixedSize(30, 30)
         avatar.setAlignment(Qt.AlignCenter)
         svg_data = _SVG_USER if is_user else _SVG_BOT
-        avatar_color = "#c8c8d0" if is_user else "#9eb4d0"
+        avatar_color = "#f6f5f1" if is_user else "#0e1210"
         pm = QPixmap(30, 30)
         pm.fill(QColor(0, 0, 0, 0))
         from PySide6.QtSvg import QSvgRenderer
@@ -558,8 +563,9 @@ class _MsgRow(QWidget):
         p.end()
         avatar.setPixmap(pm)
         avatar.setStyleSheet(
-            "QLabel { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);"
-            " border-radius: 15px; }"
+            ("QLabel { background: #0e1210; border: 1px solid #0e1210; border-radius: 15px; }"
+             if is_user else
+             "QLabel { background: #ffffff; border: 1px solid #e6e4dd; border-radius: 15px; }")
         )
         outer.addWidget(avatar, 0, Qt.AlignTop)
 
@@ -569,7 +575,7 @@ class _MsgRow(QWidget):
 
         role_lbl = QLabel("You" if is_user else "Assistant")
         role_lbl.setStyleSheet(
-            "color: #d4d4d8; font-size: 12px; font-weight: 700; background: transparent;"
+            "color: #0e1210; font-size: 12px; font-weight: 600; background: transparent; letter-spacing: -0.01em;"
         )
         right.addWidget(role_lbl)
 
@@ -579,8 +585,9 @@ class _MsgRow(QWidget):
             label.setTextInteractionFlags(Qt.TextSelectableByMouse)
             label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
             label.setStyleSheet(
-                "QLabel { background: transparent; color: #e4e4e7;"
-                " padding: 2px 0; font-size: 14px; line-height: 1.6; }"
+                "QLabel { background: transparent; color: #0e1210;"
+                " padding: 2px 0; font-size: 14px; line-height: 1.6;"
+                " font-family: 'Manrope','Segoe UI',sans-serif; font-weight: 300; letter-spacing: -0.01em; }"
             )
             right.addWidget(label)
             self._label = label
@@ -593,8 +600,9 @@ class _MsgRow(QWidget):
             browser.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
             browser.document().setDefaultStyleSheet(_MD_CSS)
             browser.setStyleSheet(
-                "QTextBrowser { background: transparent; color: #e4e4e7;"
-                " border: none; padding: 0; font-size: 14px; }"
+                "QTextBrowser { background: transparent; color: #0e1210;"
+                " border: none; padding: 0; font-size: 14px;"
+                " font-family: 'Manrope','Segoe UI',sans-serif; }"
             )
             browser.setHtml(_md_to_html(text))
             self._label = browser
@@ -691,7 +699,7 @@ class _MsgRow(QWidget):
         if self._role == "user":
             escaped = self._text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
             kw_esc = keyword.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            highlighted = escaped.replace(kw_esc, f'<span style="background: rgba(251,191,36,0.35); color: #fbbf24;">{kw_esc}</span>')
+            highlighted = escaped.replace(kw_esc, f'<span style="background: rgba(14,18,16,0.10); color: #0e1210; font-weight: 600;">{kw_esc}</span>')
             self._label.setText(highlighted)
             self._label.adjustSize()
             return 0
@@ -731,10 +739,10 @@ class _TabButton(QPushButton):
         padding: 0 14px; font-size: 12px; font-weight: 700;
     }}
     QPushButton:hover {{
-        background: rgba(63,63,70,0.6); color: {text};
+        background: rgba(14,18,16,0.06); color: {text};
     }}
     QPushButton:checked {{
-        background: #7c3aed; color: white;
+        background: #0e1210; color: #f6f5f1;
     }}
     """.format(muted=C["muted"], text=C["text"])
 
@@ -848,13 +856,13 @@ class ChatPanel(QWidget):
         ly.setSpacing(8)
 
         search_btn = QPushButton()
-        search_btn.setIcon(_svg_icon("search", _SVG_SEARCH, "#a1a1aa"))
+        search_btn.setIcon(_svg_icon("search", _SVG_SEARCH, "#0e1210"))
         search_btn.setIconSize(QSize(16, 16))
         search_btn.setFixedSize(26, 26)
         search_btn.setCursor(QCursor(Qt.PointingHandCursor))
         search_btn.setStyleSheet("""
             QPushButton { background: transparent; border: none; border-radius: 13px; }
-            QPushButton:hover { background: rgba(63,63,70,0.6); }
+            QPushButton:hover { background: rgba(14,18,16,0.06); }
         """)
         search_btn.clicked.connect(self._toggle_search)
         self._search_btn = search_btn
@@ -871,11 +879,12 @@ class ChatPanel(QWidget):
         self._search_input.setFixedHeight(26)
         self._search_input.setStyleSheet(f"""
             QLineEdit {{
-                background: rgba(32,32,38,0.9);
+                background: #ffffff;
                 border: 1px solid {C['border'].name()};
                 border-radius: 13px;
                 color: {C['text']};
                 font-size: 13px;
+                font-family: 'Manrope','Segoe UI',sans-serif;
                 padding: 0 10px;
             }}
             QLineEdit::placeholder {{ color: {C['muted']}; }}
@@ -889,8 +898,8 @@ class ChatPanel(QWidget):
         close_search.setFixedSize(26, 26)
         close_search.setCursor(QCursor(Qt.PointingHandCursor))
         close_search.setStyleSheet("""
-            QPushButton { background: transparent; color: #71717a; border: none; font-size: 16px; }
-            QPushButton:hover { color: #a1a1aa; }
+            QPushButton { background: transparent; color: #77756d; border: none; font-size: 16px; }
+            QPushButton:hover { color: #0e1210; }
         """)
         close_search.clicked.connect(self._hide_search)
         sw_ly.addWidget(close_search)
@@ -902,9 +911,9 @@ class ChatPanel(QWidget):
         mini.setFixedSize(26, 26)
         mini.setCursor(QCursor(Qt.PointingHandCursor))
         mini.setStyleSheet("""
-            QPushButton { background: rgba(63,63,70,0.6); color: #a1a1aa;
-                border: none; border-radius: 13px; font-family: "Segoe MDL2 Assets"; font-size: 9px; }
-            QPushButton:hover { background: rgba(63,63,70,0.9); color: white; }
+            QPushButton { background: #efede6; color: #77756d;
+                border: 1px solid #e6e4dd; border-radius: 13px; font-family: "Segoe MDL2 Assets"; font-size: 9px; }
+            QPushButton:hover { background: #e6e4dd; color: #0e1210; }
         """)
         mini.clicked.connect(self.hide)
         ly.addWidget(mini)
@@ -913,9 +922,9 @@ class ChatPanel(QWidget):
         maxi.setFixedSize(26, 26)
         maxi.setCursor(QCursor(Qt.PointingHandCursor))
         maxi.setStyleSheet("""
-            QPushButton { background: rgba(63,63,70,0.6); color: #a1a1aa;
-                border: none; border-radius: 13px; font-family: "Segoe MDL2 Assets"; font-size: 9px; }
-            QPushButton:hover { background: rgba(63,63,70,0.9); color: white; }
+            QPushButton { background: #efede6; color: #77756d;
+                border: 1px solid #e6e4dd; border-radius: 13px; font-family: "Segoe MDL2 Assets"; font-size: 9px; }
+            QPushButton:hover { background: #e6e4dd; color: #0e1210; }
         """)
         maxi.clicked.connect(self._toggle_maximize)
         self._maxi_btn = maxi
@@ -925,9 +934,9 @@ class ChatPanel(QWidget):
         close.setFixedSize(26, 26)
         close.setCursor(QCursor(Qt.PointingHandCursor))
         close.setStyleSheet("""
-            QPushButton { background: rgba(63,63,70,0.6); color: #a1a1aa;
-                border: none; border-radius: 13px; font-family: "Segoe MDL2 Assets"; font-size: 9px; }
-            QPushButton:hover { background: rgba(220,38,38,0.85); color: white; }
+            QPushButton { background: #efede6; color: #77756d;
+                border: 1px solid #e6e4dd; border-radius: 13px; font-family: "Segoe MDL2 Assets"; font-size: 9px; }
+            QPushButton:hover { background: #a8423f; color: #ffffff; border-color: #a8423f; }
         """)
         close.clicked.connect(lambda: (self.close(), QApplication.instance().quit()))
         ly.addWidget(close)
@@ -1032,13 +1041,14 @@ class ChatPanel(QWidget):
             item = self._hist_list.item(i)
             item.setHidden(False)
             item.setBackground(QColor(0, 0, 0, 0))
-            item.setForeground(QColor(255, 255, 255))
+            item.setForeground(QColor(14, 18, 16))
             w = self._hist_list.itemWidget(item)
             if w:
                 w.setStyleSheet(
-                    f"background: rgba(35,35,42,0.6); color: {C['text']};"
-                    " border: 1px solid #3f3f46; border-radius: 8px;"
+                    f"background: #ffffff; color: {C['text']};"
+                    " border: 1px solid #e6e4dd; border-radius: 8px;"
                     " padding: 8px 12px; margin: 2px 0;"
+                    " font-family: 'Manrope','Segoe UI',sans-serif;"
                 )
 
     def _tb_press(self, e):
@@ -1074,7 +1084,7 @@ class ChatPanel(QWidget):
         ly.addWidget(dot)
 
         self._model_badge = QLabel(self._model_name())
-        self._model_badge.setStyleSheet("color: #a1a1aa; font-size: 11px;")
+        self._model_badge.setStyleSheet("color: #77756d; font-size: 11px; font-family: 'Manrope','Segoe UI',sans-serif;")
         self._model_badge.setCursor(QCursor(Qt.PointingHandCursor))
         self._model_badge.mousePressEvent = lambda e: self._show_model_menu(e)
         ly.addWidget(self._model_badge)
@@ -1097,9 +1107,11 @@ class ChatPanel(QWidget):
                 color: {C['text']};
                 padding: 6px 20px 6px 12px;
                 font-size: 12px;
+                font-family: 'Manrope','Segoe UI',sans-serif;
             }}
             QMenu::item:selected {{
-                background: rgba(63,63,70,0.6);
+                background: #efede6;
+                color: #0e1210;
             }}
         """)
         for i, client in enumerate(self.agent.llmclients):
@@ -1114,7 +1126,7 @@ class ChatPanel(QWidget):
     def _build_tabbar(self) -> QWidget:
         bar = QWidget()
         bar.setFixedHeight(40)
-        bar.setStyleSheet("background: rgba(10,10,14,0.6);")
+        bar.setStyleSheet("background: rgba(14,18,16,0.04); border-bottom: 1px solid #e6e4dd;")
 
         ly = QHBoxLayout(bar)
         ly.setContentsMargins(12, 5, 12, 5)
@@ -1129,7 +1141,7 @@ class ChatPanel(QWidget):
         ]
         for i, (svg, text) in enumerate(tab_defs):
             btn = _TabButton(text)
-            btn.setIcon(_svg_icon(text, svg, "#b0b0b8"))
+            btn.setIcon(_svg_icon(text, svg, "#77756d"))
             btn.setIconSize(QSize(14, 14))
             btn.clicked.connect(lambda _checked, idx=i: self._switch_tab(idx))
             ly.addWidget(btn)
@@ -1138,14 +1150,15 @@ class ChatPanel(QWidget):
         ly.addStretch()
 
         new_btn = QPushButton("New chat")
-        new_btn.setIcon(_svg_icon("plus", _SVG_PLUS, "#a78bfa"))
+        new_btn.setIcon(_svg_icon("plus", _SVG_PLUS, "#f6f5f1"))
         new_btn.setIconSize(QSize(12, 12))
         new_btn.setFixedHeight(27)
         new_btn.setStyleSheet(f"""
-            QPushButton {{ background: rgba(124,58,237,0.18); color: #a78bfa;
-                border: 1px solid rgba(124,58,237,0.3); border-radius: 7px;
-                padding: 0 10px; font-size: 12px; font-weight: 700; }}
-            QPushButton:hover {{ background: rgba(124,58,237,0.35); color: white; }}
+            QPushButton {{ background: #0e1210; color: #f6f5f1;
+                border: 1px solid #0e1210; border-radius: 7px;
+                padding: 0 10px; font-size: 12px; font-weight: 500;
+                font-family: 'Manrope','Segoe UI',sans-serif; letter-spacing: -0.01em; }}
+            QPushButton:hover {{ background: #2a2f2c; }}
         """)
         new_btn.clicked.connect(self._new_session)
         ly.addWidget(new_btn)
@@ -1215,12 +1228,12 @@ class ChatPanel(QWidget):
         card = QWidget()
         card.setStyleSheet(f"""
             QWidget#inputCard {{
-                background: rgba(32,32,38,0.85);
+                background: #ffffff;
                 border: 1px solid {C['border'].name()};
                 border-radius: 16px;
             }}
             QWidget#inputCard:focus-within {{
-                border-color: rgba(124,58,237,0.55);
+                border-color: #0e1210;
             }}
         """)
         card.setObjectName("inputCard")
@@ -1235,7 +1248,9 @@ class ChatPanel(QWidget):
             QTextEdit {{
                 background: transparent; color: {C['text']};
                 border: none; padding: 0; font-size: 14px;
-                selection-background-color: rgba(124,58,237,0.4);
+                selection-background-color: rgba(14,18,16,0.18);
+                font-family: 'Manrope','Segoe UI',sans-serif;
+                font-weight: 300;
             }}
         """)
         self._input.installEventFilter(self)
@@ -1246,14 +1261,14 @@ class ChatPanel(QWidget):
         bottom.setSpacing(6)
 
         attach = QPushButton()
-        attach.setIcon(_svg_icon("clip", _SVG_CLIP, "#a1a1aa"))
+        attach.setIcon(_svg_icon("clip", _SVG_CLIP, "#77756d"))
         attach.setIconSize(QSize(17, 17))
         attach.setFixedSize(30, 30)
         attach.setToolTip("Attach files")
         attach.setCursor(QCursor(Qt.PointingHandCursor))
         attach.setStyleSheet("""
             QPushButton { background: transparent; border: none; border-radius: 15px; }
-            QPushButton:hover { background: rgba(63,63,70,0.6); }
+            QPushButton:hover { background: rgba(14,18,16,0.06); }
         """)
         attach.clicked.connect(self._attach_files)
         bottom.addWidget(attach)
@@ -1289,7 +1304,7 @@ class ChatPanel(QWidget):
 
         header = QHBoxLayout()
         lbl = QLabel("History")
-        lbl.setStyleSheet("color: #f4f4f5; font-weight: 600; font-size: 14px;")
+        lbl.setStyleSheet("color: #0e1210; font-weight: 600; font-size: 14px; font-family: 'Manrope','Segoe UI',sans-serif; letter-spacing: -0.02em;")
         header.addWidget(lbl)
         header.addStretch()
 
@@ -1299,23 +1314,24 @@ class ChatPanel(QWidget):
         header.addWidget(restore_btn)
 
         del_btn = QPushButton("Delete")
-        del_btn.setStyleSheet(self._small_btn_style("#dc2626"))
+        del_btn.setStyleSheet(self._small_btn_style("#a8423f"))
         del_btn.clicked.connect(self._delete_selected)
         header.addWidget(del_btn)
         ly.addLayout(header)
 
         self._hist_list = QListWidget()
         self._hist_list.setStyleSheet(f"""
-            QListWidget {{ background: transparent; border: none; outline: none; }}
+            QListWidget {{ background: transparent; border: none; outline: none;
+                font-family: 'Manrope','Segoe UI',sans-serif; }}
             QListWidget::item {{
-                background: rgba(35,35,42,0.6); color: {C['text']};
+                background: #ffffff; color: {C['text']};
                 border: 1px solid {C['border'].name()}; border-radius: 8px;
                 padding: 8px 12px; margin: 2px 0;
             }}
-            QListWidget::item:hover {{ background: rgba(55,55,65,0.8);
-                border-color: rgba(124,58,237,0.4); }}
-            QListWidget::item:selected {{ background: rgba(124,58,237,0.25);
-                border-color: rgba(124,58,237,0.6); }}
+            QListWidget::item:hover {{ background: #efede6;
+                border-color: #0e1210; }}
+            QListWidget::item:selected {{ background: #0e1210; color: #f6f5f1;
+                border-color: #0e1210; }}
             {SCROLLBAR_STYLE}
         """)
         self._hist_list.itemDoubleClicked.connect(self._restore_selected)
@@ -1333,12 +1349,13 @@ class ChatPanel(QWidget):
         self._sop_list = QListWidget()
         self._sop_list.setMaximumWidth(175)
         self._sop_list.setStyleSheet(f"""
-            QListWidget {{ background: rgba(10,10,14,0.7); border: none;
-                border-right: 1px solid {C['border'].name()}; outline: none; }}
+            QListWidget {{ background: #efede6; border: none;
+                border-right: 1px solid {C['border'].name()}; outline: none;
+                font-family: 'Manrope','Segoe UI',sans-serif; }}
             QListWidget::item {{ color: {C['muted']}; padding: 7px 10px;
                 border-radius: 4px; margin: 1px 4px; }}
-            QListWidget::item:hover {{ background: rgba(55,55,65,0.7); color: {C['text']}; }}
-            QListWidget::item:selected {{ background: rgba(124,58,237,0.28); color: white; }}
+            QListWidget::item:hover {{ background: #ffffff; color: {C['text']}; }}
+            QListWidget::item:selected {{ background: #0e1210; color: #f6f5f1; }}
             {SCROLLBAR_STYLE}
         """)
         self._sop_list.currentItemChanged.connect(self._load_sop)
@@ -1350,7 +1367,7 @@ class ChatPanel(QWidget):
         self._sop_viewer.setStyleSheet(f"""
             QTextBrowser {{ background: transparent; color: {C['text']};
                 border: none; padding: 10px 14px;
-                font-family: "Arial", sans-serif;
+                font-family: "Manrope", "Segoe UI", sans-serif;
                 font-size: 13px; }}
             {SCROLLBAR_STYLE}
         """)
@@ -1367,7 +1384,7 @@ class ChatPanel(QWidget):
         ly.setSpacing(8)
 
         lbl = QLabel("Control panel")
-        lbl.setStyleSheet("color: #f4f4f5; font-weight: 600; font-size: 14px;")
+        lbl.setStyleSheet("color: #0e1210; font-weight: 600; font-size: 14px; font-family: 'Manrope','Segoe UI',sans-serif; letter-spacing: -0.02em;")
         ly.addWidget(lbl)
 
         self._model_info = QLabel(f"Current model: {self._model_name()} (#{self.agent.llm_no})")
@@ -1376,7 +1393,7 @@ class ChatPanel(QWidget):
         ly.addSpacing(4)
 
         model_hdr = QLabel("Model list")
-        model_hdr.setStyleSheet("color: #d4d4d8; font-weight: 600; font-size: 13px;")
+        model_hdr.setStyleSheet("color: #0e1210; font-weight: 600; font-size: 13px; font-family: 'Manrope','Segoe UI',sans-serif;")
         ly.addWidget(model_hdr)
 
         self._model_rows_container = QWidget()
@@ -1393,9 +1410,9 @@ class ChatPanel(QWidget):
         ly.addSpacing(6)
 
         for (lbl_text, color, handler, svg) in [
-            ("Reset prompt",        "#059669", self._do_reset_prompt, _SVG_RESET),
-            ("Save current session","#0ea5e9", self._do_save,         _SVG_SAVE),
-            ("Clear conversation",  "#78716c", self._do_clear,        _SVG_TRASH),
+            ("Reset prompt",        "#3f7a44", self._do_reset_prompt, _SVG_RESET),
+            ("Save current session","#3f6a7a", self._do_save,         _SVG_SAVE),
+            ("Clear conversation",  "#77756d", self._do_clear,        _SVG_TRASH),
         ]:
             b = _action_btn(lbl_text, color, _svg_icon(lbl_text, svg))
             b.clicked.connect(handler)
@@ -1403,16 +1420,16 @@ class ChatPanel(QWidget):
 
         ly.addSpacing(10)
         sep = QLabel("Autonomous mode")
-        sep.setStyleSheet("color: #f4f4f5; font-weight: 600; font-size: 13px;")
+        sep.setStyleSheet("color: #0e1210; font-weight: 600; font-size: 13px; font-family: 'Manrope','Segoe UI',sans-serif;")
         ly.addWidget(sep)
 
-        self._auto_btn = _action_btn("Enable autonomous mode (auto-trigger after 30 min idle)", "#f59e0b",
+        self._auto_btn = _action_btn("Enable autonomous mode (auto-trigger after 30 min idle)", "#8a6a2f",
                                       _svg_icon("bolt", _SVG_BOLT))
         self._auto_btn.setCheckable(True)
         self._auto_btn.clicked.connect(self._do_toggle_auto)
         ly.addWidget(self._auto_btn)
 
-        trigger_btn = _action_btn("Trigger now", "#f59e0b",
+        trigger_btn = _action_btn("Trigger now", "#8a6a2f",
                                   _svg_icon("play", _SVG_PLAY))
         trigger_btn.clicked.connect(self._do_trigger_auto)
         ly.addWidget(trigger_btn)
@@ -1421,16 +1438,18 @@ class ChatPanel(QWidget):
         return page
 
     _MODEL_ROW_STYLE = (
-        "QPushButton { background: rgba(39,39,42,0.7); color: #e4e4e7;"
-        " border: 1px solid #3f3f46; border-radius: 8px;"
-        " padding: 6px 10px; font-size: 12px; font-weight: 700; text-align: left; }"
-        " QPushButton:hover { background: rgba(63,63,70,0.8); }"
+        "QPushButton { background: #ffffff; color: #0e1210;"
+        " border: 1px solid #e6e4dd; border-radius: 8px;"
+        " padding: 6px 10px; font-size: 12px; font-weight: 500; text-align: left;"
+        " font-family: 'Manrope','Segoe UI',sans-serif; }"
+        " QPushButton:hover { background: #efede6; border-color: #0e1210; }"
     )
     _MODEL_ROW_ACTIVE = (
-        "QPushButton { background: rgba(124,58,237,0.25); color: #c4b5fd;"
-        " border: 1px solid rgba(124,58,237,0.5); border-radius: 8px;"
-        " padding: 6px 10px; font-size: 12px; font-weight: 700; text-align: left; }"
-        " QPushButton:hover { background: rgba(124,58,237,0.35); }"
+        "QPushButton { background: #0e1210; color: #f6f5f1;"
+        " border: 1px solid #0e1210; border-radius: 8px;"
+        " padding: 6px 10px; font-size: 12px; font-weight: 500; text-align: left;"
+        " font-family: 'Manrope','Segoe UI',sans-serif; }"
+        " QPushButton:hover { background: #2a2f2c; }"
     )
 
     def _build_model_rows(self):
@@ -1454,7 +1473,7 @@ class ChatPanel(QWidget):
             dot = QLabel("*")
             dot.setFixedWidth(14)
             dot.setAlignment(Qt.AlignCenter)
-            dot.setStyleSheet("color: #71717a; font-size: 11px;")
+            dot.setStyleSheet("color: #77756d; font-size: 11px;")
             rlay.addWidget(dot)
 
             btn = QPushButton(f"  #{idx}  {name}")
@@ -1474,11 +1493,11 @@ class ChatPanel(QWidget):
             )
             status = self._health_results.get(entry["idx"])
             if status is True:
-                entry["dot"].setStyleSheet("color: #22c55e; font-size: 11px;")
+                entry["dot"].setStyleSheet("color: #3f7a44; font-size: 11px;")
             elif status is False:
-                entry["dot"].setStyleSheet("color: #ef4444; font-size: 11px;")
+                entry["dot"].setStyleSheet("color: #a8423f; font-size: 11px;")
             else:
-                entry["dot"].setStyleSheet("color: #71717a; font-size: 11px;")
+                entry["dot"].setStyleSheet("color: #77756d; font-size: 11px;")
 
     def _do_switch_to(self, idx: int):
         if idx == self.agent.llm_no:
@@ -1494,7 +1513,7 @@ class ChatPanel(QWidget):
         self._health_results.clear()
         self._health_pending = 0
         for entry in self._model_row_widgets:
-            entry["dot"].setStyleSheet("color: #71717a; font-size: 11px;")
+            entry["dot"].setStyleSheet("color: #77756d; font-size: 11px;")
             entry["dot"].setText("o")
         for idx, tc in enumerate(self.agent.llmclients):
             self._health_pending += 1
@@ -1579,29 +1598,30 @@ class ChatPanel(QWidget):
         for f in self._pending_files:
             chip = QLabel(f['name'])
             chip.setStyleSheet(f"""
-                QLabel {{ background: rgba(55,55,65,0.7); color: {C['text']};
+                QLabel {{ background: #efede6; color: {C['text']};
                     border: 1px solid {C['border'].name()}; border-radius: 6px;
-                    padding: 3px 8px; font-size: 11px; }}
+                    padding: 3px 8px; font-size: 11px;
+                    font-family: 'Manrope','Segoe UI',sans-serif; }}
             """)
             self._chips_ly.addWidget(chip)
         self._chips_ly.addStretch()
         self._chips_row.show()
 
     _SEND_BTN_STYLE = """
-        QPushButton { background: #e4e4e7; border: none; border-radius: 17px; }
-        QPushButton:hover { background: #f4f4f5; }
-        QPushButton:pressed { background: #d4d4d8; }
+        QPushButton { background: #0e1210; border: none; border-radius: 17px; }
+        QPushButton:hover { background: #2a2f2c; }
+        QPushButton:pressed { background: #000000; }
     """
     _STOP_BTN_STYLE = """
-        QPushButton { background: rgba(239,68,68,0.85); border: none; border-radius: 17px; }
-        QPushButton:hover { background: rgba(248,113,113,0.9); }
-        QPushButton:pressed { background: rgba(220,38,38,0.9); }
+        QPushButton { background: #a8423f; border: none; border-radius: 17px; }
+        QPushButton:hover { background: #b84d4a; }
+        QPushButton:pressed { background: #903835; }
     """
 
     def _set_send_mode(self):
         self._is_streaming = False
         self._send_btn.setText("")
-        self._send_btn.setIcon(_svg_icon("send_arrow", _SVG_SEND, "#18181b"))
+        self._send_btn.setIcon(_svg_icon("send_arrow", _SVG_SEND, "#f6f5f1"))
         self._send_btn.setIconSize(QSize(18, 18))
         self._send_btn.setStyleSheet(self._SEND_BTN_STYLE)
 
@@ -1801,8 +1821,9 @@ class ChatPanel(QWidget):
         lbl.setWordWrap(True)
         lbl.setAlignment(Qt.AlignCenter)
         lbl.setStyleSheet(
-            "QLabel { background: transparent; color: #71717a;"
-            " border: none; padding: 6px 20px; font-size: 12px; }"
+            "QLabel { background: transparent; color: #77756d;"
+            " border: none; padding: 6px 20px; font-size: 12px;"
+            " font-family: 'Manrope','Segoe UI',sans-serif; }"
         )
         self._msg_layout.insertWidget(self._msg_layout.count() - 1, lbl)
         self._scroll_bottom()
@@ -1895,10 +1916,12 @@ def main():
 
     font = QFont()
     try:
-        font.setFamilies(["Arial"])
+        font.setFamilies(["Manrope", "Segoe UI", "Arial"])
     except Exception:
-        font.setFamily("Arial")
+        font.setFamily("Segoe UI")
     font.setPointSize(10)
+    font.setWeight(QFont.Light)
+    font.setLetterSpacing(QFont.PercentageSpacing, 99)
     app.setFont(font)
 
     agent = GeneraticAgent()
