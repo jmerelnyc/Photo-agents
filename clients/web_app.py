@@ -27,26 +27,37 @@ ANTHROPIC_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ===== Root variables (Photo Agents palette) ===== */
+/* =============================================================================
+   Photo Agents — Streamlit theme matching the photo-agents.com dashboard.
+   Layout philosophy:
+     - paper #b6b6b6 = outer canvas (main bg + sidebar)
+     - canvas #f6f5f1 = surfaces (chat bubbles, active nav, cards)
+     - ink #0e1210 = primary text + buttons
+     - line #e6e4dd = hairline borders
+     - muted #77756d = secondary text
+   Variable names kept --anthropic-* for downstream backwards-compat.
+============================================================================= */
 :root {
     --pa-ink: #0e1210;
     --pa-paper: #b6b6b6;
     --pa-canvas: #f6f5f1;
     --pa-line: #e6e4dd;
+    --pa-line-strong: rgba(14, 18, 16, 0.10);
     --pa-muted: #77756d;
-    --pa-surface: #ffffff;
+    --pa-surface: #f6f5f1;
     --pa-surface-2: #efede6;
+    --pa-shadow-card: 0 8px 24px -12px rgba(14, 18, 16, 0.30);
 
-    --anthropic-primary: var(--pa-ink);
-    --anthropic-primary-hover: #2a2f2c;
-    --anthropic-bg: var(--pa-canvas);
-    --anthropic-bg-secondary: var(--pa-surface-2);
+    --anthropic-bg: var(--pa-paper);
+    --anthropic-bg-secondary: var(--pa-canvas);
     --anthropic-code-bg: var(--pa-surface-2);
     --anthropic-text: var(--pa-ink);
     --anthropic-text-secondary: var(--pa-muted);
     --anthropic-border: var(--pa-line);
-    --anthropic-sidebar-bg: var(--pa-surface-2);
+    --anthropic-sidebar-bg: var(--pa-paper);
     --anthropic-accent: var(--pa-ink);
+    --anthropic-primary: var(--pa-ink);
+    --anthropic-primary-hover: #2a2f2c;
     --anthropic-success: #3f7a44;
     --anthropic-warning: #8a6a2f;
     --anthropic-error: #a8423f;
@@ -55,644 +66,334 @@ ANTHROPIC_CSS = """
     --anthropic-mono: 'JetBrains Mono', 'Source Code Pro', ui-monospace, monospace;
 }
 
-html, body, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
+/* ===== Global ===== */
+html, body, [data-testid="stAppViewContainer"], .stApp {
+    background-color: var(--pa-paper) !important;
+    color: var(--pa-ink) !important;
     font-family: var(--anthropic-font) !important;
     font-weight: 300 !important;
     letter-spacing: -0.01em !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
 }
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3,
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4 {
-    font-family: var(--anthropic-font) !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.02em !important;
-}
-code, pre, .stCodeBlock, .stCode {
-    font-family: var(--anthropic-mono) !important;
-}
 
-/* ===== Global ===== */
-body, [data-testid="stAppViewContainer"] {
-    background-color: var(--anthropic-bg) !important;
-    color: var(--anthropic-text) !important;
-}
-
-.stApp {
-    background-color: var(--anthropic-bg) !important;
-}
-
-/* ===== Header / Top bar ===== */
-[data-testid="stHeader"], header[data-testid="stHeader"] {
-    background-color: var(--anthropic-bg) !important;
-    border-bottom: 1px solid var(--anthropic-border) !important;
-}
-/* Hide default Streamlit toolbar buttons (deploy, hamburger, etc.) */
-[data-testid="stToolbar"] {
+/* Hide Streamlit's default chrome */
+[data-testid="stToolbar"], #MainMenu, [data-testid="stDecoration"],
+header[data-testid="stHeader"] [data-testid="stToolbar"],
+button[kind="header"] {
     visibility: hidden !important;
-}
-[data-testid="stDecoration"],
-#MainMenu {
     display: none !important;
-    visibility: hidden !important;
 }
-/* Restore sidebar expand button (lives inside stToolbar) */
 [data-testid="stExpandSidebarButton"],
 [data-testid="stExpandSidebarButton"] * {
     visibility: visible !important;
+    display: inline-flex !important;
 }
-/* Only restore ancestor divs that contain the sidebar button */
-[data-testid="stToolbar"] div:has([data-testid="stExpandSidebarButton"]) {
-    visibility: visible !important;
-}
-/* Make top-left settings/sidebar toggle darker and easier to see */
-button[data-testid="stExpandSidebarButton"] {
-    visibility: visible !important;
-    background: var(--pa-surface-2) !important;
-    background-color: var(--pa-surface-2) !important;
-    border: none !important;
+[data-testid="stExpandSidebarButton"] {
+    background: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
     color: var(--pa-ink) !important;
     border-radius: 10px !important;
     box-shadow: none !important;
 }
-button[data-testid="stExpandSidebarButton"]:hover {
-    background: var(--pa-line) !important;
-    background-color: var(--pa-line) !important;
-    border-color: transparent !important;
-}
-button[data-testid="stExpandSidebarButton"],
-button[data-testid="stExpandSidebarButton"] *,
-button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {
-    color: var(--pa-ink) !important;
-    fill: var(--pa-ink) !important;
-    stroke: var(--pa-ink) !important;
-}
-/* Hide other toolbar buttons (deploy, etc.) */
-button[kind="header"] {
-    visibility: hidden !important;
+
+/* ===== Top header bar ===== */
+[data-testid="stHeader"] {
+    background: rgba(182, 182, 182, 0.85) !important;
+    backdrop-filter: saturate(180%) blur(10px) !important;
+    -webkit-backdrop-filter: saturate(180%) blur(10px) !important;
+    border-bottom: 1px solid var(--pa-line-strong) !important;
+    height: 80px !important;
+    min-height: 80px !important;
 }
 
-/* ===== Sidebar ===== */
+/* ===== Sidebar (left nav) ===== */
 [data-testid="stSidebar"], section[data-testid="stSidebar"] {
-    background-color: var(--anthropic-sidebar-bg) !important;
-    border-right: 1px solid var(--anthropic-border) !important;
+    background-color: var(--pa-paper) !important;
+    border-right: 1px solid var(--pa-line-strong) !important;
+    padding-top: 0.5rem !important;
 }
-
+[data-testid="stSidebar"] > div:first-child { padding-top: 1rem !important; }
 [data-testid="stSidebar"] .stMarkdown,
 [data-testid="stSidebar"] p,
 [data-testid="stSidebar"] span,
 [data-testid="stSidebar"] label {
-    color: var(--anthropic-text) !important;
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+}
+[data-testid="stSidebar"] hr,
+[data-testid="stSidebar"] [data-testid="stHorizontalBlock"] hr,
+hr {
+    border: none !important;
+    border-top: 1px solid var(--pa-line-strong) !important;
+    margin: 1rem 0 !important;
+}
+[data-testid="stSidebar"] .stCaption,
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+    color: var(--pa-muted) !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.22em !important;
+    font-weight: 400 !important;
 }
 
-[data-testid="stSidebar"] hr {
-    border-color: var(--anthropic-border) !important;
-}
-
-/* ===== Sidebar Selectbox ===== */
-[data-testid="stSidebar"] [data-testid="stSelectbox"] {
-    width: fit-content !important;
-    max-width: 100% !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stSelectbox"] > div {
-    width: fit-content !important;
-    max-width: 100% !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stSelectbox"] label,
-[data-testid="stSidebar"] .stSelectbox label {
-    color: var(--anthropic-text-secondary) !important;
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-}
-
-[data-testid="stSidebar"] [data-baseweb="select"] {
-    width: fit-content !important;
-    max-width: 100% !important;
-    display: inline-block !important;
-}
-
+/* Sidebar selectbox (LLM picker) */
 [data-testid="stSidebar"] [data-baseweb="select"] > div {
-    width: fit-content !important;
-    max-width: 100% !important;
-    background: var(--pa-surface) !important;
+    background: var(--pa-canvas) !important;
     border: 1px solid var(--pa-line) !important;
-    box-shadow: none !important;
     border-radius: 12px !important;
-    min-height: 42px !important;
-    padding-right: 1.6rem !important;
-    position: relative !important;
+    min-height: 44px !important;
+    box-shadow: none !important;
 }
-
 [data-testid="stSidebar"] [data-baseweb="select"] > div:hover,
 [data-testid="stSidebar"] [data-baseweb="select"] > div:focus-within {
-    background: var(--pa-surface-2) !important;
-    border: 1px solid var(--pa-ink) !important;
-    box-shadow: none !important;
+    border-color: var(--pa-ink) !important;
 }
-
-[data-testid="stSidebar"] [data-baseweb="select"] input,
 [data-testid="stSidebar"] [data-baseweb="select"] span,
-[data-testid="stSidebar"] [data-baseweb="select"] div {
-    color: var(--anthropic-text) !important;
+[data-testid="stSidebar"] [data-baseweb="select"] input {
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 400 !important;
 }
-
-[data-testid="stSidebar"] [data-baseweb="select"] span {
-    white-space: nowrap !important;
-}
-
-[data-baseweb="popover"],
-[data-baseweb="menu"],
-[data-baseweb="popover"] > div,
-[data-baseweb="popover"] [role="presentation"],
-[data-baseweb="popover"] ul,
-[data-baseweb="popover"] li,
-[data-baseweb="popover"] [role="listbox"],
-[data-baseweb="popover"] [role="option"] {
-    background: var(--pa-surface) !important;
-    color: var(--anthropic-text) !important;
-}
-
-[role="listbox"] {
-    background: var(--pa-surface) !important;
-    border: 1px solid var(--anthropic-border) !important;
+[data-baseweb="popover"] [role="listbox"], [role="listbox"] {
+    background: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
     border-radius: 14px !important;
-    box-shadow: 0 10px 30px rgba(14, 18, 16, 0.10) !important;
+    box-shadow: var(--pa-shadow-card) !important;
     padding: 0.35rem !important;
-    color: var(--anthropic-text) !important;
 }
-
 [role="option"] {
-    color: var(--anthropic-text) !important;
+    color: var(--pa-ink) !important;
     background: transparent !important;
     border-radius: 10px !important;
+    font-family: var(--anthropic-font) !important;
 }
-
-[role="option"]:hover,
-[role="option"][aria-selected="true"] {
+[role="option"]:hover, [role="option"][aria-selected="true"] {
     background: var(--pa-surface-2) !important;
-    color: var(--anthropic-text) !important;
 }
 
-/* ===== Title ===== */
+/* Sidebar buttons */
+[data-testid="stSidebar"] .stButton > button {
+    width: 100% !important;
+    background: var(--pa-canvas) !important;
+    color: var(--pa-ink) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 12px !important;
+    font-weight: 400 !important;
+    font-family: var(--anthropic-font) !important;
+    letter-spacing: -0.01em !important;
+    padding: 0.6rem 0.9rem !important;
+    box-shadow: none !important;
+    transition: background-color 120ms ease, border-color 120ms ease !important;
+}
+[data-testid="stSidebar"] .stButton > button:hover {
+    background: var(--pa-surface-2) !important;
+    border-color: var(--pa-ink) !important;
+}
+
+/* ===== Main content ===== */
+[data-testid="stAppViewContainer"] > .main,
+.main .block-container {
+    background-color: var(--pa-paper) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 4rem !important;
+    max-width: 920px !important;
+}
+
+/* ===== Headings ===== */
 h1, .stTitle, [data-testid="stHeading"] h1 {
-    color: var(--anthropic-text) !important;
-    font-weight: 600 !important;
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 200 !important;
+    letter-spacing: -0.04em !important;
+    font-size: 2.25rem !important;
+    margin-bottom: 0.25rem !important;
+}
+h2 {
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 300 !important;
+    letter-spacing: -0.03em !important;
+}
+h3, h4, h5, h6 {
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 500 !important;
     letter-spacing: -0.02em !important;
 }
 
-/* ===== Agent name input fixed in header bar ===== */
-[data-testid="stTextInput"] {
-    position: fixed !important;
-    top: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 999999 !important;
-    height: 60px !important;
-    display: flex !important;
-    align-items: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-/* Hide the empty container left behind */
-[data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:first-child {
-    height: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-[data-testid="stTextInput"] > div {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    position: relative !important;
-}
-[data-testid="stTextInput"] > label {
-    display: none !important;
-}
-[data-testid="stTextInput"] input[type="text"] {
-    font-size: 1.6rem !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.02em !important;
-    color: var(--anthropic-text) !important;
-    background-color: var(--anthropic-bg) !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0.3rem 1.8rem 0.3rem 0.5rem !important;
-    box-shadow: none !important;
-    width: 320px !important;
-    text-align: center !important;
-    transition: all 0.2s ease !important;
-    cursor: default !important;
-    caret-color: #1a1714 !important;
-}
-[data-testid="stTextInput"] input[type="text"]:hover {
-    background-color: var(--anthropic-bg-secondary) !important;
-    border-radius: 6px !important;
-}
-[data-testid="stTextInput"] input[type="text"]:focus {
-    background-color: var(--anthropic-bg-secondary) !important;
-    border-radius: 6px !important;
-    box-shadow: none !important;
-    cursor: text !important;
-    caret-color: #1a1714 !important;
-}
-/* Edit pencil icon - visible by default, semi-transparent on focus */
-[data-testid="stTextInput"] > div::after {
-    content: '\\270E' !important;
-    position: absolute !important;
-    right: 8px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    font-size: 0.9rem !important;
-    color: var(--anthropic-text-secondary) !important;
-    pointer-events: none !important;
-    opacity: 0.6 !important;
-    transition: opacity 0.2s ease !important;
-}
-[data-testid="stTextInput"] > div:hover::after {
-    opacity: 0.85 !important;
-}
-[data-testid="stTextInput"] > div:focus-within::after {
-    opacity: 0 !important;
+/* Body text */
+p, .stMarkdown p, [data-testid="stMarkdownContainer"] p {
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 300 !important;
+    line-height: 1.65 !important;
 }
 
-h2, h3, h4, h5, h6 {
-    color: var(--anthropic-text) !important;
-    font-weight: 500 !important;
-}
-
-/* ===== Buttons ===== */
-.stButton > button {
-    background-color: var(--anthropic-bg-secondary) !important;
-    color: var(--anthropic-text) !important;
-    border: 1px solid var(--anthropic-border) !important;
-    border-radius: 8px !important;
-    padding: 0.4rem 1rem !important;
-    font-weight: 500 !important;
-    transition: all 0.2s ease !important;
-}
-
-.stButton > button:hover {
-    background-color: var(--anthropic-primary) !important;
-    color: white !important;
-    border-color: var(--anthropic-primary) !important;
-}
-
-.stButton > button[kind="primary"],
-.stButton > button[data-testid="stBaseButton-primary"] {
-    background-color: var(--anthropic-primary) !important;
-    color: white !important;
-    border-color: var(--anthropic-primary) !important;
-}
-
-.stButton > button[kind="primary"]:hover,
-.stButton > button[data-testid="stBaseButton-primary"]:hover {
-    background-color: var(--anthropic-primary-hover) !important;
-    border-color: var(--anthropic-primary-hover) !important;
-}
-
-/* ===== Chat input ===== */
-[data-testid="stChatInput"],
-[data-testid="stChatInput"] > div {
-    background-color: var(--anthropic-bg) !important;
-    border-color: var(--anthropic-border) !important;
-}
-
-[data-testid="stChatInput"] {
-    margin-bottom: 12px !important;
-}
-
-[data-testid="stChatInput"] textarea,
-[data-testid="stChatInputTextArea"] {
-    color: var(--anthropic-text) !important;
-    background-color: var(--anthropic-bg) !important;
-    caret-color: #1A1714 !important;
-}
-
-[data-testid="stChatInput"] textarea::placeholder {
-    color: var(--anthropic-text-secondary) !important;
-    opacity: 0.7 !important;
-}
-
-/* Chat input container border */
-[data-testid="stChatInput"] > div {
-    border: 1px solid var(--anthropic-border) !important;
-    border-radius: 12px !important;
-    min-height: 60px !important;
-    padding: 0.35rem 0.45rem 0.35rem 0.8rem !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
-    transition: none !important;
-    animation: none !important;
-}
-
-[data-testid="stChatInput"] > div:focus-within {
-    border-color: var(--anthropic-primary) !important;
-    box-shadow: 0 0 0 2px rgba(212, 162, 127, 0.2) !important;
-}
-
-[data-testid="stChatInput"] textarea,
-[data-testid="stChatInputTextArea"] {
-    min-height: 1.5rem !important;
-    padding: 0.35rem 0 !important;
-    line-height: 1.5 !important;
-    transition: none !important;
-    animation: none !important;
-}
-
-/* Chat send button */
-[data-testid="stChatInput"] button,
-[data-testid="stChatInputSubmitButton"] {
-    background-color: var(--anthropic-primary) !important;
-    color: white !important;
-    border-radius: 12px !important;
-    width: 60px !important;
-    height: 60px !important;
-    min-width: 60px !important;
-    min-height: 60px !important;
-    padding: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    transition: none !important;
-    animation: none !important;
-}
-
-[data-testid="stChatInput"] button svg,
-[data-testid="stChatInputSubmitButton"] svg,
-[data-testid="stChatInput"] button [data-testid="stIconMaterial"],
-[data-testid="stChatInputSubmitButton"] [data-testid="stIconMaterial"] {
-    width: 1.25rem !important;
-    height: 1.25rem !important;
-    font-size: 1.25rem !important;
-}
-
-[data-testid="stChatInput"] button:hover {
-    background-color: var(--anthropic-primary-hover) !important;
-}
-
-/* Stop streaming button - fixed at bottom center, above chat input */
-.stop-btn-anchor {
-    display: none !important;
-}
-
-/* Collapse the wrapper so it doesn't push chat bubbles */
-[data-testid="stElementContainer"]:has(.stop-btn-anchor) {
-    height: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-}
-
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) {
-    position: fixed !important;
-    bottom: 5.75rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 1000 !important;
-    width: auto !important;
-    background: transparent !important;
-    pointer-events: none !important;
-    gap: 0 !important;
-}
-
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) > * {
-    pointer-events: auto !important;
-}
-
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) [data-testid="stButton"] {
-    margin: 0 !important;
-}
-
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) [data-testid="stButton"] > button {
-    border-radius: 999px !important;
-    padding: 0.35rem 1.1rem !important;
-    min-height: 2rem !important;
-    font-size: 0.84rem !important;
-    font-weight: 500 !important;
-    line-height: 1 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
-    white-space: nowrap !important;
-}
-
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) [data-testid="stButton"] > button[kind="primary"],
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) [data-testid="stButton"] > button[data-testid="stBaseButton-primary"] {
-    background-color: rgba(212, 162, 127, 0.95) !important;
-    border-color: rgba(212, 162, 127, 0.95) !important;
-}
-
-[data-testid="stVerticalBlock"]:has(.stop-btn-anchor):not(:has([data-testid="stChatMessage"])) [data-testid="stButton"] > button:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.15) !important;
+/* Captions / muted */
+.stCaption, [data-testid="stCaptionContainer"] {
+    color: var(--pa-muted) !important;
+    font-family: var(--anthropic-font) !important;
 }
 
 /* ===== Chat messages ===== */
 [data-testid="stChatMessage"] {
-    background-color: var(--anthropic-bg) !important;
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 1rem 1.2rem !important;
-    margin-bottom: 0.5rem !important;
+    background: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 18px !important;
+    padding: 1rem 1.25rem !important;
+    margin-bottom: 0.85rem !important;
+    box-shadow: var(--pa-shadow-card) !important;
 }
-
-/* Assistant messages - clean white like Anthropic */
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {
-    background-color: var(--anthropic-bg) !important;
+[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] {
+    color: var(--pa-ink) !important;
 }
-
-/* User messages - subtle bordered box */
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
-    background-color: var(--anthropic-bg) !important;
-    border: 1px solid var(--anthropic-border) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-}
-
-/* Chat message text */
-[data-testid="stChatMessage"] p,
-[data-testid="stChatMessage"] .stMarkdown {
-    color: var(--anthropic-text) !important;
-    line-height: 1.6 !important;
-}
-
-/* Message timestamp */
 .msg-timestamp {
-    text-align: left;
-    font-size: 0.73rem;
-    color: var(--anthropic-text-secondary);
-    margin-top: -0.3rem;
-    margin-bottom: 0.2rem;
-    opacity: 0.55;
-    font-family: var(--anthropic-mono);
-    letter-spacing: 0.02em;
+    color: var(--pa-muted) !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.22em !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 400 !important;
 }
 
-/* ===== Chat avatars ===== */
-[data-testid="stChatMessageAvatarContainer"] {
-    width: 36px !important;
-    height: 36px !important;
-}
-[data-testid="stChatMessageAvatarContainer"] > div,
-[data-testid*="stChatMessageAvatar"],
-[data-testid*="chatAvatar"] {
-    width: 36px !important;
-    height: 36px !important;
+/* Chat avatars: user = ink circle, assistant = white surface circle */
+[data-testid*="stChatMessageAvatar"] {
+    background: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
     border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    overflow: hidden !important;
+    box-shadow: 0 2px 6px rgba(14, 18, 16, 0.06) !important;
 }
-
-/* User avatar - photo-agents ink */
-[data-testid*="stChatMessageAvatar"]:has(svg),
-[data-testid*="chatAvatar"][data-testid*="user"],
-[data-testid*="stChatMessageAvatar"][data-testid*="User"],
-[data-testid*="stChatMessageAvatar"][data-testid*="user"] {
+[data-testid*="stChatMessageAvatar"]:has(svg[data-testid*="user" i]),
+[data-testid*="stChatMessageAvatar"][data-testid*="user" i] {
     background: var(--pa-ink) !important;
-    color: var(--pa-canvas) !important;
-    border: 1px solid var(--pa-ink) !important;
-    box-shadow: 0 2px 6px rgba(14, 18, 16, 0.18) !important;
+    border-color: var(--pa-ink) !important;
 }
-[data-testid*="stChatMessageAvatar"]:has(svg) svg,
-[data-testid*="chatAvatar"][data-testid*="user"] svg {
+[data-testid*="stChatMessageAvatar"][data-testid*="user" i] svg {
     color: var(--pa-canvas) !important;
     fill: var(--pa-canvas) !important;
 }
-/* Assistant avatar - light surface */
-[data-testid*="chatAvatar"][data-testid*="assistant"],
-[data-testid*="stChatMessageAvatar"][data-testid*="Assistant"],
-[data-testid*="stChatMessageAvatar"][data-testid*="assistant"],
-[data-testid="stChatMessageAvatarContainer"] > div {
-    background: var(--pa-surface) !important;
-    border: 1px solid var(--pa-line) !important;
-    box-shadow: 0 2px 6px rgba(14, 18, 16, 0.06) !important;
-}
 
-/* ===== Inline code (not inside pre/code blocks) ===== */
+/* ===== Code ===== */
+code, pre, .stCodeBlock, .stCode {
+    font-family: var(--anthropic-mono) !important;
+}
 :not(pre) > code {
-    background-color: var(--anthropic-code-bg) !important;
-    border: 1px solid var(--anthropic-border) !important;
+    background: var(--pa-surface-2) !important;
+    color: var(--pa-ink) !important;
+    border: 1px solid var(--pa-line) !important;
     border-radius: 4px !important;
-    padding: 0.15em 0.4em !important;
-    font-size: 0.9em !important;
-    color: var(--anthropic-text) !important;
+    padding: 0.12em 0.4em !important;
+    font-size: 0.88em !important;
 }
-
-/* ===== Code blocks (pre) ===== */
-pre, .stCodeBlock, .stCodeBlock pre {
-    background-color: var(--anthropic-code-bg) !important;
-    border: 1px solid var(--anthropic-border) !important;
-    border-radius: 8px !important;
+[data-testid="stCodeBlock"], pre {
+    background: var(--pa-surface-2) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 12px !important;
 }
-
-/* Code inside pre blocks: no extra border/background */
-pre code,
-.stCodeBlock code,
-[data-testid="stChatMessage"] pre code,
-[data-testid="stChatMessage"] .stCodeBlock code {
-    background-color: transparent !important;
+[data-testid="stCodeBlock"] code, pre code {
+    background: transparent !important;
+    color: var(--pa-ink) !important;
     border: none !important;
-    padding: 0 !important;
-    font-size: inherit !important;
-    color: var(--anthropic-text) !important;
+    padding: 0.85rem 1rem !important;
 }
 
-/* ===== Toast / Alerts ===== */
-[data-testid="stToast"] {
-    background-color: var(--anthropic-bg-secondary) !important;
-    border: 1px solid var(--anthropic-border) !important;
-    border-radius: 8px !important;
-    color: var(--anthropic-text) !important;
+/* ===== Chat input ===== */
+[data-testid="stChatInput"] {
+    background: transparent !important;
+    border: none !important;
+}
+[data-testid="stChatInput"] > div {
+    background: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-line) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--pa-shadow-card) !important;
+}
+[data-testid="stChatInput"] > div:focus-within {
+    border-color: var(--pa-ink) !important;
+}
+[data-testid="stChatInput"] textarea {
+    background: transparent !important;
+    color: var(--pa-ink) !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 300 !important;
+    caret-color: var(--pa-ink) !important;
+}
+[data-testid="stChatInput"] textarea::placeholder {
+    color: var(--pa-muted) !important;
+}
+[data-testid="stChatInput"] button[kind="primary"],
+[data-testid="stChatInputSubmitButton"] {
+    background: var(--pa-ink) !important;
+    color: var(--pa-canvas) !important;
+    border-radius: 12px !important;
+    border: none !important;
+}
+[data-testid="stChatInput"] button[kind="primary"]:hover {
+    background: #2a2f2c !important;
 }
 
-/* ===== Captions ===== */
-.stCaption, [data-testid="stCaptionContainer"] {
-    color: var(--anthropic-text-secondary) !important;
+/* ===== Generic primary buttons (e.g. Stop generation) ===== */
+.stButton > button[kind="primary"] {
+    background: var(--pa-ink) !important;
+    color: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-ink) !important;
+    border-radius: 12px !important;
+    font-family: var(--anthropic-font) !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.01em !important;
+    box-shadow: var(--pa-shadow-card) !important;
+}
+.stButton > button[kind="primary"]:hover {
+    background: #2a2f2c !important;
+    border-color: #2a2f2c !important;
 }
 
-/* ===== Divider ===== */
-[data-testid="stHorizontalBlock"] hr,
-hr {
-    border-color: var(--anthropic-border) !important;
+/* ===== Toasts ===== */
+[data-baseweb="toast"], [data-testid="stToast"] {
+    background: var(--pa-ink) !important;
+    color: var(--pa-canvas) !important;
+    border-radius: 12px !important;
+    font-family: var(--anthropic-font) !important;
+    border: none !important;
 }
 
-/* ===== Scrollbar ===== */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+/* ===== Misc ===== */
+[data-testid="stStatusWidget"] { display: none !important; }
+[data-testid="stMarkdownContainer"] strong { font-weight: 500 !important; }
+[data-testid="stMarkdownContainer"] em { font-style: italic; color: var(--pa-muted) !important; }
+[data-testid="stMarkdownContainer"] a {
+    color: var(--pa-ink) !important;
+    text-decoration: underline !important;
+    text-decoration-color: var(--pa-muted) !important;
 }
-::-webkit-scrollbar-track {
-    background: var(--anthropic-bg);
+[data-testid="stMarkdownContainer"] a:hover {
+    text-decoration-color: var(--pa-ink) !important;
 }
+[data-testid="stMarkdownContainer"] blockquote {
+    border-left: 3px solid var(--pa-ink) !important;
+    color: var(--pa-muted) !important;
+    margin-left: 0 !important;
+    padding-left: 1rem !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-    background: var(--anthropic-border);
-    border-radius: 3px;
+    background: rgba(14, 18, 16, 0.18);
+    border-radius: 5px;
+    border: 2px solid var(--pa-paper);
 }
-::-webkit-scrollbar-thumb:hover {
-    background: var(--anthropic-text-secondary);
-}
+::-webkit-scrollbar-thumb:hover { background: rgba(14, 18, 16, 0.32); }
 
-/* ===== Links ===== */
-a {
-    color: var(--anthropic-accent) !important;
-}
-a:hover {
-    color: var(--anthropic-primary-hover) !important;
-}
-
-/* ===== Error/Warning/Info/Success ===== */
-[data-testid="stAlert"] {
-    border-radius: 8px !important;
-}
-
-/* ===== Bottom padding for chat ===== */
-[data-testid="stBottomBlockContainer"] {
-    background-color: var(--anthropic-bg) !important;
-}
-
-/* ===== Gear icon to open sidebar ===== */
-#sidebar-gear-toggle {
-    position: fixed !important;
-    top: 12px !important;
-    left: 12px !important;
-    z-index: 999999 !important;
-    width: 36px !important;
-    height: 36px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 1.3rem !important;
-    color: var(--anthropic-text-secondary) !important;
-    background: var(--anthropic-bg-secondary) !important;
-    border: 1px solid var(--anthropic-border) !important;
-    border-radius: 8px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    opacity: 0.7 !important;
-    user-select: none !important;
-}
-#sidebar-gear-toggle:hover {
-    opacity: 1 !important;
-    color: var(--anthropic-primary) !important;
-    border-color: var(--anthropic-primary) !important;
-    transform: rotate(30deg) !important;
-}
-/* Hide gear when sidebar is open */
+/* Hide the gear toggle the original theme injected — sidebar handles it */
+#sidebar-gear-toggle { display: none !important; }
 body:has([data-testid="stSidebar"][aria-expanded="true"]) #sidebar-gear-toggle {
     display: none !important;
 }
 </style>
 """
-
 ANTHROPIC_SELECTBOX_SCRIPT = """
 <div></div>
 <script>
