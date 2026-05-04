@@ -17,7 +17,78 @@ from photoagents.cli.runtime import PhotoAgentsRuntime as GeneraticAgent
 from photoagents.clients import client_common  # activates /continue command (monkey-patches runtime)
 from photoagents.clients.resume_cmd import handle_frontend_command, reset_conversation, list_sessions, extract_ui_messages
 
-st.set_page_config(page_title="Cowork", layout="wide")
+st.set_page_config(page_title="Photo Agents", layout="wide")
+
+# --- Photo Agents theme (matches photo-agents.com) ---
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root {
+        --pa-ink: #0e1210;
+        --pa-canvas: #f6f5f1;
+        --pa-line: #e6e4dd;
+        --pa-muted: #77756d;
+        --pa-surface: #ffffff;
+        --pa-surface-2: #efede6;
+    }
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .stApp {
+        background-color: var(--pa-canvas) !important;
+        color: var(--pa-ink) !important;
+        font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif !important;
+        font-weight: 300 !important;
+        letter-spacing: -0.01em !important;
+        -webkit-font-smoothing: antialiased !important;
+    }
+    [data-testid="stSidebar"] {
+        background-color: var(--pa-surface-2) !important;
+        border-right: 1px solid var(--pa-line) !important;
+    }
+    h1, h2, h3, h4, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: var(--pa-ink) !important;
+        font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif !important;
+        font-weight: 500 !important;
+        letter-spacing: -0.02em !important;
+    }
+    [data-testid="stHeader"] { background: var(--pa-canvas) !important; border-bottom: 1px solid var(--pa-line) !important; }
+    [data-testid="stToolbar"] { visibility: hidden !important; }
+    [data-testid="stChatMessage"] {
+        background: var(--pa-surface) !important;
+        border: 1px solid var(--pa-line) !important;
+        border-radius: 14px !important;
+    }
+    code, pre, .stCodeBlock { font-family: 'JetBrains Mono', ui-monospace, monospace !important; }
+    :not(pre) > code {
+        background: var(--pa-surface-2) !important;
+        border: 1px solid var(--pa-line) !important;
+        border-radius: 4px !important;
+        padding: 0.15em 0.4em !important;
+        color: var(--pa-ink) !important;
+    }
+    .stButton > button {
+        background: var(--pa-ink) !important;
+        color: var(--pa-canvas) !important;
+        border: 1px solid var(--pa-ink) !important;
+        border-radius: 10px !important;
+        font-weight: 500 !important;
+    }
+    .stButton > button:hover {
+        background: #2a2f2c !important;
+        border-color: #2a2f2c !important;
+    }
+    [data-testid="stSidebar"] .stButton > button {
+        background: var(--pa-surface) !important;
+        color: var(--pa-ink) !important;
+        border: 1px solid var(--pa-line) !important;
+    }
+    [data-testid="stSidebar"] .stButton > button:hover {
+        background: var(--pa-surface-2) !important;
+        border-color: var(--pa-ink) !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 @st.cache_resource
 def init():
@@ -30,7 +101,7 @@ def init():
 
 agent = init()
 
-st.title("Cowork")
+st.title("Photo Agents")
 
 st.session_state.setdefault('autonomous_enabled', False)
 
