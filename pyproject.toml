@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "photoagents"
-version = "0.1.0"  # beta version - see README
+version = "0.1.1"  # beta - see README
 description = "Autonomous, self-evolving Photo Agents — a perceive / reason / act framework for photo-aware agents."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -58,18 +58,39 @@ photoagents     = "photoagents.cli.runtime:main"
 photoagents-hub      = "photoagents.cli.hub:main"
 photoagents-launcher = "photoagents.cli.launcher:main"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["photoagents*"]
-exclude = ["tests*", "GenericAgent*"]
+[tool.setuptools]
+# Repo uses a flat layout (auth/, cli/, etc. at the root) rather than a
+# src/photoagents/ tree. Map every subpackage explicitly so they install
+# under the "photoagents" namespace instead of polluting top-level imports.
+packages = [
+  "photoagents",
+  "photoagents.auth",
+  "photoagents.cli",
+  "photoagents.clients",
+  "photoagents.config",
+  "photoagents.core",
+  "photoagents.evolution",
+  "photoagents.integrations",
+  "photoagents.llm",
+  "photoagents.web",
+]
+
+[tool.setuptools.package-dir]
+"photoagents" = "."
+"photoagents.auth" = "auth"
+"photoagents.cli" = "cli"
+"photoagents.clients" = "clients"
+"photoagents.config" = "config"
+"photoagents.core" = "core"
+"photoagents.evolution" = "evolution"
+"photoagents.integrations" = "integrations"
+"photoagents.llm" = "llm"
+"photoagents.web" = "web"
 
 [tool.setuptools.package-data]
 photoagents = [
-  "resources/*",
-  "resources/**/*",
-  "skills/*.md",
-  "skills/**/*.md",
-  "clients/*.png",
-  "clients/*.gif",
+  "resources/*", "resources/**/*",
+  "skills/*.md", "skills/**/*.md",
+  "clients/*.png", "clients/*.gif",
   "clients/skins/**/*",
 ]
