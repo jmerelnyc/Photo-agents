@@ -58,24 +58,14 @@ st.markdown(
     [data-testid="stMain"] { background-color: var(--pa-paper) !important; }
     [data-testid="stMainBlockContainer"], .main .block-container {
         max-width: 880px !important;
-        padding: 2.25rem 2.5rem 4rem 2.5rem !important;
+        padding: 2.25rem 2.5rem 7rem 2.5rem !important;
         background-color: var(--pa-canvas) !important;
         border: 1px solid var(--pa-line) !important;
         border-radius: 20px !important;
         box-shadow: var(--pa-shadow-card) !important;
         margin-top: 1.25rem !important;
-        margin-bottom: 1.5rem !important;
-        min-height: calc(100vh - 56px - 7.5rem) !important;
-    }
-    [data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"] {
-        background: var(--pa-paper) !important;
-        border-top: none !important;
-        box-shadow: none !important;
-    }
-    [data-testid="stBottomBlockContainer"] {
-        max-width: 880px !important;
-        margin: 0 auto !important;
-        padding: 0 2.5rem 1.25rem 2.5rem !important;
+        margin-bottom: 1rem !important;
+        min-height: calc(100vh - 56px - 6.5rem) !important;
     }
     h1, .stTitle, [data-testid="stHeading"] h1 {
         color: var(--pa-ink) !important;
@@ -135,14 +125,61 @@ st.markdown(
         border: 1px solid var(--pa-line) !important;
         border-radius: 12px !important;
     }
+    [data-testid="stBottom"] {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 300px !important;
+        right: 0 !important;
+        background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
+        border-top: none !important;
+        box-shadow: none !important;
+        z-index: 50 !important;
+        padding-top: 1.25rem !important;
+    }
+    [data-testid="stBottom"] > div { background: transparent !important; box-shadow: none !important; }
+    [data-testid="stBottomBlockContainer"] {
+        max-width: 880px !important;
+        margin: 0 auto !important;
+        padding: 0 2.5rem 1.25rem 2.5rem !important;
+        background: transparent !important;
+    }
+    body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] { left: 0 !important; }
     [data-testid="stChatInput"] > div {
         background: var(--pa-canvas) !important;
         border: 1px solid var(--pa-line) !important;
         border-radius: 16px !important;
         box-shadow: var(--pa-shadow-card) !important;
+        padding: 0.55rem 0.55rem 0.55rem 1rem !important;
+        align-items: center !important;
     }
     [data-testid="stChatInput"] > div:focus-within { border-color: var(--pa-ink) !important; }
-    [data-testid="stChatInput"] textarea { background: transparent !important; color: var(--pa-ink) !important; font-family: 'Manrope', sans-serif !important; font-weight: 300 !important; }
+    [data-testid="stChatInput"] > div *:not(button):not(svg):not(path) { background-color: transparent !important; }
+    [data-testid="stChatInput"] textarea {
+        background: transparent !important;
+        color: var(--pa-ink) !important;
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 300 !important;
+        font-size: 0.95rem !important;
+        line-height: 1.5 !important;
+        padding: 0.35rem 0 !important;
+        min-height: 28px !important;
+    }
+    [data-testid="stChatInput"] textarea::placeholder { color: var(--pa-muted) !important; opacity: 1 !important; }
+    [data-testid="stChatInputSubmitButton"] {
+        background: var(--pa-ink) !important;
+        color: var(--pa-canvas) !important;
+        border-radius: 10px !important;
+        border: none !important;
+        width: 38px !important; height: 38px !important;
+        min-width: 38px !important; min-height: 38px !important;
+        padding: 0 !important;
+        display: inline-flex !important; align-items: center !important; justify-content: center !important;
+        flex-shrink: 0 !important;
+    }
+    [data-testid="stChatInputSubmitButton"] svg { width: 18px !important; height: 18px !important; }
+    [data-testid="stChatInputSubmitButton"] svg path { fill: var(--pa-canvas) !important; }
+    [data-testid="stChatInputSubmitButton"]:hover { background: #2a2f2c !important; }
+    [data-testid="stChatInputSubmitButton"]:disabled { background: var(--pa-muted) !important; opacity: 0.45 !important; }
     .stButton > button {
         background: var(--pa-canvas) !important;
         color: var(--pa-ink) !important;
@@ -162,7 +199,22 @@ st.markdown(
         box-shadow: var(--pa-shadow-card) !important;
     }
     .stButton > button[kind="primary"]:hover { background: #2a2f2c !important; border-color: #2a2f2c !important; }
-    [data-testid="stSidebar"] .stButton > button { width: 100% !important; }
+    [data-testid="stSidebar"] .stButton > button {
+        width: 100% !important;
+        font-size: 13px !important;
+        padding: 0.55rem 0.8rem !important;
+        min-height: 38px !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;
+    }
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+        color: var(--pa-muted) !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.18em !important;
+        margin: 0.5rem 0 0.75rem 0 !important;
+    }
     hr { border: none !important; border-top: 1px solid var(--pa-line-strong) !important; margin: 1rem 0 !important; }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: transparent; }

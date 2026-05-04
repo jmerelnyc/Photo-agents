@@ -189,17 +189,32 @@ hr {
     background: var(--pa-canvas) !important;
     color: var(--pa-ink) !important;
     border: 1px solid var(--pa-line) !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     font-weight: 400 !important;
+    font-size: 13px !important;
     font-family: var(--anthropic-font) !important;
-    letter-spacing: -0.01em !important;
-    padding: 0.6rem 0.9rem !important;
+    letter-spacing: -0.005em !important;
+    padding: 0.55rem 0.8rem !important;
+    min-height: 38px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
     box-shadow: none !important;
     transition: background-color 120ms ease, border-color 120ms ease !important;
 }
 [data-testid="stSidebar"] .stButton > button:hover {
     background: var(--pa-surface-2) !important;
     border-color: var(--pa-ink) !important;
+}
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: var(--pa-muted) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.18em !important;
+    margin: 0.5rem 0 0.75rem 0 !important;
 }
 
 /* ===== Main content — chat well sits on the paper background ===== */
@@ -211,12 +226,13 @@ hr {
     border: 1px solid var(--pa-line) !important;
     border-radius: 20px !important;
     box-shadow: var(--pa-shadow-card) !important;
-    padding: 2.25rem 2.5rem 4rem 2.5rem !important;
+    padding: 2.25rem 2.5rem 7rem 2.5rem !important;
     max-width: 880px !important;
     margin-top: 1.25rem !important;
-    margin-bottom: 1.5rem !important;
-    min-height: calc(100vh - 56px - 7.5rem) !important;
+    margin-bottom: 1rem !important;
+    min-height: calc(100vh - 56px - 6.5rem) !important;
 }
+/* Reserved earlier — keep only one rule for padding-bottom so input doesn't overlap content */
 /* Chat bubbles drop their own surface treatment now that the well IS the surface */
 [data-testid="stChatMessage"] {
     background: transparent !important;
@@ -319,20 +335,33 @@ code, pre, .stCodeBlock, .stCode {
     padding: 0.85rem 1rem !important;
 }
 
-/* ===== Chat input docked footer ===== */
-[data-testid="stBottom"],
-[data-testid="stBottom"] > div,
-[data-testid="stBottomBlockContainer"] {
-    background: var(--pa-paper) !important;
+/* ===== Chat input docked footer (pinned to viewport bottom) ===== */
+[data-testid="stBottom"] {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 300px !important;   /* sidebar width */
+    right: 0 !important;
+    background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    z-index: 50 !important;
+    padding-top: 1.25rem !important;
+}
+[data-testid="stBottom"] > div {
+    background: transparent !important;
     border-top: none !important;
     box-shadow: none !important;
 }
 [data-testid="stBottomBlockContainer"] {
     max-width: 880px !important;
     margin: 0 auto !important;
-    padding-bottom: 1.25rem !important;
-    padding-left: 2.5rem !important;
-    padding-right: 2.5rem !important;
+    padding: 0 2.5rem 1.25rem 2.5rem !important;
+    background: transparent !important;
+}
+/* When sidebar is collapsed, the bottom should span full width */
+[data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] [data-testid="stBottom"],
+body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] {
+    left: 0 !important;
 }
 [data-testid="stChatInput"] {
     background: transparent !important;
@@ -343,29 +372,63 @@ code, pre, .stCodeBlock, .stCode {
     border: 1px solid var(--pa-line) !important;
     border-radius: 16px !important;
     box-shadow: var(--pa-shadow-card) !important;
+    padding: 0.55rem 0.55rem 0.55rem 1rem !important;
+    align-items: center !important;
 }
 [data-testid="stChatInput"] > div:focus-within {
     border-color: var(--pa-ink) !important;
+}
+/* Streamlit wraps the textarea in BaseWeb divs with a hardcoded #f0f2f6 bg.
+   Make every descendant background transparent so only our cream pill shows. */
+[data-testid="stChatInput"] > div *:not(button):not(svg):not(path) {
+    background-color: transparent !important;
 }
 [data-testid="stChatInput"] textarea {
     background: transparent !important;
     color: var(--pa-ink) !important;
     font-family: var(--anthropic-font) !important;
     font-weight: 300 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
     caret-color: var(--pa-ink) !important;
+    padding: 0.35rem 0 !important;
+    min-height: 28px !important;
 }
 [data-testid="stChatInput"] textarea::placeholder {
     color: var(--pa-muted) !important;
+    opacity: 1 !important;
 }
 [data-testid="stChatInput"] button[kind="primary"],
 [data-testid="stChatInputSubmitButton"] {
     background: var(--pa-ink) !important;
     color: var(--pa-canvas) !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     border: none !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    transition: background-color 120ms ease !important;
 }
-[data-testid="stChatInput"] button[kind="primary"]:hover {
+[data-testid="stChatInputSubmitButton"] svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+[data-testid="stChatInputSubmitButton"] svg path {
+    fill: var(--pa-canvas) !important;
+}
+[data-testid="stChatInput"] button[kind="primary"]:hover,
+[data-testid="stChatInputSubmitButton"]:hover {
     background: #2a2f2c !important;
+}
+[data-testid="stChatInputSubmitButton"]:disabled {
+    background: var(--pa-muted) !important;
+    opacity: 0.45 !important;
 }
 
 /* ===== Generic primary buttons (e.g. Stop generation) ===== */
