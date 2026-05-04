@@ -29,6 +29,7 @@ st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap');
     :root {
         --pa-ink: #0e1210;
         --pa-paper: #b6b6b6;
@@ -46,6 +47,21 @@ st.markdown(
         font-weight: 300 !important;
         letter-spacing: -0.01em !important;
         -webkit-font-smoothing: antialiased !important;
+    }
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="stExpandSidebarButton"] button,
+    [data-testid="stExpandSidebarButton"] button span,
+    [data-testid="stSidebarCollapsedControl"] button,
+    [data-testid="stSidebarCollapsedControl"] button span,
+    [data-testid="stSidebarHeader"] button,
+    [data-testid="stSidebarHeader"] button span,
+    button[kind="headerNoPadding"],
+    button[kind="headerNoPadding"] span {
+        font-family: "Material Symbols Outlined", "Material Icons", sans-serif !important;
+        font-weight: normal !important;
+        letter-spacing: normal !important;
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24 !important;
     }
     [data-testid="stSidebar"] {
         background-color: var(--pa-canvas) !important;

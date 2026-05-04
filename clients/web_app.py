@@ -31,6 +31,7 @@ st.set_page_config(
 ANTHROPIC_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap');
 
 /* =============================================================================
    Photo Agents — Streamlit theme matching the photo-agents.com dashboard.
@@ -80,6 +81,27 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     letter-spacing: -0.01em !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Streamlit 1.5x sidebar / toolbar buttons use Material Symbols ligatures
+   (e.g. "keyboard_double_arrow_left"). Our global Manrope on .stApp breaks
+   the icon font and the ligature name shows as plain text. Restore the
+   correct font on chrome buttons only. */
+[data-testid="stSidebarCollapseButton"] button,
+[data-testid="stSidebarCollapseButton"] button span,
+[data-testid="stExpandSidebarButton"] button,
+[data-testid="stExpandSidebarButton"] button span,
+[data-testid="stSidebarCollapsedControl"] button,
+[data-testid="stSidebarCollapsedControl"] button span,
+[data-testid="stSidebarHeader"] button,
+[data-testid="stSidebarHeader"] button span,
+button[kind="headerNoPadding"],
+button[kind="headerNoPadding"] span {
+    font-family: "Material Symbols Outlined", "Material Icons", sans-serif !important;
+    font-weight: normal !important;
+    letter-spacing: normal !important;
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24 !important;
+    -webkit-font-smoothing: antialiased !important;
 }
 
 /* Hide Streamlit chrome we don't want (deploy menu, decoration, status widget),
@@ -774,6 +796,57 @@ body:has([data-testid="stSidebar"][aria-expanded="true"]) #sidebar-gear-toggle {
    self-explanatory now. */
 #custom-sidebar-settings-title {
     display: none !important;
+}
+
+/* ---- Sidebar header cleanup (Streamlit 1.57+) ----
+   The sidebar header container ships with a keyboard-shortcut hint and
+   sometimes a screen-reader label that can render as duplicated text on top
+   of the sidebar. Strip every non-button child out of the header. */
+[data-testid="stSidebarHeader"] {
+    background: transparent !important;
+    padding: 0.25rem 0.5rem !important;
+    min-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}
+/* Hide every Streamlit-injected hint / shortcut label inside the sidebar header */
+[data-testid="stSidebarHeader"] [data-testid*="Shortcut" i],
+[data-testid="stSidebarHeader"] [data-testid*="Hint" i],
+[data-testid="stSidebarHeader"] [data-testid*="keyboard" i],
+[data-testid="stSidebarHeader"] [class*="shortcut" i],
+[data-testid="stSidebarHeader"] [class*="Shortcut" i],
+[data-testid="stSidebarHeader"] [class*="hint" i],
+[data-testid="stSidebarHeader"] [class*="Hint" i],
+[data-testid="stSidebarHeader"] kbd,
+[data-testid="stSidebarHeader"] code,
+[data-testid="stSidebarHeader"] [aria-live],
+[data-testid="stSidebar"] kbd {
+    display: none !important;
+    visibility: hidden !important;
+}
+/* Same defensive hide outside the header — a stray <kbd> with "Ctrl+B"
+   sometimes lands directly under stSidebar. */
+[data-testid="stSidebar"] [data-testid*="Shortcut" i],
+[data-testid="stSidebar"] [data-testid*="Keyboard" i],
+[data-testid="stSidebar"] [class*="shortcut" i],
+[data-testid="stSidebar"] [class*="keyboardShortcut" i] {
+    display: none !important;
+    visibility: hidden !important;
+}
+/* Hide screen-reader-only labels that may have lost their sr-only clip */
+.stApp [class*="visuallyHidden" i],
+.stApp .sr-only,
+.stApp [aria-hidden="true"][class*="screen" i] {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 </style>
 """
