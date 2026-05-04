@@ -191,6 +191,25 @@ st.markdown(
         background: var(--pa-surface-2) !important;
         border: 1px solid var(--pa-line) !important;
         border-radius: 12px !important;
+        overflow-x: auto !important;
+        max-width: 100% !important;
+    }
+    [data-testid="stCodeBlock"] code, pre code {
+        white-space: pre !important;
+        word-break: normal !important;
+    }
+    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p,
+    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] li {
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+    }
+    [data-testid="stChatMessage"],
+    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"],
+    [data-testid="stChatMessage"] details,
+    [data-testid="stChatMessage"] summary {
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow-wrap: anywhere !important;
     }
     [data-testid="stBottom"] {
         position: fixed !important;

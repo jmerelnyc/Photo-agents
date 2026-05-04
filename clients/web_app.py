@@ -449,12 +449,31 @@ code, pre, .stCodeBlock, .stCode {
     background: var(--pa-surface-2) !important;
     border: 1px solid var(--pa-line) !important;
     border-radius: 12px !important;
+    overflow-x: auto !important;        /* scroll long lines inside the block */
+    max-width: 100% !important;
 }
 [data-testid="stCodeBlock"] code, pre code {
     background: transparent !important;
     color: var(--pa-ink) !important;
     border: none !important;
     padding: 0.85rem 1rem !important;
+    white-space: pre !important;        /* preserve formatting; let the box scroll */
+    word-break: normal !important;
+}
+/* Long URLs / paths in plain markdown should wrap, not push the well wider. */
+[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] li {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+}
+/* Hard cap on every chat message so nothing can ever overflow the card. */
+[data-testid="stChatMessage"],
+[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"],
+[data-testid="stChatMessage"] details,
+[data-testid="stChatMessage"] summary {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
 }
 
 /* ===== Chat input docked footer ===========================================
