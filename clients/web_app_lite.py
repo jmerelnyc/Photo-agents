@@ -39,6 +39,7 @@ st.markdown(
         --pa-muted: #77756d;
         --pa-surface-2: #efede6;
         --pa-shadow-card: 0 8px 24px -12px rgba(14, 18, 16, 0.30);
+        --pa-sidebar-w: 360px;
     }
     html, body, [data-testid="stAppViewContainer"], .stApp {
         background-color: var(--pa-paper) !important;
@@ -67,10 +68,10 @@ st.markdown(
         background-color: var(--pa-canvas) !important;
         border-right: 1px solid var(--pa-line) !important;
         box-shadow: 1px 0 0 var(--pa-line-strong) !important;
-        width: 300px !important;
-        min-width: 300px !important;
-        max-width: 300px !important;
-        flex-basis: 300px !important;
+        width: var(--pa-sidebar-w) !important;
+        min-width: var(--pa-sidebar-w) !important;
+        max-width: var(--pa-sidebar-w) !important;
+        flex-basis: var(--pa-sidebar-w) !important;
         resize: none !important;
     }
     [data-testid="stSidebar"] [data-testid="stSidebarResizeHandle"],
@@ -135,7 +136,6 @@ st.markdown(
         display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
     }
     [data-testid="stSidebarCollapseButton"] button { color: var(--pa-muted) !important; background: transparent !important; }
-    body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] { left: 0 !important; }
     [data-testid="stMain"] { background-color: var(--pa-paper) !important; }
     [data-testid="stMainBlockContainer"], .main .block-container {
         max-width: 880px !important;
@@ -209,7 +209,7 @@ st.markdown(
     [data-testid="stBottom"] {
         position: fixed !important;
         bottom: 0 !important;
-        left: 300px !important;
+        left: var(--pa-sidebar-w) !important;
         right: 0 !important;
         background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
         border-top: none !important;
@@ -231,7 +231,10 @@ st.markdown(
     [data-testid="stBottom"] [data-testid="stVerticalBlock"] {
         width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; background: transparent !important;
     }
-    body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] { left: 0 !important; }
+    [data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] [data-testid="stBottom"],
+    body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] {
+        left: 0 !important;
+    }
     [data-testid="stChatInput"] > div {
         background: var(--pa-canvas) !important;
         border: 1px solid var(--pa-line) !important;

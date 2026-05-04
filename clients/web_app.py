@@ -53,6 +53,8 @@ ANTHROPIC_CSS = """
     --pa-surface: #f6f5f1;
     --pa-surface-2: #efede6;
     --pa-shadow-card: 0 8px 24px -12px rgba(14, 18, 16, 0.30);
+    /* Fixed expanded sidebar width (collapse/expand only; no drag-resize) */
+    --pa-sidebar-w: 360px;
 
     --anthropic-bg: var(--pa-paper);
     --anthropic-bg-secondary: var(--pa-canvas);
@@ -166,11 +168,6 @@ header[data-testid="stHeader"] [data-testid="stToolbar"] > *:not(:has([data-test
     color: var(--pa-ink) !important;
     background: var(--pa-surface-2) !important;
 }
-/* When sidebar is collapsed, our fixed chat input spans the full width */
-body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"],
-body:has([data-testid="stExpandSidebarButton"]) [data-testid="stBottom"] {
-    left: 0 !important;
-}
 
 /* ===== Top header bar ===== */
 [data-testid="stHeader"] {
@@ -189,10 +186,10 @@ body:has([data-testid="stExpandSidebarButton"]) [data-testid="stBottom"] {
     padding-top: 0.5rem !important;
     box-shadow: 1px 0 0 var(--pa-line-strong) !important;
     /* Lock the sidebar width — collapse/expand only, no drag-resize */
-    width: 300px !important;
-    min-width: 300px !important;
-    max-width: 300px !important;
-    flex-basis: 300px !important;
+    width: var(--pa-sidebar-w) !important;
+    min-width: var(--pa-sidebar-w) !important;
+    max-width: var(--pa-sidebar-w) !important;
+    flex-basis: var(--pa-sidebar-w) !important;
     resize: none !important;
 }
 /* ---- Kill Streamlit's sidebar drag-resize handle (every known variant) ---- */
@@ -503,7 +500,7 @@ code, pre, .stCodeBlock, .stCode {
 [data-testid="stBottom"] {
     position: fixed !important;
     bottom: 0 !important;
-    left: 300px !important;   /* sidebar width */
+    left: var(--pa-sidebar-w) !important;   /* must match expanded sidebar width */
     right: 0 !important;
     background: linear-gradient(to top, var(--pa-paper) 60%, rgba(182, 182, 182, 0)) !important;
     border-top: none !important;
@@ -537,7 +534,8 @@ code, pre, .stCodeBlock, .stCode {
     padding: 0 !important;
     background: transparent !important;
 }
-/* When sidebar is collapsed, the bottom should span full width */
+/* When sidebar is collapsed, dock the chat input from viewport left (matches main width).
+   Do NOT use :has(stExpandSidebarButton) — that button stays in the DOM when open and breaks alignment. */
 [data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] [data-testid="stBottom"],
 body:has([data-testid="stSidebar"][aria-expanded="false"]) [data-testid="stBottom"] {
     left: 0 !important;
