@@ -7,6 +7,16 @@ Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework f
 > "100% autonomous, self-evolving agents."
 > [photo-agents.com](https://photo-agents.com)
 
+## Star History
+
+<a href="https://www.star-history.com/?repos=jmerelnyc%2FPhoto-agents&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=date&legend=top-left" />
+ </picture>
+</a>
+
 ## About
 
 Photo Agents is building the next generation of LLM-driven agents that ground in what they actually see on screen. Instead of dumping longer chat transcripts into a model and hoping for the best we treat memory the way biology does. Vision in. Bound observations stored in layers. Skills written by the agent itself from real success.
