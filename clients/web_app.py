@@ -18,29 +18,60 @@ import time, json, re, threading, queue
 from datetime import datetime
 from photoagents.cli.runtime import PhotoAgentsRuntime as GeneraticAgent
 
-st.set_page_config(page_title="Cowork", layout="wide")
+st.set_page_config(page_title="Photo Agents", layout="wide")
 
-# --- Anthropic Light Theme CSS ---
+# --- Photo Agents Theme (matches photo-agents.com) ---
+# Variable names kept as --anthropic-* for backwards-compat with the rest of
+# the stylesheet; values point at the photo-agents.com palette.
 ANTHROPIC_CSS = """
 <style>
-/* ===== Root variables ===== */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ===== Root variables (Photo Agents palette) ===== */
 :root {
-    --anthropic-primary: #D4A27F;
-    --anthropic-primary-hover: #C4895F;
-    --anthropic-bg: #FAF9F6;
-    --anthropic-bg-secondary: #EEECE2;
-    --anthropic-code-bg: #F4F1EB;
-    --anthropic-text: #1A1714;
-    --anthropic-text-secondary: #6B6560;
-    --anthropic-border: #D5CEC5;
-    --anthropic-sidebar-bg: #F0EDE4;
-    --anthropic-accent: #CC785C;
-    --anthropic-success: #5A8A5E;
-    --anthropic-warning: #C4885A;
-    --anthropic-error: #C45A5A;
-    --anthropic-info: #5A7A8A;
-    --anthropic-font: 'Source Sans Pro', sans-serif;
-    --anthropic-mono: 'Source Code Pro', monospace;
+    --pa-ink: #0e1210;
+    --pa-paper: #b6b6b6;
+    --pa-canvas: #f6f5f1;
+    --pa-line: #e6e4dd;
+    --pa-muted: #77756d;
+    --pa-surface: #ffffff;
+    --pa-surface-2: #efede6;
+
+    --anthropic-primary: var(--pa-ink);
+    --anthropic-primary-hover: #2a2f2c;
+    --anthropic-bg: var(--pa-canvas);
+    --anthropic-bg-secondary: var(--pa-surface-2);
+    --anthropic-code-bg: var(--pa-surface-2);
+    --anthropic-text: var(--pa-ink);
+    --anthropic-text-secondary: var(--pa-muted);
+    --anthropic-border: var(--pa-line);
+    --anthropic-sidebar-bg: var(--pa-surface-2);
+    --anthropic-accent: var(--pa-ink);
+    --anthropic-success: #3f7a44;
+    --anthropic-warning: #8a6a2f;
+    --anthropic-error: #a8423f;
+    --anthropic-info: #3f6a7a;
+    --anthropic-font: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --anthropic-mono: 'JetBrains Mono', 'Source Code Pro', ui-monospace, monospace;
+}
+
+html, body, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
+    font-family: var(--anthropic-font) !important;
+    font-weight: 300 !important;
+    letter-spacing: -0.01em !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3,
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4 {
+    font-family: var(--anthropic-font) !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.02em !important;
+}
+code, pre, .stCodeBlock, .stCode {
+    font-family: var(--anthropic-mono) !important;
 }
 
 /* ===== Global ===== */
@@ -79,24 +110,24 @@ body, [data-testid="stAppViewContainer"] {
 /* Make top-left settings/sidebar toggle darker and easier to see */
 button[data-testid="stExpandSidebarButton"] {
     visibility: visible !important;
-    background: #F4F1EA !important;
-    background-color: #F4F1EA !important;
+    background: var(--pa-surface-2) !important;
+    background-color: var(--pa-surface-2) !important;
     border: none !important;
-    color: #3B2F2A !important;
+    color: var(--pa-ink) !important;
     border-radius: 10px !important;
     box-shadow: none !important;
 }
 button[data-testid="stExpandSidebarButton"]:hover {
-    background: #EAE4D9 !important;
-    background-color: #EAE4D9 !important;
+    background: var(--pa-line) !important;
+    background-color: var(--pa-line) !important;
     border-color: transparent !important;
 }
 button[data-testid="stExpandSidebarButton"],
 button[data-testid="stExpandSidebarButton"] *,
 button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {
-    color: #3B2F2A !important;
-    fill: #3B2F2A !important;
-    stroke: #3B2F2A !important;
+    color: var(--pa-ink) !important;
+    fill: var(--pa-ink) !important;
+    stroke: var(--pa-ink) !important;
 }
 /* Hide other toolbar buttons (deploy, etc.) */
 button[kind="header"] {
@@ -147,8 +178,8 @@ button[kind="header"] {
 [data-testid="stSidebar"] [data-baseweb="select"] > div {
     width: fit-content !important;
     max-width: 100% !important;
-    background: #F7F3EC !important;
-    border: none !important;
+    background: var(--pa-surface) !important;
+    border: 1px solid var(--pa-line) !important;
     box-shadow: none !important;
     border-radius: 12px !important;
     min-height: 42px !important;
@@ -158,8 +189,8 @@ button[kind="header"] {
 
 [data-testid="stSidebar"] [data-baseweb="select"] > div:hover,
 [data-testid="stSidebar"] [data-baseweb="select"] > div:focus-within {
-    background: #EFE9DE !important;
-    border: none !important;
+    background: var(--pa-surface-2) !important;
+    border: 1px solid var(--pa-ink) !important;
     box-shadow: none !important;
 }
 
@@ -181,15 +212,15 @@ button[kind="header"] {
 [data-baseweb="popover"] li,
 [data-baseweb="popover"] [role="listbox"],
 [data-baseweb="popover"] [role="option"] {
-    background: #F7F3EC !important;
+    background: var(--pa-surface) !important;
     color: var(--anthropic-text) !important;
 }
 
 [role="listbox"] {
-    background: #F7F3EC !important;
+    background: var(--pa-surface) !important;
     border: 1px solid var(--anthropic-border) !important;
     border-radius: 14px !important;
-    box-shadow: 0 10px 30px rgba(58, 47, 42, 0.12) !important;
+    box-shadow: 0 10px 30px rgba(14, 18, 16, 0.10) !important;
     padding: 0.35rem !important;
     color: var(--anthropic-text) !important;
 }
@@ -202,7 +233,7 @@ button[kind="header"] {
 
 [role="option"]:hover,
 [role="option"][aria-selected="true"] {
-    background: #EFE9DE !important;
+    background: var(--pa-surface-2) !important;
     color: var(--anthropic-text) !important;
 }
 
@@ -521,23 +552,29 @@ h2, h3, h4, h5, h6 {
     overflow: hidden !important;
 }
 
-/* User avatar - warm brown gradient */
+/* User avatar - photo-agents ink */
 [data-testid*="stChatMessageAvatar"]:has(svg),
 [data-testid*="chatAvatar"][data-testid*="user"],
 [data-testid*="stChatMessageAvatar"][data-testid*="User"],
 [data-testid*="stChatMessageAvatar"][data-testid*="user"] {
-    background: linear-gradient(145deg, #D8B08A 0%, #B98259 100%) !important;
-    border: 1px solid rgba(150, 102, 67, 0.22) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.34), 0 2px 6px rgba(104, 76, 54, 0.10) !important;
+    background: var(--pa-ink) !important;
+    color: var(--pa-canvas) !important;
+    border: 1px solid var(--pa-ink) !important;
+    box-shadow: 0 2px 6px rgba(14, 18, 16, 0.18) !important;
 }
-/* Assistant avatar - cream gradient */
+[data-testid*="stChatMessageAvatar"]:has(svg) svg,
+[data-testid*="chatAvatar"][data-testid*="user"] svg {
+    color: var(--pa-canvas) !important;
+    fill: var(--pa-canvas) !important;
+}
+/* Assistant avatar - light surface */
 [data-testid*="chatAvatar"][data-testid*="assistant"],
 [data-testid*="stChatMessageAvatar"][data-testid*="Assistant"],
 [data-testid*="stChatMessageAvatar"][data-testid*="assistant"],
 [data-testid="stChatMessageAvatarContainer"] > div {
-    background: linear-gradient(145deg, #F6F1E9 0%, #E5D7C7 100%) !important;
-    border: 1px solid rgba(187, 165, 141, 0.50) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.72), 0 2px 6px rgba(104, 76, 54, 0.08) !important;
+    background: var(--pa-surface) !important;
+    border: 1px solid var(--pa-line) !important;
+    box-shadow: 0 2px 6px rgba(14, 18, 16, 0.06) !important;
 }
 
 /* ===== Inline code (not inside pre/code blocks) ===== */
