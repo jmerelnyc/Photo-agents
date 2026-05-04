@@ -1,18 +1,39 @@
 # Photo Agents
 
-Autonomous, self-evolving **Photo Agents** — a perceive / reason / act framework for photo-aware agents that operate your computer the way you do.
+Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework for photo-aware agents that operate your computer the way you do.
 
 > "100% autonomous, self-evolving agents."
 > [photo-agents.com](https://photo-agents.com)
+
+## About
+
+Photo Agents is building the next generation of LLM-driven agents that ground in what they actually see on screen. Instead of dumping longer chat transcripts into a model and hoping for the best we treat memory the way biology does. Vision in. Bound observations stored in layers. Skills written by the agent itself from real success.
+
+The package in this repo is the runtime that ships that idea. It runs locally so you keep ownership of your screen your data and your keys.
+
+- Website: https://photo-agents.com
+- X / Twitter: https://x.com/photoagents
+- Docs: https://photo-agents.com/docs
+- Account and API keys: https://photo-agents.com/account/keys
+
+## Bio
+
+A small team obsessed with photographic memory for machines. We come from computational neuroscience research and applied LLM systems work. The thesis is simple. Bigger context windows are not memory. Real agents need perception that binds layered memory that retrieves and skills that compound across sessions.
+
+If that resonates follow [@photoagents](https://x.com/photoagents) on X for build notes demos and the occasional rant about why text-only agents will never see your UI.
+
+## Hashtags
+
+`#PhotoAgents` `#AIagents` `#LLM` `#AgentMemory` `#PhotographicMemory` `#VisionAgents` `#ComputerUse` `#SelfEvolvingAgents` `#OpenSource` `#Python`
 
 ## What it is
 
 Photo Agents is a single Python package that bundles:
 
 - A streaming **agent loop** (`photoagents.core.loop.run_agent_session`) that drives any tool-calling LLM through a perceive → reason → act cycle.
-- A **multi-provider LLM router** (`photoagents.llm.router`) with first-class support for Anthropic Claude (native), OpenAI GPT (native), and a mixin failover session.
-- A **physical-execution toolset**: file I/O, sandboxed code execution (Python / PowerShell / bash), browser automation via a Chrome DevTools Protocol bridge, and a layered memory system (working / global / SOP / session archive).
-- Pluggable **clients**: a polished Streamlit web app, a PyQt desktop app, a desktop companion, and ready-to-run bots for Telegram, QQ, Feishu, WeCom, and DingTalk.
+- A **multi-provider LLM router** (`photoagents.llm.router`) with first-class support for Anthropic Claude (native) OpenAI GPT (native) and a mixin failover session.
+- A **physical-execution toolset**: file I/O, sandboxed code execution (Python / PowerShell / bash), browser automation via a Chrome DevTools Protocol bridge and a layered memory system (working / global / SOP / session archive).
+- Pluggable **clients**: a polished Streamlit web app, a PyQt desktop app, a desktop companion and ready-to-run bots for Telegram, QQ, Feishu, WeCom and DingTalk.
 - Optional **observability** via Langfuse and a cron-style scheduler.
 
 The whole thing is gated by a remote-validated **Photo Agents API key** so usage stays accountable.
