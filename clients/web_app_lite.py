@@ -19,21 +19,23 @@ from photoagents.clients.resume_cmd import handle_frontend_command, reset_conver
 
 st.set_page_config(page_title="Photo Agents", layout="wide")
 
-# --- Photo Agents theme (matches photo-agents.com) ---
+# --- Photo Agents theme matching the photo-agents.com dashboard ---
 st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     :root {
         --pa-ink: #0e1210;
+        --pa-paper: #b6b6b6;
         --pa-canvas: #f6f5f1;
         --pa-line: #e6e4dd;
+        --pa-line-strong: rgba(14, 18, 16, 0.10);
         --pa-muted: #77756d;
-        --pa-surface: #ffffff;
         --pa-surface-2: #efede6;
+        --pa-shadow-card: 0 8px 24px -12px rgba(14, 18, 16, 0.30);
     }
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .stApp {
-        background-color: var(--pa-canvas) !important;
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        background-color: var(--pa-paper) !important;
         color: var(--pa-ink) !important;
         font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif !important;
         font-weight: 300 !important;
@@ -41,50 +43,96 @@ st.markdown(
         -webkit-font-smoothing: antialiased !important;
     }
     [data-testid="stSidebar"] {
-        background-color: var(--pa-surface-2) !important;
-        border-right: 1px solid var(--pa-line) !important;
+        background-color: var(--pa-paper) !important;
+        border-right: 1px solid var(--pa-line-strong) !important;
     }
-    h1, h2, h3, h4, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+    [data-testid="stHeader"] {
+        background: rgba(182, 182, 182, 0.85) !important;
+        backdrop-filter: saturate(180%) blur(10px) !important;
+        border-bottom: 1px solid var(--pa-line-strong) !important;
+    }
+    [data-testid="stToolbar"], #MainMenu, button[kind="header"] { visibility: hidden !important; display: none !important; }
+    .main .block-container { max-width: 920px !important; padding-top: 2rem !important; padding-bottom: 4rem !important; }
+    h1, .stTitle, [data-testid="stHeading"] h1 {
         color: var(--pa-ink) !important;
-        font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif !important;
-        font-weight: 500 !important;
-        letter-spacing: -0.02em !important;
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 200 !important;
+        letter-spacing: -0.04em !important;
+        font-size: 2.25rem !important;
     }
-    [data-testid="stHeader"] { background: var(--pa-canvas) !important; border-bottom: 1px solid var(--pa-line) !important; }
-    [data-testid="stToolbar"] { visibility: hidden !important; }
+    h2 { font-weight: 300 !important; letter-spacing: -0.03em !important; }
+    h3, h4, h5, h6 { font-weight: 500 !important; letter-spacing: -0.02em !important; }
+    p, .stMarkdown p { color: var(--pa-ink) !important; font-weight: 300 !important; line-height: 1.65 !important; }
+    .stCaption, [data-testid="stCaptionContainer"] {
+        color: var(--pa-muted) !important;
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.22em !important;
+    }
     [data-testid="stChatMessage"] {
-        background: var(--pa-surface) !important;
+        background: var(--pa-canvas) !important;
         border: 1px solid var(--pa-line) !important;
-        border-radius: 14px !important;
+        border-radius: 18px !important;
+        padding: 1rem 1.25rem !important;
+        margin-bottom: 0.85rem !important;
+        box-shadow: var(--pa-shadow-card) !important;
     }
+    [data-testid*="stChatMessageAvatar"] {
+        background: var(--pa-canvas) !important;
+        border: 1px solid var(--pa-line) !important;
+        border-radius: 50% !important;
+    }
+    [data-testid*="stChatMessageAvatar"][data-testid*="user" i] {
+        background: var(--pa-ink) !important;
+        border-color: var(--pa-ink) !important;
+    }
+    [data-testid*="stChatMessageAvatar"][data-testid*="user" i] svg { color: var(--pa-canvas) !important; fill: var(--pa-canvas) !important; }
     code, pre, .stCodeBlock { font-family: 'JetBrains Mono', ui-monospace, monospace !important; }
     :not(pre) > code {
         background: var(--pa-surface-2) !important;
         border: 1px solid var(--pa-line) !important;
         border-radius: 4px !important;
-        padding: 0.15em 0.4em !important;
+        padding: 0.12em 0.4em !important;
         color: var(--pa-ink) !important;
     }
+    [data-testid="stCodeBlock"], pre {
+        background: var(--pa-surface-2) !important;
+        border: 1px solid var(--pa-line) !important;
+        border-radius: 12px !important;
+    }
+    [data-testid="stChatInput"] > div {
+        background: var(--pa-canvas) !important;
+        border: 1px solid var(--pa-line) !important;
+        border-radius: 16px !important;
+        box-shadow: var(--pa-shadow-card) !important;
+    }
+    [data-testid="stChatInput"] > div:focus-within { border-color: var(--pa-ink) !important; }
+    [data-testid="stChatInput"] textarea { background: transparent !important; color: var(--pa-ink) !important; font-family: 'Manrope', sans-serif !important; font-weight: 300 !important; }
     .stButton > button {
-        background: var(--pa-ink) !important;
-        color: var(--pa-canvas) !important;
-        border: 1px solid var(--pa-ink) !important;
-        border-radius: 10px !important;
-        font-weight: 500 !important;
-    }
-    .stButton > button:hover {
-        background: #2a2f2c !important;
-        border-color: #2a2f2c !important;
-    }
-    [data-testid="stSidebar"] .stButton > button {
-        background: var(--pa-surface) !important;
+        background: var(--pa-canvas) !important;
         color: var(--pa-ink) !important;
         border: 1px solid var(--pa-line) !important;
+        border-radius: 12px !important;
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 400 !important;
+        letter-spacing: -0.01em !important;
+        padding: 0.55rem 0.95rem !important;
+        box-shadow: none !important;
     }
-    [data-testid="stSidebar"] .stButton > button:hover {
-        background: var(--pa-surface-2) !important;
+    .stButton > button:hover { background: var(--pa-surface-2) !important; border-color: var(--pa-ink) !important; }
+    .stButton > button[kind="primary"] {
+        background: var(--pa-ink) !important;
+        color: var(--pa-canvas) !important;
         border-color: var(--pa-ink) !important;
+        box-shadow: var(--pa-shadow-card) !important;
     }
+    .stButton > button[kind="primary"]:hover { background: #2a2f2c !important; border-color: #2a2f2c !important; }
+    [data-testid="stSidebar"] .stButton > button { width: 100% !important; }
+    hr { border: none !important; border-top: 1px solid var(--pa-line-strong) !important; margin: 1rem 0 !important; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(14, 18, 16, 0.18); border-radius: 5px; border: 2px solid var(--pa-paper); }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(14, 18, 16, 0.32); }
     </style>
     """,
     unsafe_allow_html=True,
