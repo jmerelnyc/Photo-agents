@@ -108,14 +108,15 @@ class FloatingButton(QWidget):
         bounce = int(round((spring * 7.2 + idle_sway) * self._hover_strength))
         cy = m + r - bounce
 
+        # Photo Agents palette: ink-on-cream with a subtle warm glow.
         if self._running:
-            g0 = QColor(45, 255, 245, 195)
-            g1 = QColor(255, 248, 120, 195)
-            glow_rgb = (96, 255, 216)
+            g0 = QColor(63, 122, 68, 220)        # muted green when streaming
+            g1 = QColor(14, 18, 16, 230)
+            glow_rgb = (63, 122, 68)
         else:
-            g0 = QColor(16, 60, 231, 195)
-            g1 = QColor(100, 233, 255, 195)
-            glow_rgb = (74, 170, 255)
+            g0 = QColor(14, 18, 16, 230)         # ink
+            g1 = QColor(42, 47, 44, 230)
+            glow_rgb = (180, 178, 168)           # warm muted halo
 
         base_alpha = int(45 + 25 * self._glow)
         for i, gr in enumerate([r + 10, r + 6, r + 2]):
@@ -126,10 +127,11 @@ class FloatingButton(QWidget):
             p.setPen(Qt.NoPen)
             p.drawEllipse(int(cx - gr), int(cy - gr), int(gr * 2), int(gr * 2))
 
+        # Solid ink core (no smoky frost — keeps the orb crisp on light backgrounds).
         frost = QRadialGradient(QPointF(cx, cy), r)
-        frost.setColorAt(0.0, QColor(30, 30, 45, 140))
-        frost.setColorAt(0.85, QColor(20, 20, 32, 160))
-        frost.setColorAt(1.0, QColor(14, 14, 20, 100))
+        frost.setColorAt(0.0, QColor(20, 24, 22, 240))
+        frost.setColorAt(0.85, QColor(14, 18, 16, 250))
+        frost.setColorAt(1.0, QColor(10, 12, 11, 250))
         p.setBrush(frost)
         p.setPen(Qt.NoPen)
         p.drawEllipse(cx - r, cy - r, r * 2, r * 2)
@@ -141,7 +143,7 @@ class FloatingButton(QWidget):
         grad.setColorAt(0.0, g0)
         grad.setColorAt(1.0, g1)
         p.setBrush(grad)
-        p.setPen(QPen(QColor(255, 255, 255, 50), 1.5))
+        p.setPen(QPen(QColor(246, 245, 241, 60), 1.2))   # cream hairline
         p.drawEllipse(cx - r, cy - r, r * 2, r * 2)
 
         clip = QPainterPath()
@@ -761,14 +763,15 @@ def _action_btn(label: str, color: str, icon: QIcon | None = None) -> QPushButto
     btn.setFixedHeight(36)
     btn.setStyleSheet(f"""
         QPushButton {{
-            background: rgba(35,35,40,0.8); color: {C['text']};
+            background: #ffffff; color: {C['text']};
             border: 1px solid {C['border'].name()};
             border-left: 3px solid {color};
-            border-radius: 8px; padding: 0 14px;
-            font-size: 13px; font-weight: 700; text-align: left;
+            border-radius: 10px; padding: 0 14px;
+            font-size: 13px; font-weight: 500; text-align: left;
+            font-family: 'Manrope','Segoe UI',sans-serif;
         }}
-        QPushButton:hover {{ background: rgba(55,55,62,0.9); }}
-        QPushButton:checked {{ color: {color}; background: rgba(35,35,40,0.95); }}
+        QPushButton:hover {{ background: #f6f5f1; border-color: #0e1210; }}
+        QPushButton:checked {{ color: #0e1210; background: #f6f5f1; }}
     """)
     return btn
 
@@ -810,17 +813,18 @@ class ChatPanel(QWidget):
         p = QPainter(self)
         p.setRenderHint(QPainter.Antialiasing)
         path = QPainterPath()
-        path.addRect(0.5, 0.5, self.width() - 1.0, self.height() - 1.0)
+        path.addRoundedRect(0.5, 0.5, self.width() - 1.0, self.height() - 1.0, 14.0, 14.0)
+        # Light Photo Agents canvas with subtle warm gradient.
         grad = QLinearGradient(0, 0, 0, self.height())
-        grad.setColorAt(0.0, QColor(20, 20, 28, 228))
-        grad.setColorAt(1.0, QColor(10, 10, 14, 242))
+        grad.setColorAt(0.0, QColor(248, 247, 243, 252))   # cream highlight at top
+        grad.setColorAt(1.0, QColor(241, 239, 233, 252))   # slightly deeper at bottom
         p.fillPath(path, grad)
-        p.setPen(QPen(QColor(99, 102, 241, 80), 1.0))
+        p.setPen(QPen(QColor(230, 228, 221), 1.0))         # --pa-line border
         p.drawPath(path)
 
     def resizeEvent(self, event):
         path = QPainterPath()
-        path.addRect(0, 0, float(self.width()), float(self.height()))
+        path.addRoundedRect(0, 0, float(self.width()), float(self.height()), 14.0, 14.0)
         self.setMask(QRegion(path.toFillPolygon().toPolygon()))
         super().resizeEvent(event)
 
@@ -1345,6 +1349,10 @@ class ChatPanel(QWidget):
         ly.setContentsMargins(0, 0, 0, 0)
 
         splitter = QSplitter(Qt.Horizontal)
+        splitter.setHandleWidth(1)
+        splitter.setStyleSheet(
+            f"QSplitter::handle {{ background: {C['border'].name()}; }}"
+        )
 
         self._sop_list = QListWidget()
         self._sop_list.setMaximumWidth(175)
@@ -1895,10 +1903,13 @@ class ChatPanel(QWidget):
 
     @staticmethod
     def _small_btn_style(color: str) -> str:
+        # Solid pill button — accent ink by default, semantic colors (red, etc.) for actions.
         return (
-            f"QPushButton {{ background: {color}; color: white; border: none;"
-            f" border-radius: 7px; padding: 4px 12px; font-size: 12px; font-weight: 600; }}"
-            f"QPushButton:hover {{ opacity: 0.85; }}"
+            f"QPushButton {{ background: {color}; color: #f6f5f1; border: 1px solid {color};"
+            f" border-radius: 8px; padding: 4px 12px; font-size: 12px; font-weight: 500;"
+            f" font-family: 'Manrope','Segoe UI',sans-serif; letter-spacing: -0.01em; }}"
+            f"QPushButton:hover {{ background: #2a2f2c; border-color: #2a2f2c; }}"
+            f"QPushButton:pressed {{ background: #000000; }}"
         )
 
 
