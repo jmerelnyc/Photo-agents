@@ -35,7 +35,7 @@ import requests
 
 # Public validation endpoint served by photo-agents.com.
 LICENSE_ENDPOINT = "https://photo-agents.com/api/v1/keys/validate"
-SIGNUP_URL = "https://photo-agents.com/account/keys"
+SIGNUP_URL = "https://photo-agents.com/dashboard/keys"
 CLIENT_VERSION = "0.1.0"
 
 CONFIG_DIR = Path.home() / ".photoagents"

@@ -54,7 +54,7 @@ Photo Agents needs Python 3.10+.
 
 Photo Agents requires a license key, validated against `https://photo-agents.com/v1/keys/validate`. Sign in and create one at:
 
-> **https://photo-agents.com/account/keys**
+> **https://photo-agents.com/dashboard/keys**
 
 Then make it available to the runtime in any of these ways (checked in order):
 
