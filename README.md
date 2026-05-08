@@ -7,7 +7,7 @@ Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework f
 > "100% autonomous, self-evolving agents."
 > [photo-agents.com](https://photo-agents.com)
 
-## Star History
+[## Star History
 
 <a href="https://www.star-history.com/?repos=jmerelnyc%2FPhoto-agents&type=timeline&legend=bottom-right">
  <picture>
@@ -15,7 +15,7 @@ Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework f
    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=timeline&legend=top-left" />
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=timeline&legend=top-left" />
  </picture>
-</a>
+</a>](https://www.star-history.com/?repos=jmerelnyc%2FPhoto-agents&type=timeline&logscale=&legend=top-left)
 
 ## About
 
