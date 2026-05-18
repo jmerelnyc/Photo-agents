@@ -7,12 +7,6 @@ Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework f
 > "100% autonomous, self-evolving agents."
 > [photo-agents.com](https://photo-agents.com)
 
-# Photo Token
-
-> Deployed on Base via Clanker: 0x638c4f445dd4cAf875fFd04597de317E365fDB07
-
-> Chart: https://dexscreener.com/base/0xae37f103bb458b471d44b217916a936e076f5b00cf6c577cadb0452a124e634a
-
 ## Star History
 
 <a href="https://www.star-history.com/?repos=jmerelnyc%2FPhoto-agents&type=date&legend=top-left">
