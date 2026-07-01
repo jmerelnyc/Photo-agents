@@ -1,16 +1,22 @@
 # Photo Agents
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![Status](https://img.shields.io/badge/status-beta-yellow.svg)
+
 <img width="2688" height="1520" alt="hf_20260504_103619_aaebb60a-ba3e-4763-a5b2-7771293ce9d6" src="https://github.com/user-attachments/assets/b190236d-d0cc-448f-a6eb-4c7bf4c6f7b7" />
 
 Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework for photo-aware agents that operate your computer the way you do.
 
 > "100% autonomous, self-evolving agents."
 
+**Jump to:** [About](#about) · [Install](#install) · [Run](#run) · [GUI clients](#gui-clients) · [Troubleshooting](#troubleshooting) · [FAQ](#faq)
+
 ## About
 
 Photo Agents is building the next generation of LLM-driven agents that ground in what they actually see on screen. Instead of dumping longer chat transcripts into a model and hoping for the best we treat memory the way biology does. Vision in. Bound observations stored in layers. Skills written by the agent itself from real success.
 
-The package in this repo is the runtime that ships that idea. It runs locally so you keep ownership of your screen your data and your keys.
+The package in this repo is the runtime that ships that idea. It runs locally so you keep ownership of your screen, your data, and your keys.
 
 
 ## What it is
@@ -33,7 +39,7 @@ pip install photoagents
 pip install "photoagents[all]"
 ```
 
-Photo Agents needs Python 3.10+.
+Photo Agents needs Python 3.10 or newer.
 
 Then make it available to the runtime in any of these ways (checked in order):
 
@@ -103,12 +109,36 @@ photoagents/
 ├── config/      credentials.py template
 ├── core/        Agent loop and tool dispatcher
 ├── evolution/   Reflection / scheduler scripts (the "self-evolving" loop)
-├── integrations/Optional third-party hooks (Langfuse, etc.)
+├── integrations/ Optional third-party hooks (Langfuse, etc.)
 ├── llm/         Multi-provider session router
 ├── resources/   System prompt, tool schema, CDP bridge, demo media
 ├── skills/      L3 SOPs and helper modules (browser, vision, OCR, ...)
 └── web/         DOM simplifier and Chrome DevTools Protocol driver
 ```
+
+## Troubleshooting
+
+- **"API key required to start the agent"** — set `PHOTOAGENTS_API_KEY` or run once interactively so it can be saved to `~/.photoagents/config.json`.
+- **Browser tools not working** — make sure `beautifulsoup4` is installed and the CDP bridge config exists under `resources/tmwd_cdp_bridge/`.
+- **Wrong LLM picked up** — double check the keyword rules in `credentials.py` (`native` + `claude`/`oai`, or `mixin`).
+
+## FAQ
+
+**Does this send my screen data anywhere besides my chosen LLM provider?**
+No. The runtime talks to your configured LLM provider and the Photo Agents license endpoint only.
+
+**Can I run this fully offline?**
+The agent loop itself needs a network-reachable LLM provider, but memory and skills are stored locally.
+
+## Support
+
+- Issues: use the templates under `.github/ISSUE_TEMPLATE/`.
+- Docs: https://photo-agents.com/docs
+
+## Credits
+
+Built and maintained by the Photo Agents team, with thanks to everyone
+filing issues and sending fixes.
 
 ## License
 
