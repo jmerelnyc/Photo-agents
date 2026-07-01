@@ -1,3 +1,5 @@
+"""QQ bot frontend for Photo Agents, built on qq-botpy."""
+
 import asyncio, os, sys, threading, time
 from collections import deque
 
