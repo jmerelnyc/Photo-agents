@@ -1,3 +1,5 @@
+"""Feishu (Lark) bot frontend for Photo Agents, built on lark-oapi."""
+
 import glob, json, os, queue as Q, re, sys, threading, time
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
