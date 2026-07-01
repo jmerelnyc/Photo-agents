@@ -1,7 +1,9 @@
-# adb_ui.py - one-shot dump + parse of an Android UI tree (uiautomator2 first, native fallback).
-# uiautomator2 is not bound by the idle requirement, which makes it usable for animation-heavy apps.
-# Popup detection: ui(clickable_only=True, raw=True) finds a fullscreen FrameLayout plus a small
-# bottom ImageView (the close X).
+"""One-shot dump + parse of an Android UI tree (uiautomator2 first, native fallback).
+
+uiautomator2 is not bound by the idle requirement, which makes it usable for animation-heavy apps.
+Popup detection: ui(clickable_only=True, raw=True) finds a fullscreen FrameLayout plus a small
+bottom ImageView (the close X).
+"""
 import os
 import re
 import shutil
