@@ -35,12 +35,6 @@ pip install "photoagents[all]"
 
 Photo Agents needs Python 3.10+.
 
-## Get an API key
-
-Photo Agents requires a license key, validated against `https://photo-agents.com/v1/keys/validate`. Sign in and create one at:
-
-> **https://photo-agents.com/dashboard/keys**
-
 Then make it available to the runtime in any of these ways (checked in order):
 
 1. Environment variable: `PHOTOAGENTS_API_KEY=pk_live_...`
