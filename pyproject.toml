@@ -32,6 +32,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dev      = ["pytest>=8.0", "ruff>=0.5", "mypy>=1.10"]
 web      = ["pywebview>=5.0", "streamlit>=1.36"]
 desktop  = ["PyQt6>=6.6", "pywin32; platform_system=='Windows'"]
 telegram = ["python-telegram-bot>=21.0"]
@@ -50,6 +51,7 @@ Homepage      = "https://photo-agents.com"
 Documentation = "https://photo-agents.com/docs"
 Source        = "https://photo-agents.com"
 Issues        = "https://photo-agents.com/support"
+Changelog     = "https://github.com/jmerelnyc/Photo-agents/blob/main/CHANGELOG.md"
 
 [project.scripts]
 photoagents     = "photoagents.cli.runtime:main"
@@ -94,3 +96,14 @@ photoagents = [
   "clients/*.png", "clients/*.gif",
   "clients/skins/**/*",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
