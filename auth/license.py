@@ -36,7 +36,7 @@ import requests
 # Public validation endpoint served by photo-agents.com.
 LICENSE_ENDPOINT = "https://photo-agents.com/api/v1/keys/validate"
 SIGNUP_URL = "https://photo-agents.com/dashboard/keys"
-CLIENT_VERSION = "0.1.0"
+CLIENT_VERSION = "0.1.1"
 
 CONFIG_DIR = Path.home() / ".photoagents"
 CONFIG_PATH = CONFIG_DIR / "config.json"
@@ -174,6 +174,7 @@ def _cached_validation_is_fresh(cfg: dict[str, Any], key: str) -> bool:
 
 
 def _fail(message: str) -> "None":
+    """Print a formatted error plus the signup URL, then exit the process."""
     print(f"\n[Photo Agents] {message}", file=sys.stderr)
     print(f"[Photo Agents] Get or manage your key at {SIGNUP_URL}", file=sys.stderr)
     sys.exit(1)
