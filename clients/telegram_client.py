@@ -1,3 +1,5 @@
+"""Telegram bot frontend for Photo Agents, built on python-telegram-bot."""
+
 import os, sys, re, threading, asyncio, queue as Q, time, random, uuid
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _TEMP_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'temp')
