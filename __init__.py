@@ -3,4 +3,4 @@
 See https://photo-agents.com for documentation and API key signup.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
