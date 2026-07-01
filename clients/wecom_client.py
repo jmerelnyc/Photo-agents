@@ -1,3 +1,5 @@
+"""WeCom (WeChat Work) bot frontend for Photo Agents."""
+
 import asyncio, os, select, sys, threading, time, traceback
 from collections import deque
 from datetime import datetime
