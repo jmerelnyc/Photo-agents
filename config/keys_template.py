@@ -26,6 +26,8 @@
 #  This file is for the LLM provider credentials only. Your Photo Agents API
 #  key (the one that gates the runtime) is read from the
 #  ``PHOTOAGENTS_API_KEY`` env var or from ``~/.photoagents/config.json``.
+#
+#  Tip: the env var always wins over the on-disk config if both are set.
 # =============================================================================
 
 
