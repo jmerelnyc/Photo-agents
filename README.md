@@ -5,17 +5,6 @@
 Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework for photo-aware agents that operate your computer the way you do.
 
 > "100% autonomous, self-evolving agents."
-> [photo-agents.com](https://photo-agents.com)
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=jmerelnyc%2FPhoto-agents&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jmerelnyc/Photo-agents&type=date&legend=top-left" />
- </picture>
-</a>
 
 ## About
 
@@ -23,10 +12,6 @@ Photo Agents is building the next generation of LLM-driven agents that ground in
 
 The package in this repo is the runtime that ships that idea. It runs locally so you keep ownership of your screen your data and your keys.
 
-- Website: https://photo-agents.com
-- X / Twitter: https://x.com/photoagents
-
-Follow [@photo_agents](https://x.com/photo_agents) on X for build notes demos and the occasional rant about why text-only agents will never see your UI.
 
 ## What it is
 
