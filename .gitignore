@@ -13,6 +13,12 @@ dist/
 
 .streamlit/
 
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
 .vscode/
 .idea/
 *.swp
@@ -47,3 +53,8 @@ restore_commit.txt
 
 # Universal: never track __pycache__ anywhere
 **/__pycache__/
+
+*.bak
+.env.local
+coverage.xml
+.cache/
