@@ -47,10 +47,12 @@ def exhaust(gen):
 
 
 def json_default(obj):
+    """Fallback ``json.dumps`` serializer: sets become lists, everything else becomes str."""
     return list(obj) if isinstance(obj, set) else str(obj)
 
 
 def get_pretty_json(data):
+    """Pretty-print ``data`` as JSON, expanding any ``"script"`` field onto its own lines."""
     if isinstance(data, dict) and "script" in data:
         data = data.copy()
         data["script"] = data["script"].replace("; ", ";\n  ")
@@ -104,6 +106,7 @@ def run_agent_session(client, system_prompt, user_input, handler, tools_schema,
     ]
     turn = 0
     handler.max_turns = max_turns
+    TOOL_DESC_FLUSH_INTERVAL = 10
 
     while turn < handler.max_turns:
         turn += 1
@@ -111,7 +114,7 @@ def run_agent_session(client, system_prompt, user_input, handler, tools_schema,
         yield f"{md}LLM Running (Turn {turn}) ...{md}\n\n"
         # Periodically flush the cached tool descriptions so the prompt does not
         # grow without bound on long sessions.
-        if turn % 10 == 0:
+        if turn % TOOL_DESC_FLUSH_INTERVAL == 0:
             client.last_tools = ""
         response_gen = client.chat(messages=messages, tools=tools_schema)
         if verbose:
