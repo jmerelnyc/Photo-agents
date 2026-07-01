@@ -39,7 +39,7 @@ pip install photoagents
 pip install "photoagents[all]"
 ```
 
-Photo Agents needs Python 3.10 or newer.
+Photo Agents needs Python 3.10 or newer. Tested on Windows, macOS, and Linux.
 
 Then make it available to the runtime in any of these ways (checked in order):
 
