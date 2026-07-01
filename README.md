@@ -133,7 +133,6 @@ The agent loop itself needs a network-reachable LLM provider, but memory and ski
 ## Support
 
 - Issues: use the templates under `.github/ISSUE_TEMPLATE/`.
-- Docs: https://photo-agents.com/docs
 
 ## Credits
 
