@@ -1,3 +1,6 @@
+"""CDP-bridged browser driver: a WebSocket + HTTP hub that pairs the browser
+extension with agent sessions and relays DOM/action commands between them."""
+
 import json, threading, time, uuid, queue, socket, requests, traceback
 from typing import Dict, Any, Optional, List
 from simple_websocket_server import WebSocketServer, WebSocket
