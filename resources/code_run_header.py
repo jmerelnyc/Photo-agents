@@ -23,6 +23,7 @@ _orig_run = subprocess.run
 
 
 def _decode(b):
+    """Best-effort bytes->str decode: UTF-8 first, then GBK for Windows console output."""
     if not b:
         return ""
     if isinstance(b, str):
