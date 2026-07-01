@@ -23,6 +23,7 @@ TELEGRAM_MENU_COMMANDS = (
 
 
 def build_help_text(commands=HELP_COMMANDS):
+    """Render a ``(command, description)`` iterable into a plain-text help block."""
     return "Commands:\n" + "\n".join(f"{cmd} - {desc}" for cmd, desc in commands)
 
 
