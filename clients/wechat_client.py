@@ -1,3 +1,5 @@
+"""Personal WeChat bot frontend for Photo Agents (QR login, long-poll)."""
+
 import os, sys, re, threading, queue, time, socket, json, struct, base64, uuid, webbrowser, hashlib, math
 from pathlib import Path
 from urllib.parse import quote
