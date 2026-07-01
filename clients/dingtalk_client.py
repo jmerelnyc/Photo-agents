@@ -1,3 +1,5 @@
+"""DingTalk bot frontend for Photo Agents, built on dingtalk-stream."""
+
 import asyncio, json, os, sys, threading, time
 import requests
 
