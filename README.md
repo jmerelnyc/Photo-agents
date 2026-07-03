@@ -4,8 +4,6 @@
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![Status](https://img.shields.io/badge/status-beta-yellow.svg)
 
-<img width="2688" height="1520" alt="hf_20260504_103619_aaebb60a-ba3e-4763-a5b2-7771293ce9d6" src="https://github.com/user-attachments/assets/b190236d-d0cc-448f-a6eb-4c7bf4c6f7b7" />
-
 Autonomous self-evolving **Photo Agents**. A perceive / reason / act framework for photo-aware agents that operate your computer the way you do.
 
 > "100% autonomous, self-evolving agents."
